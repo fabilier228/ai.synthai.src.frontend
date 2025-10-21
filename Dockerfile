@@ -12,6 +12,9 @@ RUN npm install
 # Copy the rest of the files
 COPY . .
 
+# Build the Next.js app for production (creates .next)
+RUN npm run build
+
 EXPOSE 3000
 
 CMD ["npm", "start"]
