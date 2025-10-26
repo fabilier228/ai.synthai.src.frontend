@@ -32,7 +32,7 @@ const Navbar = () => {
       </nav>
       {/* Desktop navbar (left, text links) */}
       <nav
-        className="hidden md:flex flex-col gap-2 w-64 fixed left-0 z-[102] pt-2 pb-4 px-6"
+        className="hidden md:flex flex-col gap-2 w-64 fixed left-0 z-[102] pt-2 pb-4 px-6 bg-surface"
         style={{ top: "5.5rem" }}
       >
         <a
