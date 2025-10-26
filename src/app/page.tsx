@@ -1,5 +1,7 @@
 import { ThemeToggle } from "@/components/ThemeToogle";
 import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col justify-between">
@@ -20,6 +22,7 @@ export default function Home() {
         <p className="text-muted text-center max-w-md">Muted</p>
       </div>
       <Footer />
+      <Navbar />
     </div>
   );
 }
