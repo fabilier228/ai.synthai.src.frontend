@@ -1,4 +1,5 @@
 import { ThemeToggle } from "@/components/ThemeToogle";
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
 export default function Home() {
@@ -8,7 +9,7 @@ export default function Home() {
         <div className="bg-surface p-6 rounded-lg border border-outline shadow-lg">
           <ThemeToggle />
         </div>
-        <h1 className="text-primary text-4xl font-bold">Synthai App</h1>
+        <h1 className="text-primary text-4xl font-bold"> Synthai App</h1>
         <div className="flex gap-4 flex-wrap justify-center">
           <div className="bg-primary text-white px-4 py-2 rounded">Primary</div>
           <div className="bg-secondary text-white px-4 py-2 rounded">
@@ -20,6 +21,7 @@ export default function Home() {
         </div>
         <p className="text-muted text-center max-w-md">Muted</p>
       </div>
+      <Footer />
       <Navbar />
     </div>
   );
