@@ -10,14 +10,15 @@ export default function Home() {
           <ThemeToggle />
         </div>
         <h1 className="text-primary text-4xl font-bold"> Synthai App</h1>
-        <div className="flex gap-4 flex-wrap justify-center">
+        <div className="flex gap-sm p-16 flex-wrap justify-center">
           <div className="bg-primary text-white px-4 py-2 rounded">Primary</div>
-          <div className="bg-secondary text-white px-4 py-2 rounded">
+          <div className="bg-secondary text-white px-xs py-2 rounded">
             Secondary
           </div>
-          <div className="bg-success text-white px-4 py-2 rounded">Success</div>
-          <div className="bg-warning text-white px-4 py-2 rounded">Warning</div>
-          <div className="bg-error text-white px-4 py-2 rounded">Error</div>
+          <div className="bg-success text-white px-sm py-2 rounded font-styled">Success</div>
+          <div className="bg-warning text-white px-md py-2 rounded font-heading">Warning</div>
+          <div className="bg-error text-white px-24 py-2 rounded font-sans">Error</div>
+
         </div>
         <p className="text-muted text-center max-w-md">Muted</p>
       </div>
