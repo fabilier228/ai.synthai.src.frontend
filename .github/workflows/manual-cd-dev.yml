@@ -1,4 +1,4 @@
-name: Ręczne Wdrożenie na Development (Frontend)
+name: CD pipiline - Development (frontend)
 
 on:
   workflow_dispatch:
