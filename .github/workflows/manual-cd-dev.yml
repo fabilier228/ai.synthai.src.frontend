@@ -48,7 +48,7 @@ jobs:
           tags: ghcr.io/${{ github.repository_owner }}/frontend:latest
           
       # --- PRZYSZŁY KROK DEPLOYMENTU ---
-      # Kiedy będziesz gotowy na wdrożenie na serwer,
+      # Kiedy będziesz gotowy na wdrożenie na serwer
       # odkomentuj i skonfiguruj ten krok (np. SSH lub Webhook).
 
       # - name: Deploy to Development Server
