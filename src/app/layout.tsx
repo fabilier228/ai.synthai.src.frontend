@@ -26,8 +26,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${urbanist.variable} ${exo2.variable}`}>
       <body className="bg-background text-text min-h-screen">
-        <Header />
-        <ThemeProvider>{children}</ThemeProvider>
+          <Header />
+          <div className="flex flex-row">
+            <Navbar />
+            <main className="flex-1 min-h-screen md:ml-64">
+              <ThemeProvider>{children}</ThemeProvider>
+            </main>
+          </div>
       </body>
     </html>
   );
