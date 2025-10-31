@@ -3,11 +3,13 @@ import { ThemeToggle } from "@/components/ThemeToogle";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import TopSection from "@/components/TopSection";
+import FeatureSection from "@/components/FeatureSection";
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col justify-between">
       <TopSection />
+      <FeatureSection />
       <div className="flex-1 h-full w-full flex flex-col items-center justify-center gap-y-6 p-8">
         <div className="bg-surface p-6 rounded-lg border border-outline shadow-lg">
           <ThemeToggle />
