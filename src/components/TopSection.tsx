@@ -80,7 +80,7 @@ const TopSection = () => {
       </div>
 
       {/* MOBILE */}
-      <div className="md:hidden flex flex-col items-center w-full gap-2 px-4 py-6 mt-16">
+      <div className="md:hidden flex flex-col items-center w-full gap-2 px-4 py-6">
         <div className="bg-surface rounded-[16px] w-full max-w-[370px] p-4 flex flex-col items-center">
           <h4
             className="font-bold text-[20px] leading-[150%] text-center w-full"
