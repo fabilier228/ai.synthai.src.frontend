@@ -15,7 +15,7 @@ jobs:
     environment: development 
     
     steps:
-      - name: Checkout code (z gałęzi main)
+      - name: Checkout code (from branch main)
         uses: actions/checkout@v4
         with:
           ref: 'main'
@@ -47,9 +47,9 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/frontend:latest
           
-      # --- PRZYSZŁY KROK DEPLOYMENTU ---
-      # Kiedy będziesz gotowy na wdrożenie na serwer
-      # odkomentuj i skonfiguruj ten krok (np. SSH lub Webhook).
+      # --- NEXT DEPLOYMENT STEP ---
+      # When you're ready to deploy to the server,
+      # uncomment and configure this step (e.g., SSH or Webhook).
 
       # - name: Deploy to Development Server
       #   uses: appleboy/ssh-action@master
@@ -58,10 +58,10 @@ jobs:
       #     username: ${{ secrets.DEV_SERVER_USER }}
       #     key: ${{ secrets.DEV_SERVER_SSH_KEY }}
       #     script: |
-      #       echo "Logowanie na serwer..."
+      #       echo "Logging into the server..."
       #       docker pull ghcr.io/${{ github.repository_owner }}/frontend:latest
       #       docker stop frontend-dev || true
       #       docker rm frontend-dev || true
       #       docker run -d --name frontend-dev -p 3000:3000 --restart always \
       #         ghcr.io/${{ github.repository_owner }}/frontend:latest
-      #       echo "Wdrożenie frontendu zakończone!"
+      #       echo "Frontend deployment completed!"
