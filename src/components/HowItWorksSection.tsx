@@ -28,7 +28,7 @@ const HowItWorksSection = () => (
     <h2 className="text-3xl font-extrabold mb-10 text-primary text-center">
       How it works?
     </h2>
-    <div className="w-full h-full mx-auto bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-8 max-w-[370px] md:max-w-[600px] md:w-full">
+    <div className="w-full h-full mx-auto bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-8 max-w-[370px] md:max-w-none md:w-full">
       {steps.map((step, i) => (
         <div key={i} className="flex items-start gap-4">
           <span className="flex-shrink-0 w-10 h-10 rounded-full bg-secondary text-white flex items-center justify-center font-bold text-lg mt-1">

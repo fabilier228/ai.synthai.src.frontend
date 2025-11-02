@@ -9,7 +9,7 @@ const useCases = [
 
 const UseCasesSection = () => (
   <section className="w-full flex flex-col items-center py-12 px-4 h-full">
-    <div className="w-full h-full mx-auto max-w-[370px] md:max-w-[600px] md:w-full">
+    <div className="w-full h-full mx-auto max-w-[370px] md:max-w-none md:w-full">
       <h2 className="text-3xl font-extrabold mb-8 text-primary text-center">
         Use Cases
       </h2>
