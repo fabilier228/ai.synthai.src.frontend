@@ -28,7 +28,6 @@ export default function RootLayout({
       <body className="bg-background text-text min-h-screen">
           <Header />
           <div className="flex flex-row">
-            <Navbar />
             <main className="flex-1 min-h-screen md:ml-64">
               <ThemeProvider>{children}</ThemeProvider>
             </main>

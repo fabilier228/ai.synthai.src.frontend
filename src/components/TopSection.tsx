@@ -16,36 +16,36 @@ const TopSection = () => {
 
   if (isIphoneSE) {
     return (
-      <div
-        className="w-full flex justify-center items-center"
-        style={{ maxWidth: 375, margin: "0 auto", height: 375 }}
-      >
-        <Image
-          src="/intro.png"
-          alt="Synthai intro"
-          width={375}
-          height={375}
-          className="rounded-xl shadow-lg object-cover"
-          priority
-        />
+      <div className="w-full flex justify-center items-center px-4 pt-20">
+        <div className="w-full max-w-[370px]">
+          <Image
+            src="/intro.png"
+            alt="Synthai intro"
+            width={370}
+            height={370}
+            className="rounded-xl shadow-lg object-cover w-full"
+            style={{ aspectRatio: "1/1" }}
+            priority
+          />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col items-center px-4">
       {/* DESKTOP */}
       <h1
-        className="hidden md:block w-full font-extrabold text-[48px] leading-[110%] tracking-tight text-center text-primary mt-12"
+        className="hidden md:block w-full font-extrabold text-[48px] leading-[110%] tracking-tight text-center text-primary mt-12 max-w-none"
         style={{ fontFamily: "Exo 2, sans-serif" }}
       >
         Turn Any Audio Into Clear, Concise Insights
       </h1>
-      <div className="hidden md:flex flex-row items-center justify-between px-16 py-20 gap-12 mt-12">
+      <div className="hidden md:flex flex-row items-stretch justify-between py-20 gap-12 mt-12 w-full max-w-none">
         {/* LEFT SIDE */}
-        <div className="flex flex-col max-w-[600px] w-full gap-6 md:h-[500px]">
-          <div className="flex flex-col gap-6 md:h-full">
-            <div className="bg-surface flex items-center justify-center rounded-[16px] p-6 md:flex-1">
+        <div className="flex flex-col flex-1 max-w-[50%] gap-6 min-h-0">
+          <div className="flex flex-col gap-6 h-full">
+            <div className="bg-surface flex items-center justify-center rounded-[16px] p-6 flex-1">
               <p
                 className="text-lg text-left w-full m-0"
                 style={{ fontFamily: "Urbanist, sans-serif" }}
@@ -55,12 +55,12 @@ const TopSection = () => {
                 on what really matters.
               </p>
             </div>
-            <div className="flex items-center justify-start rounded-[16px] md:flex-1">
+            <div className="flex items-center justify-start rounded-[16px] flex-1">
               <button className="bg-primary text-white font-bold text-xl py-4 px-6 rounded-[16px] hover:bg-primary/90 transition-colors w-full max-w-[350px]">
                 Explore our AI models
               </button>
             </div>
-            <div className="bg-surface flex items-center justify-center rounded-[16px] p-6 md:flex-1">
+            <div className="bg-surface flex items-center justify-center rounded-[16px] p-6 flex-1">
               <span className="text-base text-left w-full m-0">
                 Over 10,000 hours of audio transformed into clear insights.
               </span>
@@ -69,13 +69,13 @@ const TopSection = () => {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 flex items-stretch">
           <Image
             src="/intro.png"
             alt="Synthai intro"
             width={500}
             height={500}
-            className="rounded-xl shadow-lg object-cover"
+            className="rounded-xl shadow-lg object-cover w-auto h-full min-h-[400px]"
             priority
           />
         </div>

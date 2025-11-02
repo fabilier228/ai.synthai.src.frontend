@@ -6,6 +6,7 @@ import TopSection from "@/components/TopSection";
 import FeatureSection from "@/components/FeatureSection";
 import UseCasesSection from "@/components/UseCasesSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
+import FQASection from "@/components/FQASeaction";
 
 export default function Home() {
   return (
