@@ -40,7 +40,7 @@ const FQASection = () => {
         {faqs.map((faq, i) => (
           <div
             key={i}
-            className="bg-surface rounded-2xl shadow flex flex-col p-6 border border-outline"
+            className="bg-surface rounded-2xl shadow flex flex-col p-3 md:p-6 border border-outline"
           >
             <div
               className="flex items-center gap-3 cursor-pointer"

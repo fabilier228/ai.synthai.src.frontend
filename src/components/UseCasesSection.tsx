@@ -10,12 +10,12 @@ const useCases = [
 const UseCasesSection = () => (
   <section className="w-full flex flex-col items-center py-12 px-4 h-full">
     <div className="w-full h-full mx-auto max-w-[370px] md:max-w-none md:w-full">
-      <h2 className="text-3xl font-extrabold mb-8 text-primary text-center">
+      <h2 className="text-styled_md font-styled font-extrabold mb-8 text-primary text-center">
         Use Cases
       </h2>
       <ul className="w-full flex flex-col gap-4 bg-surface rounded-2xl shadow-lg p-8">
         {useCases.map((text, i) => (
-          <li key={i} className="flex items-start text-lg">
+          <li key={i} className="flex items-start text-body_nm md:text-body_md">
             <span className="mt-1 mr-3 text-secondary text-2xl">•</span>
             <span>{text}</span>
           </li>

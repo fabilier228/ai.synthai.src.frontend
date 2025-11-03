@@ -40,7 +40,7 @@ const config = {
         sans: ['var(--font-sans)', 'sans-serif'],      
         styled: ['var(--font-styled)', 'sans-serif'],
       
-    }, fontsize: {
+    }, fontSize: {
       h1: ['3rem', { lineHeight: '150%', fontWeight: '700' }],
       h2: ['2rem', { lineHeight: '150%', fontWeight: '700' }],
       h3: ['1.5rem', { lineHeight: '150%', fontWeight: '700' }],
@@ -51,7 +51,7 @@ const config = {
       body_nm: ['1rem', { lineHeight: '1.375rem', fontWeight: '400' }],
       body_sm: ['0.875rem', { lineHeight: '1.25rem', fontWeight: '400' }],
       btn_lg: ['2.25rem', { fontWeight: '600' }],
-      btn_md: ['1.5rem', { fontWeight: '600' }],
+      btn_md: ['1.2rem', { fontWeight: '600' }],
       btn_sm: ['1.125rem', { fontWeight: '600' }],
       btn_b_lg: ['2.25rem', { fontWeight: '700' }],
       btn_b_md: ['1.5rem', { fontWeight: '700' }],
