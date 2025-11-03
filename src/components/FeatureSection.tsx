@@ -24,8 +24,8 @@ const features = [
 const FeatureSection = () => {
   return (
     <section className="w-full py-12 px-4 flex flex-col items-center">
-      <h2 className="text-3xl font-extrabold mb-10 text-primary text-center max-w-[370px] md:max-w-none">
-        Feature
+      <h2 className="text- font-extrabold mb-10 text-primary text-center max-w-[370px] md:max-w-none text-styled_lg font-styled_lg">
+        Features
       </h2>
       <div className="w-full max-w-[370px] md:max-w-none flex flex-col md:flex-row gap-8 justify-center">
         {features.map((f) => (
