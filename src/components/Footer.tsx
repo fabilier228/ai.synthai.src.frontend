@@ -29,7 +29,7 @@ const Footer = () => {
       {/* Desktop footer */}
       <footer className="hidden md:flex flex-col w-full bg-surface pt-4 pb-3 border-t-0">
         <div className="mx-auto w-[50%]">
-          <div className="flex justify-between text-text text-btn_md font-sans mb-0.5">
+          <div className="flex justify-between text-text text-btn_sm font-sans mb-0.5">
             <span >Home</span>
             <span >About</span>
             <span >Add new</span>
