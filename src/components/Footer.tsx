@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <>
       {/* Mobile footer */}
-      <footer className="block md:hidden w-full bg-surface pt-2 pb-1 border-t-0 z-[101] fixed bottom-12 left-0">
+      <footer className="block md:hidden w-full bg-surface pt-4 pb-0 border-t-0 z-[101] fixed bottom-10 left-0">
         <div className="mx-auto w-[60%]">
           <div className="flex justify-between text-text text-sm font-bold mb-0.5">
             <span>Home</span>
