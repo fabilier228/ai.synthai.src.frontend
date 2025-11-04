@@ -57,7 +57,7 @@ const Navbar = () => {
           href="#"
           className="text-primary_muted hover:text-primary transition-colors text-btn_sm mb-1 py-2 px-2"
         >
-          My summuries
+          My summaries
         </a>
         <a
           href="#"

@@ -36,7 +36,7 @@ const TopSection = () => {
     <div className="w-full flex flex-col items-center px-4">
       {/* DESKTOP */}
       <h1
-        className="hidden md:block w-full font-extrabold text-styled_lg font-styled leading-[110%] tracking-tight text-center text-primary mt-12 max-w-none"
+        className="hidden md:block w-full text-styled_lg font-styled leading-[110%] tracking-tight text-center text-primary mt-12 max-w-none"
       >
         Turn Any Audio Into Clear, Concise Insights
       </h1>

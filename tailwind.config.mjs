@@ -1,4 +1,3 @@
-import { lineHeight } from '@mui/system';
 
 /** @type {import('tailwindcss').Config} */
 const config = {

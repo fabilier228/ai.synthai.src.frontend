@@ -17,7 +17,7 @@ const features = [
     title: "Supports Any Audio",
     titleClass: "text-secondary",
     content:
-      "From university lectures to phone calls, interviews, podcasts, or even songs Synthai adapts to your needs.",
+      "From university lectures to phone calls, interviews, podcasts, or even songs, Synthai adapts to your needs.",
   },
 ];
 
@@ -36,7 +36,7 @@ const FeatureSection = () => {
             <h3 className={`text-h4 font-heading mb-4 ${f.titleClass}`}>
               {f.title}
             </h3>
-            <p className="text-body_md md:text-body_lg  font-snas text-text">{f.content}</p>
+            <p className="text-body_md md:text-body_lg  font-sans text-text">{f.content}</p>
           </div>
         ))}
       </div>
