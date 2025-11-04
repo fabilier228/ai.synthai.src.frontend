@@ -31,8 +31,7 @@ const FQASection = () => {
   return (
     <section className="w-full py-16 px-4 flex flex-col items-center">
       <h2
-        className="text-styled_md font-styled md:text-styled_lg font-extrabold text-primary text-center mb-12 max-w-[370px] md:max-w-none"
-        style={{ fontFamily: "sans-serif" }}
+        className="text-styled_md font-styled md:text-styled_lg text-primary text-center mb-12 max-w-[370px] md:max-w-none"
       >
         FAQ (Frequently Asked Questions)
       </h2>
