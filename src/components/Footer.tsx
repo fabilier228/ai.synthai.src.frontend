@@ -18,8 +18,8 @@ const Footer = () => {
         </div>
         <div className="mx-auto w-[95%]">
           <div
-            className="border-t mb-0.5"
-            style={{ borderColor: "var(--primary_muted)" }}
+            className="border-t mb-0.5 border-primary_muted border-2"
+            
           />
         </div>
         <div className="flex justify-center text-text text-sm font-semibold pt-0.5">

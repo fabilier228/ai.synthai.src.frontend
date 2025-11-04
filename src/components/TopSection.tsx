@@ -83,8 +83,7 @@ const TopSection = () => {
       <div className="md:hidden flex flex-col items-center w-full gap-2 px-4 py-6">
         <div className="bg-surface rounded-[16px] w-full max-w-[370px] p-4 flex flex-col items-center">
           <h4
-            className="font-bold text-[20px] leading-[150%] text-center w-full"
-            style={{ fontFamily: "Urbanist, sans-serif" }}
+            className="font-bold text-h4 leading-[150%] font-heading text-center w-full"
           >
             Synthai automatically transcribes and summarizes your recordings —
             lectures, meetings, songs, or conversations — so you can focus on
@@ -93,8 +92,7 @@ const TopSection = () => {
         </div>
         <div className="w-full max-w-[370px] flex flex-col items-center">
           <button
-            className="w-full h-[88px] bg-primary text-white font-bold text-lg rounded-[16px] flex items-center justify-center mt-2"
-            style={{ gap: "10px" }}
+            className="w-full h-[88px] bg-primary text-white font-bold text-h4 font-heading rounded-[16px] flex items-center justify-center mt-2"
           >
             Explore our AI models
           </button>
@@ -110,7 +108,7 @@ const TopSection = () => {
           />
         </div>
         <div className="bg-surface rounded-[16px] w-full max-w-[370px] p-4 flex flex-col items-center">
-          <span className="text-center text-base w-full">
+          <span className="text-center text-h5 w-full font-heading">
             Over 10,000 hours of audio transformed into clear insights.
           </span>
         </div>
