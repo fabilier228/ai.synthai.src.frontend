@@ -37,31 +37,31 @@ const Navbar = () => {
       >
         <a
           href="#"
-          className="text-primary_muted hover:text-primary transition-colors text-base mb-1 py-2 px-2"
+          className="text-primary_muted hover:text-primary transition-colors text-btn_sm mb-1 py-2 px-2"
         >
           Home
         </a>
         <a
           href="#"
-          className="text-primary_muted hover:text-primary transition-colors text-base mb-1 py-2 px-2"
+          className="text-primary_muted hover:text-primary transition-colors text-btn_sm mb-1 py-2 px-2"
         >
           About our ai models
         </a>
         <a
           href="#"
-          className="text-primary_muted hover:text-primary transition-colors text-base mb-1 py-2 px-2"
+          className="text-primary_muted hover:text-primary transition-colors text-btn_sm mb-1 py-2 px-2"
         >
           Add new
         </a>
         <a
           href="#"
-          className="text-primary_muted hover:text-primary transition-colors text-base mb-1 py-2 px-2"
+          className="text-primary_muted hover:text-primary transition-colors text-btn_sm mb-1 py-2 px-2"
         >
-          My summuries
+          My summaries
         </a>
         <a
           href="#"
-          className="text-primary_muted hover:text-primary transition-colors text-base py-2 px-2"
+          className="text-primary_muted hover:text-primary transition-colors text-btn_sm py-2 px-2"
         >
           Profile
         </a>

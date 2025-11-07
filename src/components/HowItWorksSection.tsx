@@ -25,7 +25,7 @@ const steps = [
 
 const HowItWorksSection = () => (
   <section className="w-full flex flex-col items-center py-12 px-4 h-full">
-    <h2 className="text-3xl font-extrabold mb-10 text-primary text-center">
+    <h2 className="text-styled_md font-styled font-extrabold mb-10 text-primary text-center">
       How it works?
     </h2>
     <div className="w-full h-full mx-auto bg-surface rounded-2xl shadow-lg p-8 flex flex-col gap-8 max-w-[370px] md:max-w-none md:w-full">
@@ -35,10 +35,10 @@ const HowItWorksSection = () => (
             {i + 1}
           </span>
           <div>
-            <div className="font-bold text-lg mb-1 text-primary">
+            <div className="font-bold text-h5 font-heading md:text-h4 mb-1 text-primary">
               {step.title}
             </div>
-            <div className="text-base text-text font-normal">
+            <div className="text-body_nm md:text-body_md text-text font-sans">
               {step.description}
             </div>
           </div>

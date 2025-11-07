@@ -31,8 +31,7 @@ const FQASection = () => {
   return (
     <section className="w-full py-16 px-4 flex flex-col items-center">
       <h2
-        className="text-3xl md:text-4xl font-extrabold text-primary text-center mb-12 max-w-[370px] md:max-w-none"
-        style={{ fontFamily: "sans-serif" }}
+        className="text-styled_md font-styled md:text-styled_lg text-primary text-center mb-12 max-w-[370px] md:max-w-none"
       >
         FAQ (Frequently Asked Questions)
       </h2>
@@ -40,7 +39,7 @@ const FQASection = () => {
         {faqs.map((faq, i) => (
           <div
             key={i}
-            className="bg-surface rounded-2xl shadow flex flex-col p-6 border border-outline"
+            className="bg-surface rounded-2xl shadow flex flex-col p-3 md:p-6 border border-outline"
           >
             <div
               className="flex items-center gap-3 cursor-pointer"
@@ -49,14 +48,14 @@ const FQASection = () => {
               <button className="text-text text-lg font-normal">
                 {expandedItems.includes(i) ? <ExpandLess /> : <ExpandMore />}
               </button>
-              <span className="text-text text-lg font-semibold">
+              <span className="text-text text-h5 md:text-h4 font-heading ">
                 Q: {faq.question}
-              </span>
+              </span> 
             </div>
             {expandedItems.includes(i) && faq.answer && (
-              <div className="flex items-start gap-3 mt-4 ml-6">
-                <span className="text-text text-lg font-normal">A:</span>
-                <span className="text-base text-text">{faq.answer}</span>
+              <div className="flex items-start gap-3 mt-4 ml-6 text-body_md md:text-body_lg text-text font-sans ">
+                <span className=" font-semibold ">A:</span>
+                <span className=" ">{faq.answer}</span>
               </div>
             )}
           </div>
