@@ -1,5 +1,6 @@
 import React from "react";
 import { Email, Lock, Palette, ExitToApp } from "@mui/icons-material";
+import {ThemeToggle} from "../components/ThemeToogle";
 
 const AccountManagement = () => {
   return (
@@ -34,9 +35,7 @@ const AccountManagement = () => {
             <Palette className="text-primary text-xl" />
             <div>
               <div className="font-semibold text-text">Change Theme</div>
-              <div className="text-sm text-primary_muted">
-                Switch between light and dark mode
-              </div>
+              <ThemeToggle />
             </div>
           </button>
         </div>

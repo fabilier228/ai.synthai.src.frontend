@@ -1,7 +1,9 @@
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 import { Inter, Urbanist, Exo_2 } from "next/font/google";
-import Header from "@/components/Header";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
+import { ThemeProvider } from "./components/theme-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,11 +31,18 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${inter.variable} ${urbanist.variable} ${exo2.variable}`}
     >
-      <body className="bg-background text-text min-h-screen">
-        <Header />
-        <main className="flex-1 min-h-screen pt-20 md:pt-0 md:ml-64 pb-24 md:pb-0">
-          <ThemeProvider>{children}</ThemeProvider>
-        </main>
+      <body >
+        <ThemeProvider>
+          <div className="bg-background text-text  ">
+            <Header />
+            <Navbar />
+            <main className="lg:ml-64 flex flex-col min-h-screen justify-between">
+              {children}
+              <Footer />
+            </main>
+          </div>
+
+        </ThemeProvider>
       </body>
     </html>
   );

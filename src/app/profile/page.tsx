@@ -120,7 +120,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center py-12 px-4 pb-20 md:pb-12">
+    <div className="w-4/5  mx-auto flex flex-col items-center py-4 mt-20 md:mt-8 ">
       <div className="w-full max-w-[370px] md:max-w-none">
         {/* User Information Section */}
         <div className="w-full bg-surface rounded-2xl shadow-lg p-8 mb-8">
@@ -245,7 +245,7 @@ const Profile = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="w-full">
+        <div className="w-full pb-4">
           {activeTab === "account" && <MyAccount userData={userData} />}
           {activeTab === "settings" && <AccountManagement />}
           {activeTab === "security" && <Security />}

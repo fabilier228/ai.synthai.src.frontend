@@ -8,11 +8,11 @@ const Security = () => {
       <div className="space-y-6">
         <div>
           <h3 className="font-semibold text-text mb-2">Active Sessions</h3>
-          <div className="bg-white/50 rounded-xl p-4 border border-outline">
+          <div className="bg-surface rounded-xl p-4 border border-outline">
             <div className="flex justify-between items-center">
               <div>
                 <p className="font-medium text-text">Current Session</p>
-                <p className="text-sm text-primary_muted">
+                <p className="text-sm text-text">
                   Windows · Chrome · New York
                 </p>
               </div>
@@ -27,8 +27,8 @@ const Security = () => {
           <h3 className="font-semibold text-text mb-2">
             Two-Factor Authentication
           </h3>
-          <div className="bg-white/50 rounded-xl p-4 border border-outline">
-            <p className="text-primary_muted mb-3">
+          <div className="bg-surface rounded-xl p-4 border border-outline">
+            <p className="text-text mb-3">
               Enhance your account security
             </p>
             <button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
