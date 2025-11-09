@@ -1,37 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 
 const TopSection = () => {
-  const [isIphoneSE, setIsIphoneSE] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsIphoneSE(window.innerWidth <= 375);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  if (isIphoneSE) {
-    return (
-      <div className="w-full flex justify-center items-center px-4 pt-20">
-        <div className="w-full max-w-[370px]">
-          <Image
-            src="/intro.png"
-            alt="Synthai intro"
-            width={370}
-            height={370}
-            className="rounded-xl shadow-lg object-cover w-full"
-            style={{ aspectRatio: "1/1" }}
-            priority
-          />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="w-full flex flex-col items-center px-4">
       {/* DESKTOP */}
