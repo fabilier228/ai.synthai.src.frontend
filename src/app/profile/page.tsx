@@ -120,7 +120,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center py-12 px-4 pb-20 md:pb-12">
+    <div className="w-4/5 min-h-screen mx-auto flex flex-col items-center py-12 px-4 pb-20 md:pb-12">
       <div className="w-full max-w-[370px] md:max-w-none">
         {/* User Information Section */}
         <div className="w-full bg-surface rounded-2xl shadow-lg p-8 mb-8">
