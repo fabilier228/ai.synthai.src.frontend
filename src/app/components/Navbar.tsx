@@ -84,22 +84,22 @@ export default function Navbar() {
         <span className="block text-primary text-styled_md  tracking-wide text-left leading-tight font-styled mb-4 ">
           Synthai
         </span>
-        <button onClick={() => router.push("/")} className={`text-left transition-colors text-btn_sm mb-1 py-2 px-2 ${activePath === "/" ? "text-primary" : "text-primary_muted"}`}>
+        <button onClick={() => router.push("/")} className={`text-left transition-colors text-btn_sm mb-1 py-2 px-2 hover:text-primary ${activePath === "/" ? "text-primary" : "text-primary_muted"}`}>
           Home
         </button>
-        <button onClick={() => router.push("/models")} className={`text-left transition-colors text-btn_sm py-2 px-2 ${activePath === "/models" ? "text-primary" : "text-primary_muted"}`}>
+        <button onClick={() => router.push("/models")} className={`text-left transition-colors text-btn_sm py-2 px-2 hover:text-primary ${activePath === "/models" ? "text-primary" : "text-primary_muted"}`}>
           Our models
         </button>
 
         <button
           onClick={() => router.push("/add_new")}
-          className={`text-left transition-colors text-btn_sm py-2 px-2 ${activePath === "/add_new" ? "text-primary" : "text-primary_muted"}`}
+          className={`text-left transition-colors text-btn_sm py-2 px-2 hover:text-primary ${activePath === "/add_new" ? "text-primary" : "text-primary_muted"}`}
         >
           Add new
         </button>
         <button
           onClick={() => router.push("/profile")} 
-          className={`text-left transition-colors text-btn_sm py-2 px-2 ${activePath === "/profile" ? "text-primary" : "text-primary_muted"}`}
+          className={`text-left transition-colors text-btn_sm py-2 px-2 hover:text-primary ${activePath === "/profile" ? "text-primary" : "text-primary_muted"}`}
         >
           Profile
         </button>
