@@ -9,14 +9,41 @@ import UseCasesSection from "@/components/UseCasesSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import FQASection from "@/components/FQASeaction";
 import Profile from "@/components/ProfilePage/Profile";
+import TranscriptView from "@/components/Transcripts/TranscriptView";
 
 export default function Home() {
-  const [activeView, setActiveView] = useState<"home" | "profile">("home");
+  const [activeView, setActiveView] = useState<
+    "home" | "profile" | "my-data" | "my-summaries" | "transcript"
+  >("home");
+  const [selectedTranscript, setSelectedTranscript] = useState<
+    string | undefined
+  >(undefined);
+
+  const handleNavigate = (
+    view: "home" | "profile" | "my-data" | "my-summaries" | "transcript",
+    transcriptId?: string
+  ) => {
+    setActiveView(view);
+    if (view === "transcript" && transcriptId) {
+      setSelectedTranscript(transcriptId);
+    }
+  };
+
+  const handleTranscriptChange = (transcriptId: string) => {
+    setSelectedTranscript(transcriptId);
+  };
 
   const renderContent = () => {
     switch (activeView) {
       case "profile":
         return <Profile />;
+      case "transcript":
+        return (
+          <TranscriptView
+            transcriptId={selectedTranscript}
+            onTranscriptChange={handleTranscriptChange}
+          />
+        );
       case "home":
       default:
         return (
@@ -69,7 +96,11 @@ export default function Home() {
         {renderContent()}
       </div>
       <Footer />
-      <Navbar onNavigate={setActiveView} activeView={activeView} />
+      <Navbar
+        onNavigate={handleNavigate}
+        activeView={activeView}
+        selectedTranscript={selectedTranscript}
+      />
     </div>
   );
 }
