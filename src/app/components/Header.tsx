@@ -8,7 +8,10 @@ const Header = () => {
         <span className="text-primary text-styled_md font-styled tracking-wide text-left w-full">
           Synthai
         </span>
-      </header>     
+      </header>
+      <aside className="hidden md:flex flex-col w-64 h-screen bg-surface fixed top-0 left-0 z-[101] p-6">
+       
+      </aside>
     </>
   );
 };
