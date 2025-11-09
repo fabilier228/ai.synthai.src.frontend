@@ -125,7 +125,7 @@ export default function Navbar() {
           </div>
 
           {isTranscriptsExpanded && (
-            <div className="ml-4 border-l border-outline pl-2">
+            <div className="ml-4 border-l border-outline pl-2 max-h-64 overflow-y-auto">
               {transcripts.map((transcript) => {
                 const transcriptPath = `/transcripts/${transcript.id}`;
                 const isActive = activePath === transcriptPath;
