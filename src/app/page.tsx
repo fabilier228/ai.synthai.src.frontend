@@ -1,5 +1,4 @@
 "use client";
-
 import TopSection from "@/app/components/TopSection";
 import FeatureSection from "@/app/components/FeatureSection";
 import UseCasesSection from "@/app/components/UseCasesSection";
@@ -14,7 +13,7 @@ export default function Home() {
  
 
   return (
-    <div className="min-h-screen md:w-4/5 mx-auto flex flex-col justify-between mt-20 md:mt-8">
+    <div className=" md:w-4/5 mx-auto flex flex-col justify-between mt-20 md:mt-8">
      
       <TopSection />
             <FeatureSection />

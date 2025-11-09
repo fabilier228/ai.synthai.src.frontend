@@ -1,20 +1,14 @@
 "use client";
 import React from "react";
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter} from 'next/navigation';
 
 const Footer: React.FC = () => {
    const router = useRouter();
-    const pathname = usePathname();
-    const [activePath, setActivePath] = React.useState(pathname);
   
-    React.useEffect(() => {
-      setActivePath(pathname);
-    }, [pathname]);
-
   return (
     <>
       {/* Mobile footer */}
-      <footer className="block md:hidden w-full bg-surface pt-4 pb-0 border-t-0 z-[90] fixed bottom-10 left-0">
+      <footer className="block md:hidden w-full bg-surface pt-4 pb-0 border-t-0 z-[90] my-12">
         <div className="flex flex-col justify-between text-btn_b_sm font-sans mb-0.5">
           <div className="flex justify-evenly text-btn_b_sm font-sans mb-0.5">
             <button type="button" onClick={() => router.push("/")} className="bg-transparent">
@@ -28,8 +22,8 @@ const Footer: React.FC = () => {
             </button>
           </div>
           <div className="flex justify-evenly text-btn_b_sm font-sans mb-0.5">
-            <button type="button" onClick={() => router.push("/summaries")} className="bg-transparent">
-              My summaries
+            <button type="button" onClick={() => router.push("/transcripts")} className="bg-transparent">
+              Transcripts
             </button>
             <button type="button" onClick={() => router.push("/profile")} className="bg-transparent">
               Profile
@@ -59,8 +53,8 @@ const Footer: React.FC = () => {
             <button type="button" onClick={() => router.push("/add_new")} className="bg-transparent">
               Add new
             </button>
-            <button type="button" onClick={() => router.push("/summaries")} className="bg-transparent">
-              My summaries
+            <button type="button" onClick={() => router.push("/transcripts")} className="bg-transparent">
+              Transcripts
             </button>
             <button type="button" onClick={() => router.push("/profile")} className="bg-transparent">
               Profile

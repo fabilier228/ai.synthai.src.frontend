@@ -33,10 +33,10 @@ export default function RootLayout({
     >
       <body >
         <ThemeProvider>
-          <div className="bg-background text-text min-h-screen ">
+          <div className="bg-background text-text  ">
             <Header />
             <Navbar />
-            <main className="lg:ml-64  flex flex-col min-h-screen ">
+            <main className="lg:ml-64 flex flex-col min-h-screen justify-between">
               {children}
               <Footer />
             </main>
