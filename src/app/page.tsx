@@ -1,7 +1,4 @@
 "use client";
-import { useState } from "react";
-import { ThemeToggle } from "@/app/components/ThemeToogle";
-import Footer from "@/app/components/Footer";
 
 import TopSection from "@/app/components/TopSection";
 import FeatureSection from "@/app/components/FeatureSection";
