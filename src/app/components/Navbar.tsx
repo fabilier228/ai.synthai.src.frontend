@@ -25,7 +25,7 @@ export default function Navbar() {
     { id: "1", name: "Team Meeting - Q4 Planning" },
     { id: "2", name: "Product Research Analysis" },
     { id: "3", name: "Customer Interview Insights" },
-    { id: "4", "name": "Market Trends Report" },
+    { id: "4", name: "Market Trends Report" },
     { id: "5", name: "Training Session Notes" },
     { id: "6", name: "Project Retrospective" },
   ];
