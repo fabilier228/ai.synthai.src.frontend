@@ -24,8 +24,8 @@ const steps = [
 ];
 
 const HowItWorksSection = () => (
-  <section className="w-full flex flex-col items-center py-12 px-4 h-full">
-    <h2 className="text-styled_md font-styled font-extrabold mb-10 text-primary text-center">
+  <section className="w-full flex flex-col items-center py-6 h-full">
+    <h2 className="text-styled_md font-styled font-extrabold mb-6 text-primary text-center">
       How it works?
     </h2>
     <div className="w-full h-full mx-auto bg-surface rounded-2xl shadow-lg p-8 flex flex-col gap-8 max-w-[370px] md:max-w-none md:w-full">

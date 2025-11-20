@@ -11,7 +11,7 @@ export default function AddNewPage() {
   const router = useRouter();
 
   return (
-    <div className="  mt-20 md:mt-8 w-full md:w-4/5 mx-auto py-4">
+    <div className="  mt-20 md:mt-8 w-full md:w-4/5 mx-auto py-8 ">
       <Formik
         initialValues={{
           model: "",
@@ -42,8 +42,8 @@ export default function AddNewPage() {
         }
       >
         {({ handleChange, values, setFieldValue }) => (
-          <Form className="mx-auto p-6 bg-surface rounded-lg shadow-md flex flex-col">
-            <h2 className="text-h3 font-heading mb-4">Add new Transcript</h2>
+          <Form className="mx-auto p-4 bg-surface rounded-lg shadow-md flex flex-col md:mt-8">
+            <h2 className="text-h3 font-heading mb-4 ">Add new Transcript</h2>
             <div className="mb-4 flex flex-col justify-start items-start "> 
               <label htmlFor="model" className="block text-h4 font-heading mb-2 text-secondary">
                 Model

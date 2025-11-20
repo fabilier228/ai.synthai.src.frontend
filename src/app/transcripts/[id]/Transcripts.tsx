@@ -1,13 +1,4 @@
-type Transcript = {
-      id: number;
-      title: string;
-      date: string;
-      time: string;
-      duration: string;
-      text: string;
-      summary: string;
-      wordCount: number;
-    };
+
 
  const transcriptsData = [
    {

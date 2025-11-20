@@ -120,17 +120,14 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-4/5  mx-auto flex flex-col items-center py-4 mt-20 md:mt-8 ">
+    <div className="w-4/5  mx-auto flex flex-col items-center py-8 mt-20   ">
       <div className="w-full max-w-[370px] md:max-w-none">
-        {/* User Information Section */}
         <div className="w-full bg-surface rounded-2xl shadow-lg p-8 mb-8">
           <div className="flex flex-col md:flex-row md:items-center gap-6">
-            {/* Avatar */}
             <div className="flex justify-center md:justify-start">
               <div className="relative">
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center border-2 border-outline">
                   {currentAvatar !== "/default-avatar.png" ? (
-                    // eslint-disable-next-line @next/next/no-img-element
                     <img
                       src={currentAvatar}
                       alt="Profile Avatar"
@@ -141,7 +138,6 @@ const Profile = () => {
                   )}
                 </div>
 
-                {/* Upload Button */}
                 <button
                   onClick={handleAvatarClick}
                   className="absolute bottom-0 right-0 bg-primary text-white rounded-full p-2 shadow-lg hover:bg-primary/90 transition-colors"
@@ -150,7 +146,6 @@ const Profile = () => {
                   <PhotoCamera className="text-sm" />
                 </button>
 
-                {/* Remove Avatar Button */}
                 {userData.avatar !== "/default-avatar.png" &&
                   !avatarPreview && (
                     <button
@@ -162,7 +157,6 @@ const Profile = () => {
                     </button>
                   )}
 
-                {/* Hidden File Input */}
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -172,7 +166,6 @@ const Profile = () => {
                 />
               </div>
 
-              {/* Avatar Preview Actions */}
               {avatarPreview && (
                 <div className="absolute mt-2 bg-surface rounded-lg shadow-lg p-3 border border-outline z-10">
                   <p className="text-sm text-text mb-3">
@@ -196,7 +189,6 @@ const Profile = () => {
               )}
             </div>
 
-            {/* User Information */}
             <div className="flex-1 text-center md:text-left">
               <h1 className="text-2xl md:text-3xl font-bold text-primary mb-2">
                 {userData.nickname}
@@ -220,7 +212,6 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
         <div className="w-full mb-8">
           <div className="flex flex-wrap gap-2 bg-surface rounded-2xl p-2">
             {[
@@ -244,7 +235,6 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Tab Content */}
         <div className="w-full pb-4">
           {activeTab === "account" && <MyAccount userData={userData} />}
           {activeTab === "settings" && <AccountManagement />}
