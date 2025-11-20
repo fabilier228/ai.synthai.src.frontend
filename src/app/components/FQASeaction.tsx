@@ -29,13 +29,13 @@ const FQASection = () => {
   };
 
   return (
-    <section className="w-full py-16 px-4 flex flex-col items-center">
+    <section className="w-full py-6 flex flex-col items-center lg:py-12">
       <h2
         className="text-styled_md font-styled md:text-styled_lg text-primary text-center mb-12 max-w-[370px] md:max-w-none"
       >
         FAQ (Frequently Asked Questions)
       </h2>
-      <div className="w-full max-w-[370px] md:max-w-none bg-surface rounded-2xl shadow-lg p-8 flex flex-col gap-6">
+      <div className="w-full max-w-[370px] md:max-w-none bg-surface rounded-2xl shadow-lg p-4 flex flex-col gap-6">
         {faqs.map((faq, i) => (
           <div
             key={i}

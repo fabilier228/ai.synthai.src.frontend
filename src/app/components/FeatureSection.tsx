@@ -23,15 +23,15 @@ const features = [
 
 const FeatureSection = () => {
   return (
-    <section className="w-full py-12 px-4 flex flex-col items-center">
-      <h2 className=" mb-10 text-primary text-center max-w-[370px] md:max-w-none text-styled_lg font-styled">
+    <section className="w-full py-6 flex flex-col items-center">
+      <h2 className=" mb-6 text-primary text-center max-w-[370px] md:max-w-none text-styled_lg font-styled">
         Features
       </h2>
       <div className="w-full max-w-[370px] md:max-w-none flex flex-col md:flex-row gap-8 justify-center">
         {features.map((f) => (
           <div
             key={f.title}
-            className="flex-1 bg-surface rounded-2xl shadow-lg flex flex-col items-center text-center p-8 w-full md:w-auto mx-auto md:max-w-[300px]"
+            className="flex-1 bg-surface rounded-2xl shadow-lg flex flex-col items-center text-center p-8 w-full md:w-auto mx-auto md:max-w-[500px]"
           >
             <h3 className={`text-h4 font-heading mb-4 ${f.titleClass}`}>
               {f.title}

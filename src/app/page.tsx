@@ -13,19 +13,13 @@ export default function Home() {
  
 
   return (
-    <div className=" md:w-4/5 mx-auto flex flex-col justify-between mt-20 md:mt-8">
+    <div className=" w-[90%] md:w-4/5  xl:w-[70%] mx-auto flex flex-col justify-between mt-20 lg:mt-8 ">
      
       <TopSection />
             <FeatureSection />
-            <div className="w-full flex flex-col md:flex-row md:items-stretch md:justify-center px-4 my-12">
-              <div className="w-full flex flex-col md:flex-row md:gap-2">
-                <div className="w-full md:w-1/2 flex">
+            <div className="w-full flex flex-col md:flex-row md:items-stretch md:justify-center md:gap-6">
                   <HowItWorksSection />
-                </div>
-                <div className="w-full md:w-1/2 flex mt-8 md:mt-0">
                   <UseCasesSection />
-                </div>
-              </div>
             </div>
             <FQASection />
     </div>

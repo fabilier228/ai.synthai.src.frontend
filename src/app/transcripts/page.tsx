@@ -1,6 +1,5 @@
 "use client"
 import { useRouter } from 'next/navigation';
-import { date } from 'yup';
 
 
 export default function AllTranscriptsPage() {
@@ -14,7 +13,7 @@ export default function AllTranscriptsPage() {
         { id: "6", name: "Project Retrospective", date: "2024-06-01" },
     ];
     
-    return <div className=" w-full md:w-4/5 pt-4  mx-auto mt-20 md:mt-8 ">
+    return <div className=" w-full md:w-4/5 pt-4  mx-auto mt-20 lg:mt-8">
         {transcripts.map((transcript) => (
             <button key={transcript.id} className=" w-full flex gap-2 p-4 mb-4 bg-surface rounded-lg hover:shadow-md transition-shadow duration-200" onClick={() => router.push(`/transcripts/${transcript.id}`)}>
                 <div className='flex gap-2'>

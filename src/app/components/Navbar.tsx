@@ -41,27 +41,27 @@ export default function Navbar() {
   return (
     <>
       {/* Mobile Navbar  */}
-      <nav className="fixed left-0 bottom-0 w-screen bg-surface border-t border-outline py-2 z-[100] flex md:hidden">
+      <nav className="fixed left-0 bottom-0 w-screen bg-surface border-t border-outline py-2 z-[100] flex lg:hidden">
         <ul className="flex flex-row justify-between items-center w-full m-0 p-0 list-none">
           <li className={`flex-1 flex justify-center items-center ${activePath === "/" ? "text-primary" : "text-primary_muted"}`}>
             <button onClick={() => router.push("/")}>
-              <HomeFilled
+              <HomeFilled fontSize="large" className={` transition-colors duration-200 ${activePath === "/" ? "text-primary" : "text-primary_muted"}`}
               />
             </button>
           </li>
           <li className={`flex-1 flex justify-center items-center ${activePath === "/models" ? "text-primary" : "text-primary_muted"}`}>
             <button onClick={() => router.push("/models")}>
-              <ModelTraining className={`text-[2.2rem] transition-colors duration-200 ${activePath === "/models" ? "text-primary" : "text-primary_muted"}`} />
+              <ModelTraining fontSize="large" className={`transition-colors duration-200 ${activePath === "/models" ? "text-primary" : "text-primary_muted"}`} />
             </button>
           </li>
           <li className={`flex-1 flex justify-center items-center ${activePath === "/add_new" ? "text-primary" : "text-primary_muted"}`}>
             <button onClick={() => router.push("/add_new")}>
-              <AddCircleOutline className={`text-[2.2rem] transition-colors duration-200 ${activePath === "/add_new" ? "text-primary" : "text-primary_muted"}`} />
+              <AddCircleOutline fontSize="large" className={`transition-colors duration-200 ${activePath === "/add_new" ? "text-primary" : "text-primary_muted"}`} />
             </button>
           </li>
           <li className={`flex-1 flex justify-center items-center ${activePath?.startsWith("/transcripts") ? "text-primary" : "text-primary_muted"}`}>
             <button onClick={() => router.push("/transcripts")}>
-              <LocalLibrary className={`text-[2.2rem] transition-colors duration-200 ${activePath?.startsWith("/transcripts")
+              <LocalLibrary fontSize="large" className={`transition-colors duration-200 ${activePath?.startsWith("/transcripts")
                 ? "text-primary"
                 : "text-primary_muted hover:text-primary"
                 }`} />
@@ -69,8 +69,8 @@ export default function Navbar() {
           </li>
           <li className={`flex-1 flex justify-center items-center ${activePath === "/profile" ? "text-primary" : "text-primary_muted"}`}>
             <button onClick={() => router.push("/profile")}>
-              <Person
-                className={`text-[2.2rem] transition-colors duration-200 ${activePath === "/profile" ? "text-primary" : "text-primary_muted"}`}
+              <Person fontSize="large"
+                className={`transition-colors duration-200 ${activePath === "/profile" ? "text-primary" : "text-primary_muted"}`}
               />
               </button>
           </li>
@@ -79,7 +79,7 @@ export default function Navbar() {
 
       {/* Desktop Navbar  */}
       <nav
-        className="hidden md:flex flex-col gap-2 w-64 fixed left-0 z-[102] top-1/3 transform -translate-y-1/3 py-4 px-6 bg-surface"
+        className="hidden lg:flex flex-col gap-2 w-64 fixed left-0 z-[102] top-1/3 transform -translate-y-1/3 py-4 px-6 bg-surface"
       >
         <span className="block text-primary text-styled_md  tracking-wide text-left leading-tight font-styled mb-4 ">
           Synthai
