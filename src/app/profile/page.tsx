@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import {
   Email,
   Person,
@@ -40,7 +41,6 @@ const Profile = () => {
     }
   }, []);
 
-  // Save avatar to localStorage when it changes
   useEffect(() => {
     if (userData.avatar !== "/default-avatar.png") {
       localStorage.setItem("userAvatar", userData.avatar);
@@ -128,7 +128,7 @@ const Profile = () => {
               <div className="relative">
                 <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden bg-primary/10 flex items-center justify-center border-2 border-outline">
                   {currentAvatar !== "/default-avatar.png" ? (
-                    <img
+                    <Image
                       src={currentAvatar}
                       alt="Profile Avatar"
                       className="w-full h-full object-cover"
