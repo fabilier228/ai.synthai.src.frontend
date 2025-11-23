@@ -17,7 +17,7 @@ export default function AudioAnalyzerFlow() {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % 4);
-    }, 3000);
+    }, 8000);
     return () => clearInterval(interval);
   }, []);
 
@@ -48,7 +48,7 @@ export default function AudioAnalyzerFlow() {
     },
     {
       id: 'audiobook',
-      title: 'Audiobook',
+  title: 'Audiobook',
       icon: MenuBookIcon,
       color: 'var(--warning)',
       bgColor: 'var(--warning)',
@@ -92,10 +92,10 @@ export default function AudioAnalyzerFlow() {
   ];
 
   return (
-    <div className="min-h-screen bg-[var(--background)] py-16 px-4">
+    <div className="mx-auto p-4 rounded-lg shadow-md flex flex-col mt-20 md:mt-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center my-8">
           <div className="inline-flex items-center gap-2 mb-4">
             <Sparkles className="w-8 h-8 text-[var(--primary)]" />
             <h1 className="text-5xl font-bold text-[var(--text)]">
@@ -108,25 +108,7 @@ export default function AudioAnalyzerFlow() {
           </p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20 max-w-5xl mx-auto">
-          {[
-            { value: '10,000+', label: 'Analiz', color: 'var(--primary)' },
-            { value: '50+', label: 'Języków', color: 'var(--secondary)' },
-            { value: '2-5 min', label: 'Średni czas', color: 'var(--success)' },
-            { value: '95%+', label: 'Dokładność', color: 'var(--warning)' }
-          ].map((stat, idx) => (
-            <div 
-              key={idx} 
-              className="bg-[var(--surface)] rounded-2xl p-6 text-center transition-transform hover:scale-105 border border-[var(--outline)]"
-            >
-              <div className="text-3xl font-bold mb-2" style={{ color: stat.color }}>{stat.value}</div>
-              <div className="text-sm text-[var(--muted)] font-medium">{stat.label}</div>
-            </div>
-          ))}
-        </div>
 
-        {/* Main Flow Diagram */}
         <div className="mb-20">
           <h2 className="text-3xl font-bold text-center text-[var(--text)] mb-12">
             Audio Analysis Process
@@ -140,18 +122,17 @@ export default function AudioAnalyzerFlow() {
               return (
                 <div key={idx}>
                   <div
-                    className={`relative bg-[var(--surface)] rounded-2xl p-4 md:p-6 shadow border-2 transition-all duration-300 ${
-                      isActive ? 'md:border-[var(--primary)] md:shadow-2xl md:scale-105' : 'border-[var(--outline)]'
+                    className={`relative bg-surface rounded-2xl p-4 md:p-6 shadow border-2 transition-all duration-300 ${
+                      isActive ? 'border-primary md:shadow-2xl md:scale-105' : 'border-outline'
                     }`}
                   >
                     <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-6">
-                      {/* Group: number + icon side-by-side */}
                       <div className="flex items-center gap-2">
                         <div
                           className={`flex-shrink-0 w-10 h-10 md:w-14 md:h-14 rounded-2xl flex items-center justify-center text-white text-lg md:text-2xl font-bold shadow ${
                             isActive ? 'md:animate-pulse' : ''
                           }`}
-                          style={{ backgroundColor: step.color }}
+                          style={{ backgroundColor: step.color && step.color.startsWith ? (step.color.startsWith('var(') ? step.color : `var(--${step.color})`) : step.color }}
                         >
                           {step.number}
                         </div>
@@ -160,31 +141,28 @@ export default function AudioAnalyzerFlow() {
                           className={`flex-shrink-0 w-10 h-10 md:w-14 md:h-14 rounded-xl flex items-center justify-center transition-transform ${
                             isActive ? 'md:scale-110' : ''
                           }`}
-                          style={{ backgroundColor: step.color }}
+                          style={{ backgroundColor: step.color && step.color.startsWith ? (step.color.startsWith('var(') ? step.color : `var(--${step.color})`) : step.color }}
                         >
                           <StepIcon sx={{ fontSize: 18 }} style={{ color: 'white' }} />
                         </div>
                       </div>
 
-                      {/* Content */}
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-base md:text-xl font-bold text-[var(--text)] mb-1 truncate">{step.title}</h3>
-                        <p className="text-[var(--muted)] text-sm md:text-base leading-snug line-clamp-3">{step.description}</p>
+                        <h3 className="text-h4 md:text-h3 font-heading text-text mb-1 truncate">{step.title}</h3>
+                        <p className="text-muted text-body_sm md:text-body_md leading-snug line-clamp-3">{step.description}</p>
                       </div>
 
-                      {/* Active Indicator (only on md+) */}
                       {isActive && (
                         <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2">
-                          <div className="w-5 h-5 bg-[var(--primary)] rounded-full md:animate-ping opacity-75"></div>
-                          <div className="w-5 h-5 bg-[var(--primary)] rounded-full absolute top-0"></div>
+                          <div className="w-5 h-5 bg-primary rounded-full md:animate-ping opacity-75"></div>
+                          <div className="w-5 h-5 bg-primary rounded-full absolute top-0"></div>
                         </div>
                       )}
                     </div>
 
-                    {/* Progress Bar (small on mobile) */}
                     {isActive && (
-                      <div className="mt-3 md:mt-4 h-1 md:h-2 bg-[var(--outline)] rounded-full overflow-hidden">
-                        <div className="h-full animate-[progress_5s_linear]" style={{ width: '100%', backgroundColor: step.color }} />
+                      <div className="mt-3 md:mt-4 h-1 md:h-2 bg-outline rounded-full overflow-hidden">
+                        <div className="h-full animate-[progress_8s_linear]" style={{ width: '100%', backgroundColor: step.color && step.color.startsWith ? (step.color.startsWith('var(') ? step.color : `var(--${step.color})`) : step.color }} />
                       </div>
                     )}
                   </div>
@@ -193,7 +171,7 @@ export default function AudioAnalyzerFlow() {
                     <div className="flex justify-center py-2 md:py-4">
                       <ArrowDown
                         className={`w-6 h-6 md:w-8 md:h-8 transition-colors ${isActive ? 'md:animate-bounce' : ''}`}
-                        style={{ color: isActive ? step.color : 'var(--outline)' }}
+                        style={{ color: isActive ? (step.color && step.color.startsWith ? (step.color.startsWith('var(') ? step.color : `var(--${step.color})`) : step.color) : 'var(--outline)' }}
                       />
                     </div>
                   )}
@@ -212,26 +190,26 @@ export default function AudioAnalyzerFlow() {
             Each audio type receives a tailored analysis
           </p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
             {audioTypes.map((type, idx) => {
               const TypeIcon = type.icon;
               return (
                 <div 
                   key={type.id}
-                  className="bg-[var(--surface)] rounded-2xl p-6 border-2 border-[var(--outline)] hover:border-[var(--primary)] transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                  className="bg-surface rounded-2xl p-4 md:p-6 border-2 border-outline hover:border-primary transition-all duration-300 hover:scale-105 hover:shadow-xl"
                   style={{ animationDelay: `${idx * 100}ms` }}
                 >
                   <div 
                     className="w-16 h-16 rounded-xl flex items-center justify-center mb-4 mx-auto"
-                    style={{ backgroundColor: type.color }}
+                    style={{ backgroundColor: type.color && type.color.startsWith ? (type.color.startsWith('var(') ? type.color : `var(--${type.color})`) : type.color }}
                   >
                     <TypeIcon sx={{ fontSize: 32, color: 'white' }} />
                   </div>
-                  <h3 className="text-xl font-bold text-[var(--text)] text-center mb-4">{type.title}</h3>
+                  <h3 className="text-h5 md:text-h4 font-heading text-text text-center mb-4">{type.title}</h3>
                   <div className="space-y-2">
                     {type.results.map((result, rIdx) => (
-                      <div key={rIdx} className="flex items-start gap-2 text-sm text-[var(--muted)]">
-                        <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: type.color }} />
+                      <div key={rIdx} className="flex items-start gap-2 text-body_md text-muted">
+                        <Check className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: type.color && type.color.startsWith ? (type.color.startsWith('var(') ? type.color : `var(--${type.color})`) : type.color }} />
                         <span>{result}</span>
                       </div>
                     ))}
@@ -262,11 +240,11 @@ export default function AudioAnalyzerFlow() {
               return (
                 <div 
                   key={idx} 
-                  className="bg-[var(--background)] rounded-xl p-6 text-center hover:scale-105 transition-all group border-2 border-[var(--outline)]"
+                  className="bg-background rounded-xl p-6 text-center hover:scale-105 transition-all group border-2 border-outline"
                 >
-                  <TechIcon className="w-10 h-10 mx-auto mb-3 transition-colors" style={{ color: tech.color }} />
-                  <h4 className="font-bold mb-2 text-[var(--text)]">{tech.title}</h4>
-                  <p className="text-sm text-[var(--muted)]">{tech.desc}</p>
+                  <TechIcon className="w-10 h-10 mx-auto mb-3 transition-colors" style={{ color: tech.color && tech.color.startsWith ? (tech.color.startsWith('var(') ? tech.color : `var(--${tech.color})`) : tech.color }} />
+                  <h4 className="font-heading text-h5 mb-2 text-text">{tech.title}</h4>
+                  <p className="text-body_md text-muted">{tech.desc}</p>
                 </div>
               );
             })}
