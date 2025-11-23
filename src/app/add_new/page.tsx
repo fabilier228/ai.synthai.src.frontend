@@ -1,6 +1,7 @@
 "use client";
 
 import { Form, Formik, ErrorMessage } from "formik";
+import { HeadlessSelect } from "./components/HeadlessSelect";
 import * as Yup from "yup";
 import { useRef, useState } from "react";
 
@@ -56,7 +57,7 @@ export default function AddNewPage() {
             setResult(transcript ? transcript : "No transcript found.");
             resetForm();
             if (fileInputRef.current) fileInputRef.current.value = "";
-          } catch (err: unknown) {
+          } catch {
             setResult("An error occurred during transcription.");
           } finally {
             setLoading(false);
@@ -66,31 +67,30 @@ export default function AddNewPage() {
       >
         {({ handleChange, values, setFieldValue }) => (
           <Form className="mx-auto p-4 bg-surface rounded-lg shadow-md flex flex-col md:mt-8">
-            <h2 className="text-h3 font-heading mb-4">Add New Transcription</h2>
-            <div className="mb-4 flex flex-col justify-start items-start">
-              <label
-                htmlFor="type"
-                className="block text-h4 font-heading mb-2 text-secondary"
-              >
-                Analysis Type
-              </label>
-              <select
-                name="type"
-                value={values.type}
-                onChange={handleChange}
-                className="border border-outline rounded-md p-2 mb-2"
-              >
-                <option value="SONG">Song</option>
-                <option value="LECTURE">Lecture</option>
-                <option value="AUDIOBOOK">Audiobook</option>
-                <option value="CONVERSATION">Conversation</option>
-              </select>
-              <ErrorMessage
-                name="type"
-                component="div"
-                className="text-red-500 text-sm mt-1"
-              />
-            </div>
+            <h2 className="text-h3 font-heading mb-6 text-center">
+              Add New Transcription
+            </h2>
+            <HeadlessSelect
+              options={[
+                { value: "SONG", label: "Song" },
+                { value: "LECTURE", label: "Lecture" },
+                { value: "AUDIOBOOK", label: "Audiobook" },
+                { value: "CONVERSATION", label: "Conversation" },
+              ]}
+              value={values.type}
+              onChange={(val) =>
+                handleChange({ target: { name: "type", value: val } })
+              }
+              label="Analysis Type"
+              name="type"
+              error={
+                <ErrorMessage
+                  name="type"
+                  component="div"
+                  className="text-red-500 text-sm mt-1"
+                />
+              }
+            />
             <div className="mb-4">
               <label
                 htmlFor="title"
@@ -103,7 +103,7 @@ export default function AddNewPage() {
                 name="title"
                 value={values.title}
                 onChange={handleChange}
-                className="border border-outline rounded-md p-2 w-full"
+                className="border border-outline rounded-lg p-3 w-full shadow-sm focus:border-primary focus:ring-2 focus:ring-primary transition-all duration-150"
               />
               <ErrorMessage
                 name="title"
@@ -111,23 +111,18 @@ export default function AddNewPage() {
                 className="text-red-500 text-sm mt-1"
               />
             </div>
-            <div className="mb-4">
-              <label
-                htmlFor="language"
-                className="block text-h4 text-secondary font-heading mb-2"
-              >
-                Language
-              </label>
-              <select
-                name="language"
-                value={values.language}
-                onChange={handleChange}
-                className="border border-outline rounded-md p-2 w-full"
-              >
-                <option value="EN">English</option>
-                <option value="PL">Polish</option>
-              </select>
-            </div>
+            <HeadlessSelect
+              options={[
+                { value: "EN", label: "English" },
+                { value: "PL", label: "Polish" },
+              ]}
+              value={values.language}
+              onChange={(val) =>
+                handleChange({ target: { name: "language", value: val } })
+              }
+              label="Language"
+              name="language"
+            />
             <div className="mb-4">
               <label
                 htmlFor="file"
@@ -140,7 +135,7 @@ export default function AddNewPage() {
                   type="text"
                   readOnly
                   value={values.file ? values.file.name : "No file chosen"}
-                  className="border border-outline rounded-md p-2 flex-1 text-sm"
+                  className="border border-outline rounded-lg p-3 flex-1 text-sm shadow-sm focus:border-primary focus:ring-2 focus:ring-primary transition-all duration-150"
                   style={{ minWidth: "0" }}
                 />
                 <input
@@ -160,7 +155,7 @@ export default function AddNewPage() {
                 />
                 <button
                   type="button"
-                  className="border border-outline border-2 rounded-md px-2 py-1 text-xs"
+                  className="border border-primary bg-primary text-white rounded-lg px-3 py-1 text-xs shadow-sm hover:bg-primary_muted transition-colors"
                   onClick={() => fileInputRef.current?.click()}
                 >
                   Choose file
