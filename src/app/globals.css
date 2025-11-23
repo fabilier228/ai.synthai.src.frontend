@@ -11,6 +11,7 @@ body,
 :root {
     --primary: #6C73CC;
     --secondary: #E88D67;
+    --tertiary: #dc0073;
     --background: #EFF2F9;
     --surface: #FFFFFF;
     --success: #2FDB68;
@@ -25,6 +26,7 @@ body,
 .dark {
     --primary: #7E87EF;
     --secondary: #E88D67;
+    --tertiary: #dc0073;
     --background: #0A112B;
     --surface: #161F3E;
     --success: #2FDB68;

@@ -12,6 +12,7 @@ const config = {
       colors: {
         primary: 'var(--primary)',
         secondary: 'var(--secondary)',
+        tertiary: 'var(--tertiary)',
         background: 'var(--background)',
         surface: 'var(--surface)',
         success: 'var(--success)',

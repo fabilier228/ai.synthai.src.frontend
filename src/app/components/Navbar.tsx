@@ -49,9 +49,9 @@ export default function Navbar() {
               />
             </button>
           </li>
-          <li className={`flex-1 flex justify-center items-center ${activePath === "/models" ? "text-primary" : "text-primary_muted"}`}>
-            <button onClick={() => router.push("/models")}>
-              <ModelTraining fontSize="large" className={`transition-colors duration-200 ${activePath === "/models" ? "text-primary" : "text-primary_muted"}`} />
+          <li className={`flex-1 flex justify-center items-center ${activePath === "/flow" ? "text-primary" : "text-primary_muted"}`}>
+            <button onClick={() => router.push("/flow")}>
+              <ModelTraining fontSize="large" className={`transition-colors duration-200 ${activePath === "/flow" ? "text-primary" : "text-primary_muted"}`} />
             </button>
           </li>
           <li className={`flex-1 flex justify-center items-center ${activePath === "/add_new" ? "text-primary" : "text-primary_muted"}`}>
@@ -87,8 +87,8 @@ export default function Navbar() {
         <button onClick={() => router.push("/")} className={`text-left transition-colors text-btn_sm mb-1 py-2 px-2 hover:text-primary ${activePath === "/" ? "text-primary" : "text-primary_muted"}`}>
           Home
         </button>
-        <button onClick={() => router.push("/models")} className={`text-left transition-colors text-btn_sm py-2 px-2 hover:text-primary ${activePath === "/models" ? "text-primary" : "text-primary_muted"}`}>
-          Our models
+        <button onClick={() => router.push("/flow")} className={`text-left transition-colors text-btn_sm py-2 px-2 hover:text-primary ${activePath === "/flow" ? "text-primary" : "text-primary_muted"}`}>
+          Process Flow
         </button>
 
         <button
