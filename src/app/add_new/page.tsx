@@ -1,126 +1,194 @@
-'use client';
+"use client";
 
 import { Form, Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useRef } from "react";
-import { useRouter } from 'next/navigation';
-
+import { useRef, useState } from "react";
 
 export default function AddNewPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const router = useRouter();
+  const [result, setResult] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const endpointMap: Record<string, string> = {
+    SONG: "/analysis/song",
+    LECTURE: "/analysis/lecture",
+    AUDIOBOOK: "/analysis/audiobook",
+    CONVERSATION: "/analysis/conversation",
+  };
 
   return (
-    <div className="  mt-20 md:mt-8 w-full md:w-4/5 mx-auto py-8 ">
+    <div className="mt-20 md:mt-8 w-full md:w-4/5 mx-auto py-8">
       <Formik
         initialValues={{
-          model: "",
-          file: null,
+          type: "SONG",
+          file: null as File | null,
+          language: "EN",
+          keycloakId: "demo-user",
+          title: "",
         }}
         validationSchema={Yup.object({
-          model: Yup.string().required("Please select a model"),
-          file: Yup.mixed()
-            .required("Please upload a file")
-            .test("fileType", "Unsupported file format", (value: unknown) => {
-              if (!value) return false;
-              const fileType = (value as File).type || "";
-              return ["audio/wav", "audio/x-wav", "audio/mpeg", "audio/mp3"].includes(fileType);
-            }),
+          type: Yup.string().required("Select analysis type"),
+          file: Yup.mixed().required("Upload a file"),
+          title: Yup.string().required("Enter a title"),
         })}
-        onSubmit={(values, { setSubmitting, resetForm }) => {
-          setTimeout(() => {
-            console.log("Form data", values);
-            setSubmitting(false);
-            resetForm();
-            if (fileInputRef.current) {
-              fileInputRef.current.value = "";
+        onSubmit={async (values, { setSubmitting, resetForm }) => {
+          setLoading(true);
+          setResult(null);
+          try {
+            const formData = new FormData();
+            if (values.file) {
+              formData.append("audioFile", values.file);
+              formData.append(
+                "language",
+                values.language === "PL" ? "POLISH" : "ENGLISH"
+              );
+              formData.append("keycloakId", values.keycloakId);
+              formData.append("title", values.title);
             }
-            alert("Transcript added successfully!");
-            router.push("/transcripts/1")
-          }, 400);
-        }
-        }
+            const endpoint = endpointMap[values.type];
+            const res = await fetch(`http://localhost:8083/api/v1${endpoint}`, {
+              method: "POST",
+              body: formData,
+            });
+            if (!res.ok) throw new Error("Server error");
+            const data = await res.json();
+            const transcript = data?.transcriptionAnalysis?.transcription;
+            setResult(transcript ? transcript : "No transcript found.");
+            resetForm();
+            if (fileInputRef.current) fileInputRef.current.value = "";
+          } catch (err: unknown) {
+            setResult("An error occurred during transcription.");
+          } finally {
+            setLoading(false);
+            setSubmitting(false);
+          }
+        }}
       >
         {({ handleChange, values, setFieldValue }) => (
           <Form className="mx-auto p-4 bg-surface rounded-lg shadow-md flex flex-col md:mt-8">
-            <h2 className="text-h3 font-heading mb-4 ">Add new Transcript</h2>
-            <div className="mb-4 flex flex-col justify-start items-start "> 
-              <label htmlFor="model" className="block text-h4 font-heading mb-2 text-secondary">
-                Model
+            <h2 className="text-h3 font-heading mb-4">Add New Transcription</h2>
+            <div className="mb-4 flex flex-col justify-start items-start">
+              <label
+                htmlFor="type"
+                className="block text-h4 font-heading mb-2 text-secondary"
+              >
+                Analysis Type
               </label>
-              <div className="mb-4 text-body_md">
-                <input
-                  type="radio"
-                  name="model"
-                  value="Model A"
-                  checked={values.model === "Model A"}
-                  onChange={handleChange}
-                  className="mr-2"
-                />
-                Model A
-                <div className=" text-muted">model A description</div>
-              </div>
-              <div className="mb-4 text-body_md">
-                <input
-                  type="radio"
-                  name="model"
-                  value="Model B"
-                  checked={values.model === "Model B"}
-                  onChange={handleChange}
-                  className=" mr-2 "
-                />
-                Model B
-                <div className=" text-muted">model B description</div>
-              </div>
-              <div className="mb-4 text-body_md">
-                <input
-                  type="radio"
-                  name="model"
-                  value="Model C"
-                  checked={values.model === "Model C"}
-                  onChange={handleChange}
-                  className=" mr-2 "
-                />
-                Model C
-                <div className=" text-muted">model C description</div>
-              </div>
-              <div className="mb-4 text-body_md">
-                <input 
-                  type="radio"
-                  name="model"
-                  value="Model D"
-                  checked={values.model === "Model D"}
-                  onChange={handleChange}
-                  className=" mr-2 "
-                />
-                Model D
-                <div className=" text-muted">model D description</div>
-              </div>
-
-              <ErrorMessage name="model" component="div" className="text-red-500 text-sm mt-1" />
+              <select
+                name="type"
+                value={values.type}
+                onChange={handleChange}
+                className="border border-outline rounded-md p-2 mb-2"
+              >
+                <option value="SONG">Song</option>
+                <option value="LECTURE">Lecture</option>
+                <option value="AUDIOBOOK">Audiobook</option>
+                <option value="CONVERSATION">Conversation</option>
+              </select>
+              <ErrorMessage
+                name="type"
+                component="div"
+                className="text-red-500 text-sm mt-1"
+              />
             </div>
             <div className="mb-4">
-              <label htmlFor="file" className="block text-h4 text-secondary font-heading mb-2">
-                Upload File
+              <label
+                htmlFor="title"
+                className="block text-h4 text-secondary font-heading mb-2"
+              >
+                Title
               </label>
               <input
-                ref={fileInputRef}
-                type="file"
-                name="file"
-                onChange={(event) => {
-                  setFieldValue("file", event.currentTarget.files ? event.currentTarget.files[0] : null);
-                }}
-                className="border border-outline border-2 rounded-md p-8 w-full"
+                type="text"
+                name="title"
+                value={values.title}
+                onChange={handleChange}
+                className="border border-outline rounded-md p-2 w-full"
               />
-              <ErrorMessage name="file" component="div" className="text-red-500 text-sm mt-1" />
+              <ErrorMessage
+                name="title"
+                component="div"
+                className="text-red-500 text-sm mt-1"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="language"
+                className="block text-h4 text-secondary font-heading mb-2"
+              >
+                Language
+              </label>
+              <select
+                name="language"
+                value={values.language}
+                onChange={handleChange}
+                className="border border-outline rounded-md p-2 w-full"
+              >
+                <option value="EN">English</option>
+                <option value="PL">Polish</option>
+              </select>
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="file"
+                className="block text-h4 text-secondary font-heading mb-2"
+              >
+                Choose audio file
+              </label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  readOnly
+                  value={values.file ? values.file.name : "No file chosen"}
+                  className="border border-outline rounded-md p-2 flex-1 text-sm"
+                  style={{ minWidth: "0" }}
+                />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  name="file"
+                  accept="audio/*"
+                  style={{ display: "none" }}
+                  onChange={(event) => {
+                    setFieldValue(
+                      "file",
+                      event.currentTarget.files
+                        ? event.currentTarget.files[0]
+                        : null
+                    );
+                  }}
+                />
+                <button
+                  type="button"
+                  className="border border-outline border-2 rounded-md px-2 py-1 text-xs"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  Choose file
+                </button>
+              </div>
+              <ErrorMessage
+                name="file"
+                component="div"
+                className="text-red-500 text-sm mt-1"
+              />
             </div>
             <button
               type="submit"
-              className="bg-primary text-white text-btn_md px-4 py-2 rounded-md hover:bg-primary_muted transition-colors  self-end "
+              className="bg-primary text-white text-btn_md px-4 py-2 rounded-md hover:bg-primary_muted transition-colors self-end"
+              disabled={loading}
             >
-              Submit
+              {loading ? "Processing..." : "Submit"}
             </button>
-
+            {result && (
+              <div className="mt-6 p-4 bg-gray-100 rounded-md">
+                <h3 className="text-h4 font-heading mb-2">
+                  Transcription Result:
+                </h3>
+                <pre className="text-xs whitespace-pre-wrap break-words">
+                  {result}
+                </pre>
+              </div>
+            )}
           </Form>
         )}
       </Formik>
