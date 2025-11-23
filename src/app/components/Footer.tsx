@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
               Home
             </button>
             <button type="button" onClick={() => router.push("/models")} className="bg-transparent">
-              Models
+              Flow
             </button>
             <button type="button" onClick={() => router.push("/add_new")} className="bg-transparent">
               Add new
@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
               Home
             </button>
             <button type="button" onClick={() => router.push("/models")} className="bg-transparent">
-              Models
+              Flow
             </button>
             <button type="button" onClick={() => router.push("/add_new")} className="bg-transparent">
               Add new

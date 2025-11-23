@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const TopSection = () => {
+  const router = useRouter();
   return (
     <div className="w-full flex flex-col items-center pt-6 ">
       <h1
@@ -20,8 +22,8 @@ const TopSection = () => {
             </div>
 
              <div className="hidden md:flex items-center justify-start rounded-[16px] flex-1">
-              <button className="bg-primary text-white text-h4 font-heading md:text-h3 py-4 px-6 rounded-[16px] hover:bg-primary/90 transition-colors w-full max-w-[350px]">
-                Explore our AI models
+              <button className="bg-primary text-white text-h4 font-heading md:text-h3 py-4 px-6 rounded-[16px] hover:bg-primary/90 transition-colors w-full max-w-[350px]" onClick={() => router.push('/flow')}>
+                See our Process Flow
               </button>
             </div>
 
@@ -54,8 +56,8 @@ const TopSection = () => {
           </div>
 
           <div className="md:hidden flex items-center justify-start rounded-[16px]">
-            <button className="bg-primary text-white text-h4 font-heading py-4 px-6 rounded-[16px] hover:bg-primary/90 transition-colors w-full max-w-[350px]">
-              Explore our AI models
+            <button className="bg-primary text-white text-h4 font-heading py-4 px-6 rounded-[16px] hover:bg-primary/90 transition-colors w-full max-w-[350px]" onClick={() => router.push('/flow')} >
+              See our Process Flow
             </button>
           </div>
         </div>
@@ -77,8 +79,9 @@ const TopSection = () => {
         <div className="w-full max-w-[370px] flex flex-col items-center">
           <button
             className="w-full h-[88px] bg-primary text-white font-bold text-h4 font-heading rounded-[16px] flex items-center justify-center mt-2"
+            onClick={() => router.push('/flow')}
           >
-            Explore our AI models
+            See our Process Flow
           </button>
         </div>
         <div className="w-full max-w-[370px] flex flex-col items-center">
