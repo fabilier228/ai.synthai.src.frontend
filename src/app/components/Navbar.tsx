@@ -26,7 +26,7 @@ export default function Navbar() {
 
   React.useEffect(() => {
     const fetchTranscripts = () => {
-      fetch(`http://localhost:8083/api/v1/transcriptions/user/${keycloakId}`)
+      fetch(`http://localhost:8081/api/v1/transcriptions/user/${keycloakId}`)
         .then((res) => res.json())
         .then((data) => {
           if (data?.transcriptions) {

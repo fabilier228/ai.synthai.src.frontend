@@ -50,7 +50,7 @@ function TranscriptView() {
 
   // Fetch transcript list for selector
   useEffect(() => {
-    fetch(`http://localhost:8083/api/v1/transcriptions/user/${keycloakId}`)
+    fetch(`http://localhost:8081/api/v1/transcriptions/user/${keycloakId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.transcriptions) {
@@ -68,7 +68,7 @@ function TranscriptView() {
   useEffect(() => {
     if (!transcriptId) return;
     setLoading(true);
-    fetch(`http://localhost:8083/api/v1/transcriptions/${transcriptId}`)
+    fetch(`http://localhost:8081/api/v1/transcriptions/${transcriptId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.transcription) {
@@ -103,7 +103,7 @@ function TranscriptView() {
   const handleDownloadSummary = () => {
     if (!currentTranscript?.id) return;
     fetch(
-      `http://localhost:8083/api/v1/transcriptions/${currentTranscript.id}/download`
+      `http://localhost:8081/api/v1/transcriptions/${currentTranscript.id}/download`
     )
       .then((res) => res.blob())
       .then((blob) => {
