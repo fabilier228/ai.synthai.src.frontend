@@ -67,7 +67,7 @@ export default function AddNewPage() {
       >
         {({ handleChange, values, setFieldValue }) => (
           <Form className="mx-auto p-4 bg-surface rounded-lg shadow-md flex flex-col md:mt-8">
-            <h2 className="text-h3 font-heading mb-6 text-center">
+            <h2 className="text-h3 font-heading mb-6 text-center text-text">
               Add New Transcription
             </h2>
             <HeadlessSelect
@@ -103,7 +103,7 @@ export default function AddNewPage() {
                 name="title"
                 value={values.title}
                 onChange={handleChange}
-                className="border border-outline rounded-lg p-3 w-full shadow-sm focus:border-primary focus:ring-2 focus:ring-primary transition-all duration-150"
+                className="border border-outline rounded-lg p-3 w-full shadow-sm focus:border-primary focus:ring-2 focus:ring-primary transition-all duration-150 bg-background text-text placeholder:text-text"
               />
               <ErrorMessage
                 name="title"
@@ -135,7 +135,7 @@ export default function AddNewPage() {
                   type="text"
                   readOnly
                   value={values.file ? values.file.name : "No file chosen"}
-                  className="border border-outline rounded-lg p-3 flex-1 text-sm shadow-sm focus:border-primary focus:ring-2 focus:ring-primary transition-all duration-150"
+                  className="border border-outline rounded-lg p-3 flex-1 text-sm shadow-sm focus:border-primary focus:ring-2 focus:ring-primary transition-all duration-150 bg-background text-text placeholder:text-text"
                   style={{ minWidth: "0" }}
                 />
                 <input
@@ -175,11 +175,11 @@ export default function AddNewPage() {
               {loading ? "Processing..." : "Submit"}
             </button>
             {result && (
-              <div className="mt-6 p-4 bg-gray-100 rounded-md">
-                <h3 className="text-h4 font-heading mb-2">
+              <div className="mt-6 p-4 bg-background rounded-md">
+                <h3 className="text-h4 font-heading mb-2 text-text">
                   Transcription Result:
                 </h3>
-                <pre className="text-xs whitespace-pre-wrap break-words">
+                <pre className="text-xs whitespace-pre-wrap break-words text-text">
                   {result}
                 </pre>
               </div>
