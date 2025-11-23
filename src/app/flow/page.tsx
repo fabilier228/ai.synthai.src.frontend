@@ -50,8 +50,8 @@ export default function AudioAnalyzerFlow() {
       id: 'audiobook',
       title: 'Audiobook',
       icon: MenuBookIcon,
-      color: 'warning',
-      bgColor: 'warning',
+      color: 'tertiary',
+      bgColor: 'tertiary',
       results: ['Summary', 'Characters', 'Literary Themes']
     }
   ];
@@ -78,16 +78,16 @@ export default function AudioAnalyzerFlow() {
       title: 'AI Analysis',
       icon: PsychologyIcon,
       description: 'GPT-4 analyzes the content and extracts key insights',
-      color: 'success',
-      bgColor: 'success'
+      color: 'tertiary',
+      bgColor: 'tertiary'
     },
     {
       number: '4',
       title: 'Summary',
       icon: DescriptionIcon,
       description: 'Personalized JSON report ready for use',
-      color: 'warning',
-      bgColor: 'warning'
+      color: 'success',
+      bgColor: 'success'
     }
   ];
 
@@ -98,7 +98,7 @@ export default function AudioAnalyzerFlow() {
         <div className="text-center my-8">
           <div className="inline-flex items-center gap-2 mb-4">
             <Sparkles className="w-8 h-8 text-primary" />
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-text">
+            <h1 className="text-h2 md:text-h1 font-styled text-text">
               How it works
             </h1>
           </div>
@@ -110,7 +110,7 @@ export default function AudioAnalyzerFlow() {
 
 
         <div className="mb-20">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-text mb-8 md:mb-12 px-4">
+          <h2 className="text-h3  sm:text-h2 font-styled text-center text-text mb-8 md:mb-12 px-4">
             Audio Analysis Process
           </h2>
           
@@ -183,7 +183,7 @@ export default function AudioAnalyzerFlow() {
 
         {/* Audio Types Section */}
         <div className="mb-20 px-4">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-text mb-4">
+          <h2 className="text-h3  sm:text-h2 font-styled text-center text-text mb-4">
             Supported audio types
           </h2>
           <p className="text-center text-muted mb-8 md:mb-12 text-base md:text-lg">
@@ -222,12 +222,10 @@ export default function AudioAnalyzerFlow() {
 
         {/* Technology Section */}
         <div className="mb-20 bg-surface border border-outline rounded-3xl p-6 md:p-12">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center text-text mb-4">
+          <h2 className="text-h3  sm:text-h2 font-styled text-center text-text mb-4">
             Technologies
           </h2>
-          <p className="text-center text-muted mb-8 md:mb-12 text-base md:text-lg">
-            We use leading AI tools available on the market
-          </p>
+         
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
             {[
@@ -253,19 +251,15 @@ export default function AudioAnalyzerFlow() {
 
         {/* CTA Section */}
         <div className="text-center px-4">
-          <div className="bg-primary rounded-3xl p-6 md:p-12 text-white max-w-4xl mx-auto shadow-2xl">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Ready to try?</h2>
-            <p className="text-base sm:text-lg md:text-xl mb-6 md:mb-8 opacity-90">
+          <div className="bg-gradient-to-r from-primary via-tertiary to-secondary rounded-3xl p-6 md:p-12 text-white max-w-4xl mx-auto shadow-2xl">
+            <h2 className="text-h3  md:text-h2 font-heading mb-4">Ready to try?</h2>
+            <p className="text-body_md  md:text-body_lg mb-6 md:mb-8 opacity-90">
               Start analyzing your audio now — first 3 analyses free!
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="w-full sm:w-auto px-8 md:px-10 py-3 md:py-4 bg-white text-primary rounded-xl font-bold text-base md:text-lg hover:shadow-2xl hover:scale-105 transition-all">
+              <button className="w-full sm:w-auto px-8 md:px-10 py-3 md:py-4 bg-white text-primary rounded-xl font-bold text-btn_b_sm lg:text-btn_b_md md:text-lg hover:shadow-2xl hover:scale-105 transition-all">
                 Start now
               </button>
-              <button className="w-full sm:w-auto px-8 md:px-10 py-3 md:py-4 bg-transparent border-2 border-white text-white rounded-xl font-bold text-base md:text-lg hover:bg-white/10 transition-all">
-                Watch demo
-              </button>
-            </div>
+           
           </div>
         </div>
       </div>
