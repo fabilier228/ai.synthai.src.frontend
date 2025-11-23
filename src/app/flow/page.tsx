@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { ChevronRight, ArrowDown, Sparkles, Zap, Shield, Globe, Check } from 'lucide-react';
+import { ArrowDown, Sparkles, Zap, Shield, Globe, Check } from 'lucide-react';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import SchoolIcon from '@mui/icons-material/School';
@@ -24,27 +24,27 @@ export default function AudioAnalyzerFlow() {
   const audioTypes = [
     {
       id: 'song',
-      title: 'Piosenka',
+      title: 'Song',
       icon: MusicNoteIcon,
       color: 'var(--primary)',
       bgColor: 'var(--primary_muted)',
-      results: ['Tytuł i wykonawca', 'Emocje i tematyka', 'Interpretacja']
+      results: ['Title & Artist', 'Emotions & Themes', 'Interpretation']
     },
     {
       id: 'conversation',
-      title: 'Rozmowa',
+      title: 'Conversation',
       icon: ChatBubbleOutlineIcon,
       color: 'var(--secondary)',
       bgColor: 'var(--secondary)',
-      results: ['Uczestnicy', 'Ton rozmowy', 'Kluczowe cytaty']
+      results: ['Participants', 'Conversation Tone', 'Key Quotes']
     },
     {
       id: 'lecture',
-      title: 'Wykład',
+      title: 'Lecture',
       icon: SchoolIcon,
       color: 'var(--success)',
       bgColor: 'var(--success)',
-      results: ['Kluczowe koncepty', 'Struktura', 'Główna teza']
+      results: ['Key Concepts', 'Structure', 'Main Thesis']
     },
     {
       id: 'audiobook',
@@ -52,40 +52,40 @@ export default function AudioAnalyzerFlow() {
       icon: MenuBookIcon,
       color: 'var(--warning)',
       bgColor: 'var(--warning)',
-      results: ['Streszczenie', 'Postacie', 'Motywy literackie']
+      results: ['Summary', 'Characters', 'Literary Themes']
     }
   ];
 
   const mainSteps = [
     {
       number: '1',
-      title: 'Wybór typu audio',
+      title: 'Choose audio type',
       icon: CloudUploadIcon,
-      description: 'Użytkownik wybiera kategorię: piosenka, rozmowa, wykład lub audiobook',
+      description: 'User selects a category: song, conversation, lecture, or audiobook',
       color: 'var(--primary)',
       bgColor: 'var(--primary_muted)'
     },
     {
       number: '2',
-      title: 'Upload & Transkrypcja',
+      title: 'Upload & Transcription',
       icon: RecordVoiceOverIcon,
-      description: 'System automatycznie transkrybuje audio z rozpoznaniem języka',
+      description: 'The system automatically transcribes audio and detects the language',
       color: 'var(--secondary)',
       bgColor: 'var(--secondary)'
     },
     {
       number: '3',
-      title: 'Analiza AI',
+      title: 'AI Analysis',
       icon: PsychologyIcon,
-      description: 'GPT-4 analizuje treść i wyciąga kluczowe informacje',
+      description: 'GPT-4 analyzes the content and extracts key insights',
       color: 'var(--success)',
       bgColor: 'var(--success)'
     },
     {
       number: '4',
-      title: 'Podsumowanie',
+      title: 'Summary',
       icon: DescriptionIcon,
-      description: 'Spersonalizowany raport w formacie JSON gotowy do użycia',
+      description: 'Personalized JSON report ready for use',
       color: 'var(--warning)',
       bgColor: 'var(--warning)'
     }
@@ -99,12 +99,12 @@ export default function AudioAnalyzerFlow() {
           <div className="inline-flex items-center gap-2 mb-4">
             <Sparkles className="w-8 h-8 text-[var(--primary)]" />
             <h1 className="text-5xl font-bold text-[var(--text)]">
-              Jak działamy?
+              How It Works
             </h1>
           </div>
           <p className="text-[var(--muted)] text-xl max-w-3xl mx-auto leading-relaxed">
-            Nasza aplikacja wykorzystuje najnowsze modele AI do automatycznej transkrypcji 
-            i głębokiej analizy różnych typów materiałów audio
+            Our app uses state-of-the-art AI models for automatic transcription
+            and deep analysis of various audio types.
           </p>
         </div>
 
@@ -129,7 +129,7 @@ export default function AudioAnalyzerFlow() {
         {/* Main Flow Diagram */}
         <div className="mb-20">
           <h2 className="text-3xl font-bold text-center text-[var(--text)] mb-12">
-            Proces analizy audio
+            Audio Analysis Process
           </h2>
           
           <div className="max-w-4xl mx-auto space-y-6">
@@ -206,10 +206,10 @@ export default function AudioAnalyzerFlow() {
         {/* Audio Types Section */}
         <div className="mb-20">
           <h2 className="text-3xl font-bold text-center text-[var(--text)] mb-4">
-            Obsługiwane typy audio
+            Supported audio types
           </h2>
           <p className="text-center text-[var(--muted)] mb-12 text-lg">
-            Każdy typ audio otrzymuje spersonalizowaną analizę
+            Each audio type receives a tailored analysis
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
@@ -245,18 +245,18 @@ export default function AudioAnalyzerFlow() {
         {/* Technology Section */}
         <div className="mb-20 bg-[var(--surface)] border border-[var(--outline)] rounded-3xl p-12">
           <h2 className="text-3xl font-bold text-center text-[var(--text)] mb-4">
-            Wykorzystywana technologia
+            Technologies
           </h2>
           <p className="text-center text-[var(--muted)] mb-12 text-lg">
-            Używamy najlepszych narzędzi AI na rynku
+            We use leading AI tools available on the market
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
             {[
-              { icon: Shield, title: 'Azure AI', desc: 'Transkrypcja wielojęzyczna', color: 'var(--primary)' },
-              { icon: Sparkles, title: 'GPT-4', desc: 'Zaawansowana analiza', color: 'var(--secondary)' },
-              { icon: Globe, title: 'Shazam API', desc: 'Rozpoznawanie muzyki', color: 'var(--success)' },
-              { icon: Zap, title: 'Własne algo', desc: 'Optymalizacja wyników', color: 'var(--warning)' }
+              { icon: Shield, title: 'Azure AI', desc: 'Multilingual transcription', color: 'var(--primary)' },
+              { icon: Sparkles, title: 'GPT-4', desc: 'Advanced analysis', color: 'var(--secondary)' },
+              { icon: Globe, title: 'Shazam API', desc: 'Music recognition', color: 'var(--success)' },
+              { icon: Zap, title: 'Custom algorithms', desc: 'Result optimization', color: 'var(--warning)' }
             ].map((tech, idx) => {
               const TechIcon = tech.icon;
               return (
@@ -275,17 +275,17 @@ export default function AudioAnalyzerFlow() {
 
         {/* CTA Section */}
         <div className="text-center">
-          <div className="bg-[var(--primary)] rounded-3xl p-12 text-white max-w-4xl mx-auto shadow-2xl">
-            <h2 className="text-4xl font-bold mb-4">Gotowy, żeby spróbować?</h2>
+            <div className="bg-[var(--primary)] rounded-3xl p-12 text-white max-w-4xl mx-auto shadow-2xl">
+            <h2 className="text-4xl font-bold mb-4">Ready to try?</h2>
             <p className="text-xl mb-8 opacity-90">
-              Zacznij analizować swoje audio już teraz – pierwsze 3 analizy za darmo!
+              Start analyzing your audio now — first 3 analyses free!
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
               <button className="px-10 py-4 bg-white text-[var(--primary)] rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all">
-                Rozpocznij teraz
+                Start now
               </button>
               <button className="px-10 py-4 bg-transparent border-2 border-white text-white rounded-xl font-bold text-lg hover:bg-white/10 transition-all">
-                Zobacz demo
+                Watch demo
               </button>
             </div>
           </div>
