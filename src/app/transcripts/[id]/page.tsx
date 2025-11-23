@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Description,
   CalendarToday,
@@ -8,22 +8,122 @@ import {
   ExpandLess,
 } from "@mui/icons-material";
 import { useParams, useRouter } from "next/navigation";
-import transcriptsData from "./Transcripts";
 
 function TranscriptView() {
+  // Helper to count words in transcript text
+  const getWordCount = () => {
+    if (currentTranscript?.wordCount && currentTranscript.wordCount > 0) {
+      return currentTranscript.wordCount;
+    }
+    if (currentTranscript?.transcription) {
+      // Remove speaker labels, split by whitespace, filter out empty
+      return currentTranscript.transcription
+        .replace(/Speaker \d+:\s*/g, "")
+        .split(/\s+/)
+        .filter((w) => w.length > 0).length;
+    }
+    return 0;
+  };
   const [showSummary, setShowSummary] = useState(false);
   const params = useParams();
-  const transcriptId = params?.id; 
+  const transcriptId = params?.id;
   const router = useRouter();
   const [isTranscriptSelectorOpen, setIsTranscriptSelectorOpen] =
     useState(false);
+  type TranscriptDetails = {
+    id?: string;
+    title?: string;
+    date?: string;
+    time?: string;
+    summary?: string | { interpretation?: string };
+    wordCount?: number;
+    transcription?: string;
+    createdAt?: string;
+  };
+  type TranscriptListItem = { id: string; name: string };
+  const [currentTranscript, setCurrentTranscript] =
+    useState<TranscriptDetails | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const keycloakId = "demo-user";
+  const [transcripts, setTranscripts] = useState<TranscriptListItem[]>([]);
 
-  const transcripts = transcriptsData.map((t) => ({ id: t.id, name: t.title }));
+  // Fetch transcript list for selector
+  useEffect(() => {
+    fetch(`http://localhost:8081/api/v1/transcriptions/user/${keycloakId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.transcriptions) {
+          setTranscripts(
+            data.transcriptions.map((t: TranscriptDetails) => ({
+              id: t.id?.toString(),
+              name: t.title || `Transcript ${t.id}`,
+            }))
+          );
+        }
+      });
+  }, []);
 
-  const currentTranscript = useMemo(() => {
-    return transcriptsData.find((t) => t.id === Number(transcriptId));
+  // Fetch transcript details
+  useEffect(() => {
+    if (!transcriptId) return;
+    setLoading(true);
+    fetch(`http://localhost:8081/api/v1/transcriptions/${transcriptId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.transcription) {
+          type SummaryObj = {
+            interpretation?: string;
+            [key: string]: unknown;
+          };
+          let summaryObj: SummaryObj = {};
+          if (typeof data.transcription.summary === "string") {
+            try {
+              summaryObj = JSON.parse(data.transcription.summary);
+            } catch {
+              summaryObj = {};
+            }
+          }
+          setCurrentTranscript({
+            ...data.transcription,
+            transcription: data.transcription.transcript,
+            summary: summaryObj,
+          });
+        } else {
+          setCurrentTranscript(null);
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("Failed to fetch transcript details.");
+        setLoading(false);
+      });
   }, [transcriptId]);
-  
+
+  const handleDownloadSummary = () => {
+    if (!currentTranscript?.id) return;
+    fetch(
+      `http://localhost:8081/api/v1/transcriptions/${currentTranscript.id}/download`
+    )
+      .then((res) => res.blob())
+      .then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${currentTranscript.title || "transcript"}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      });
+  };
+
+  if (loading) {
+    return <div className="text-center py-8">Loading...</div>;
+  }
+  if (error) {
+    return <div className="text-center py-8 text-red-500">{error}</div>;
+  }
   if (!currentTranscript) {
     return (
       <div className="w-full md:w-4/5 pt-4 min-h-screen mx-auto mt-18 text-center p-4 mt-20">
@@ -31,36 +131,17 @@ function TranscriptView() {
           Transcript with ID {transcriptId} not found.
         </p>
         <button
-              onClick={() => router.push('/')} 
-              className="mt-4 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
-            >
-              Go to Home
-            </button>
+          onClick={() => router.push("/")}
+          className="mt-4 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
+        >
+          Go to Home
+        </button>
       </div>
     );
   }
 
-  const handleDownloadSummary = () => {
-    const transcript = currentTranscript; 
-    
-    const content = `${transcript.title}\nDate: ${transcript.date} at ${transcript.time}\nDuration: ${transcript.duration}\n\n=== AI SUMMARY ===\n\n${transcript.summary}\n\n=== FULL TRANSCRIPT ===\n\n${transcript.text}\n\nWord count: ${transcript.wordCount} words\nGenerated by Synthai AI`;
-
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${transcript.title.replace(
-      /[^a-z0-9]/gi,
-      "_"
-    )}_summary.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
-
   return (
-    <div className=" w-full md:w-4/5 mx-auto flex flex-col items-center pt-6 px-4 mt-20 lg:mt-8  ">
+    <div className="w-full md:w-4/5 mx-auto flex flex-col items-center pt-6 px-4 mt-20 lg:mt-8">
       <div className="w-full max-w-[370px] md:max-w-none">
         <div className="w-full bg-surface rounded-2xl shadow-lg p-4 mb-6 md:hidden">
           <button
@@ -89,10 +170,10 @@ function TranscriptView() {
                   key={transcript.id}
                   onClick={() => {
                     router.push(`/transcripts/${transcript.id}`);
-                    setIsTranscriptSelectorOpen(false); 
+                    setIsTranscriptSelectorOpen(false);
                   }}
                   className={`w-full text-left py-2 px-3 rounded-lg transition-colors flex items-center gap-2 ${
-                    Number(transcriptId) === transcript.id 
+                    currentTranscript.id === transcript.id
                       ? "bg-primary/10 text-primary"
                       : "text-text hover:bg-primary/5"
                   }`}
@@ -107,25 +188,20 @@ function TranscriptView() {
 
         {/* Header */}
         <div className="w-full bg-surface rounded-2xl shadow-lg p-8 mb-8">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-col md:flex-row items-center md:items-end justify-between mb-6 gap-2">
+            <div className="flex items-center gap-3">
               <Description className="text-primary text-4xl" />
-              <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-primary">
-                  {currentTranscript.title}
-                </h1>
-                <div className="flex items-center gap-4 mt-2">
-                  <div className="flex items-center gap-2 text-muted">
-                    <CalendarToday className="text-sm" />
-                    <span>
-                      {currentTranscript.date} at {currentTranscript.time}
-                    </span>
-                  </div>
-                  <div className="text-muted">
-                    <span>Duration: {currentTranscript.duration}</span>
-                  </div>
-                </div>
-              </div>
+              <h1 className="text-2xl md:text-3xl font-bold text-primary">
+                {currentTranscript.title}
+              </h1>
+            </div>
+            <div className="flex items-center gap-2 text-muted">
+              <CalendarToday className="text-sm" />
+              <span>
+                {currentTranscript.createdAt
+                  ? new Date(currentTranscript.createdAt).toLocaleString()
+                  : ""}
+              </span>
             </div>
           </div>
         </div>
@@ -144,7 +220,7 @@ function TranscriptView() {
               onClick={handleDownloadSummary}
               className="px-6 py-3 border border-outline text-text rounded-lg hover:border-primary hover:text-primary transition-colors"
             >
-              Download Summary
+              Download PDF
             </button>
           </div>
         </div>
@@ -157,7 +233,9 @@ function TranscriptView() {
             </div>
             <div className="bg-surface rounded-lg p-6">
               <p className="text-text leading-relaxed whitespace-pre-line">
-                {currentTranscript.summary}
+                {typeof currentTranscript.summary === "object"
+                  ? currentTranscript.summary?.interpretation || ""
+                  : ""}
               </p>
             </div>
           </div>
@@ -169,13 +247,14 @@ function TranscriptView() {
           </h2>
           <div className="bg-background rounded-lg p-6 border border-outline">
             <p className="text-text leading-relaxed text-justify whitespace-pre-line">
-              {currentTranscript.text}
+              {currentTranscript.transcription ||
+                "No transcript text available."}
             </p>
           </div>
 
           {/* Transcript Footer */}
           <div className="mt-6 pt-6 border-t border-outline flex items-center justify-between text-sm text-muted">
-            <span>Word count: {currentTranscript.wordCount} words</span>
+            <span>Word count: {getWordCount()} words</span>
             <span>Generated by Synthai AI</span>
           </div>
         </div>
