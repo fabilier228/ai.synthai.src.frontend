@@ -23,7 +23,7 @@ const TopSection = () => {
 
              <div className="hidden md:flex items-center justify-start rounded-[16px] flex-1">
               <button className="bg-primary text-white text-h4 font-heading md:text-h3 py-4 px-6 rounded-[16px] hover:bg-primary/90 transition-colors w-full max-w-[350px]" onClick={() => router.push('/flow')}>
-                See out Process Flow
+                See our Process Flow
               </button>
             </div>
 
@@ -57,7 +57,7 @@ const TopSection = () => {
 
           <div className="md:hidden flex items-center justify-start rounded-[16px]">
             <button className="bg-primary text-white text-h4 font-heading py-4 px-6 rounded-[16px] hover:bg-primary/90 transition-colors w-full max-w-[350px]" onClick={() => router.push('/flow')} >
-              See out Process Flow
+              See our Process Flow
             </button>
           </div>
         </div>
