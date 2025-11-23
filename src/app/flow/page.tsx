@@ -26,32 +26,32 @@ export default function AudioAnalyzerFlow() {
       id: 'song',
       title: 'Song',
       icon: MusicNoteIcon,
-      color: 'var(--primary)',
-      bgColor: 'var(--primary_muted)',
+      color: 'primary',
+      bgColor: 'primary_muted',
       results: ['Title & Artist', 'Emotions & Themes', 'Interpretation']
     },
     {
       id: 'conversation',
       title: 'Conversation',
       icon: ChatBubbleOutlineIcon,
-      color: 'var(--secondary)',
-      bgColor: 'var(--secondary)',
+      color: 'secondary',
+      bgColor: 'secondary',
       results: ['Participants', 'Conversation Tone', 'Key Quotes']
     },
     {
       id: 'lecture',
       title: 'Lecture',
       icon: SchoolIcon,
-      color: 'var(--success)',
-      bgColor: 'var(--success)',
+      color: 'success',
+      bgColor: 'success',
       results: ['Key Concepts', 'Structure', 'Main Thesis']
     },
     {
       id: 'audiobook',
-  title: 'Audiobook',
+      title: 'Audiobook',
       icon: MenuBookIcon,
-      color: 'var(--warning)',
-      bgColor: 'var(--warning)',
+      color: 'warning',
+      bgColor: 'warning',
       results: ['Summary', 'Characters', 'Literary Themes']
     }
   ];
@@ -59,35 +59,35 @@ export default function AudioAnalyzerFlow() {
   const mainSteps = [
     {
       number: '1',
-      title: 'Choose audio type',
+      title: 'Select audio type',
       icon: CloudUploadIcon,
       description: 'User selects a category: song, conversation, lecture, or audiobook',
-      color: 'var(--primary)',
-      bgColor: 'var(--primary_muted)'
+      color: 'primary',
+      bgColor: 'primary_muted'
     },
     {
       number: '2',
       title: 'Upload & Transcription',
       icon: RecordVoiceOverIcon,
       description: 'The system automatically transcribes audio and detects the language',
-      color: 'var(--secondary)',
-      bgColor: 'var(--secondary)'
+      color: 'secondary',
+      bgColor: 'secondary'
     },
     {
       number: '3',
       title: 'AI Analysis',
       icon: PsychologyIcon,
       description: 'GPT-4 analyzes the content and extracts key insights',
-      color: 'var(--success)',
-      bgColor: 'var(--success)'
+      color: 'success',
+      bgColor: 'success'
     },
     {
       number: '4',
       title: 'Summary',
       icon: DescriptionIcon,
       description: 'Personalized JSON report ready for use',
-      color: 'var(--warning)',
-      bgColor: 'var(--warning)'
+      color: 'warning',
+      bgColor: 'warning'
     }
   ];
 
@@ -97,12 +97,12 @@ export default function AudioAnalyzerFlow() {
         {/* Header */}
         <div className="text-center my-8">
           <div className="inline-flex items-center gap-2 mb-4">
-            <Sparkles className="w-8 h-8 text-[var(--primary)]" />
-            <h1 className="text-5xl font-bold text-[var(--text)]">
-              How It Works
+            <Sparkles className="w-8 h-8 text-primary" />
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-text">
+              How it works
             </h1>
           </div>
-          <p className="text-[var(--muted)] text-xl max-w-3xl mx-auto leading-relaxed">
+          <p className="text-muted text-lg md:text-xl max-w-3xl mx-auto leading-relaxed px-4">
             Our app uses state-of-the-art AI models for automatic transcription
             and deep analysis of various audio types.
           </p>
@@ -110,7 +110,7 @@ export default function AudioAnalyzerFlow() {
 
 
         <div className="mb-20">
-          <h2 className="text-3xl font-bold text-center text-[var(--text)] mb-12">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center text-text mb-8 md:mb-12 px-4">
             Audio Analysis Process
           </h2>
           
@@ -182,11 +182,11 @@ export default function AudioAnalyzerFlow() {
         </div>
 
         {/* Audio Types Section */}
-        <div className="mb-20">
-          <h2 className="text-3xl font-bold text-center text-[var(--text)] mb-4">
+        <div className="mb-20 px-4">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center text-text mb-4">
             Supported audio types
           </h2>
-          <p className="text-center text-[var(--muted)] mb-12 text-lg">
+          <p className="text-center text-muted mb-8 md:mb-12 text-base md:text-lg">
             Each audio type receives a tailored analysis
           </p>
 
@@ -221,20 +221,20 @@ export default function AudioAnalyzerFlow() {
         </div>
 
         {/* Technology Section */}
-        <div className="mb-20 bg-[var(--surface)] border border-[var(--outline)] rounded-3xl p-12">
-          <h2 className="text-3xl font-bold text-center text-[var(--text)] mb-4">
+        <div className="mb-20 bg-surface border border-outline rounded-3xl p-6 md:p-12">
+          <h2 className="text-2xl sm:text-3xl font-bold text-center text-text mb-4">
             Technologies
           </h2>
-          <p className="text-center text-[var(--muted)] mb-12 text-lg">
+          <p className="text-center text-muted mb-8 md:mb-12 text-base md:text-lg">
             We use leading AI tools available on the market
           </p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-5xl mx-auto">
             {[
-              { icon: Shield, title: 'Azure AI', desc: 'Multilingual transcription', color: 'var(--primary)' },
-              { icon: Sparkles, title: 'GPT-4', desc: 'Advanced analysis', color: 'var(--secondary)' },
-              { icon: Globe, title: 'Shazam API', desc: 'Music recognition', color: 'var(--success)' },
-              { icon: Zap, title: 'Custom algorithms', desc: 'Result optimization', color: 'var(--warning)' }
+              { icon: Shield, title: 'Azure AI', desc: 'Multilingual transcription', color: 'primary' },
+              { icon: Sparkles, title: 'GPT-4', desc: 'Advanced analysis', color: 'secondary' },
+              { icon: Globe, title: 'Shazam API', desc: 'Music recognition', color: 'success' },
+              { icon: Zap, title: 'Custom algorithms', desc: 'Result optimization', color: 'warning' }
             ].map((tech, idx) => {
               const TechIcon = tech.icon;
               return (
@@ -252,17 +252,17 @@ export default function AudioAnalyzerFlow() {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center">
-            <div className="bg-[var(--primary)] rounded-3xl p-12 text-white max-w-4xl mx-auto shadow-2xl">
-            <h2 className="text-4xl font-bold mb-4">Ready to try?</h2>
-            <p className="text-xl mb-8 opacity-90">
+        <div className="text-center px-4">
+          <div className="bg-primary rounded-3xl p-6 md:p-12 text-white max-w-4xl mx-auto shadow-2xl">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">Ready to try?</h2>
+            <p className="text-base sm:text-lg md:text-xl mb-6 md:mb-8 opacity-90">
               Start analyzing your audio now — first 3 analyses free!
             </p>
-            <div className="flex gap-4 justify-center flex-wrap">
-              <button className="px-10 py-4 bg-white text-[var(--primary)] rounded-xl font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button className="w-full sm:w-auto px-8 md:px-10 py-3 md:py-4 bg-white text-primary rounded-xl font-bold text-base md:text-lg hover:shadow-2xl hover:scale-105 transition-all">
                 Start now
               </button>
-              <button className="px-10 py-4 bg-transparent border-2 border-white text-white rounded-xl font-bold text-lg hover:bg-white/10 transition-all">
+              <button className="w-full sm:w-auto px-8 md:px-10 py-3 md:py-4 bg-transparent border-2 border-white text-white rounded-xl font-bold text-base md:text-lg hover:bg-white/10 transition-all">
                 Watch demo
               </button>
             </div>
