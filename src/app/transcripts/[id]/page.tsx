@@ -50,7 +50,9 @@ function TranscriptViewContent() {
   const [transcripts, setTranscripts] = useState<TranscriptListItem[]>([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8081/transcriptions/user/${keycloakId}`)
+    if (!user?.sub) return;
+    
+    fetch(`http://localhost:8081/transcriptions/user/${user.sub}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.transcriptions) {

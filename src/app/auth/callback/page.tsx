@@ -2,10 +2,12 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckCircle, Error } from '@mui/icons-material';
+import { useAuth } from '@/contexts/AuthContext';
 
 function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { refreshUser } = useAuth();
   const [status, setStatus] = useState<'processing' | 'success' | 'error'>('processing');
   const [message, setMessage] = useState('Completing authentication...');
 
@@ -40,6 +42,9 @@ function AuthCallbackContent() {
           setStatus('success');
           setMessage(`Welcome, ${data.user?.preferred_username || 'User'}!`);
           
+          // Refresh auth context to update user state
+          await refreshUser();
+          
           // Redirect to profile page after successful authentication
           setTimeout(() => router.push('/profile'), 1500);
         } else {
@@ -57,7 +62,7 @@ function AuthCallbackContent() {
     };
 
     handleCallback();
-  }, [searchParams, router]);
+  }, [searchParams, router, refreshUser]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
