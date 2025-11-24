@@ -47,7 +47,7 @@ export default function AddNewPage() {
               formData.append("title", values.title);
             }
             const endpoint = endpointMap[values.type];
-            const res = await fetch(`http://localhost:8081/api/v1${endpoint}`, {
+            const res = await fetch(`http://localhost:8081${endpoint}`, {
               method: "POST",
               body: formData,
             });

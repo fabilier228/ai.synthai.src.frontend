@@ -18,7 +18,7 @@ export default function AllTranscriptsPage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://localhost:8081/api/v1/transcriptions/user/${keycloakId}`)
+    fetch(`http://localhost:8081/transcriptions/user/${keycloakId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.transcriptions) {
