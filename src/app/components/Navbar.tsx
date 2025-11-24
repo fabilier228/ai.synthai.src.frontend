@@ -26,7 +26,7 @@ export default function Navbar() {
 
   React.useEffect(() => {
     const fetchTranscripts = () => {
-      fetch(`http://localhost:8081/api/v1/transcriptions/user/${keycloakId}`)
+      fetch(`http://localhost:8081/transcriptions/user/${keycloakId}`)
         .then((res) => res.json())
         .then((data) => {
           if (data?.transcriptions) {
@@ -73,9 +73,18 @@ export default function Navbar() {
               />
             </button>
           </li>
-          <li className={`flex-1 flex justify-center items-center ${activePath === "/flow" ? "text-primary" : "text-primary_muted"}`}>
+          <li
+            className={`flex-1 flex justify-center items-center ${
+              activePath === "/flow" ? "text-primary" : "text-primary_muted"
+            }`}
+          >
             <button onClick={() => router.push("/flow")}>
-              <ModelTraining fontSize="large" className={`transition-colors duration-200 ${activePath === "/flow" ? "text-primary" : "text-primary_muted"}`} />
+              <ModelTraining
+                fontSize="large"
+                className={`transition-colors duration-200 ${
+                  activePath === "/flow" ? "text-primary" : "text-primary_muted"
+                }`}
+              />
             </button>
           </li>
           <li
@@ -144,7 +153,12 @@ export default function Navbar() {
         >
           Home
         </button>
-        <button onClick={() => router.push("/flow")} className={`text-left transition-colors text-btn_sm py-2 px-2 hover:text-primary ${activePath === "/flow" ? "text-primary" : "text-primary_muted"}`}>
+        <button
+          onClick={() => router.push("/flow")}
+          className={`text-left transition-colors text-btn_sm py-2 px-2 hover:text-primary ${
+            activePath === "/flow" ? "text-primary" : "text-primary_muted"
+          }`}
+        >
           Process Flow
         </button>
 
