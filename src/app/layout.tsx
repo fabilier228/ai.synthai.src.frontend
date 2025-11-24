@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import { ThemeProvider } from "./components/theme-provider";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,15 +34,16 @@ export default function RootLayout({
     >
       <body >
         <ThemeProvider>
-          <div className="bg-background text-text  ">
-            <Header />
-            <Navbar />
-            <main className="lg:ml-64 flex flex-col min-h-screen justify-between">
-              {children}
-              <Footer />
-            </main>
-          </div>
-
+          <AuthProvider>
+            <div className="bg-background text-text  ">
+              <Header />
+              <Navbar />
+              <main className="lg:ml-64 flex flex-col min-h-screen justify-between">
+                {children}
+                <Footer />
+              </main>
+            </div>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

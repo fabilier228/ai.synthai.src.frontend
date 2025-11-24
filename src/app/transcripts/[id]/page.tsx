@@ -8,15 +8,18 @@ import {
   ExpandLess,
 } from "@mui/icons-material";
 import { useParams, useRouter } from "next/navigation";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { useAuth } from "@/contexts/AuthContext";
 
-function TranscriptView() {
-  // Helper to count words in transcript text
+function TranscriptViewContent() {
+  const router = useRouter();
+  const { user } = useAuth();
+
   const getWordCount = () => {
     if (currentTranscript?.wordCount && currentTranscript.wordCount > 0) {
       return currentTranscript.wordCount;
     }
     if (currentTranscript?.transcription) {
-      // Remove speaker labels, split by whitespace, filter out empty
       return currentTranscript.transcription
         .replace(/Speaker \d+:\s*/g, "")
         .split(/\s+/)
@@ -27,7 +30,6 @@ function TranscriptView() {
   const [showSummary, setShowSummary] = useState(false);
   const params = useParams();
   const transcriptId = params?.id;
-  const router = useRouter();
   const [isTranscriptSelectorOpen, setIsTranscriptSelectorOpen] =
     useState(false);
   type TranscriptDetails = {
@@ -45,10 +47,8 @@ function TranscriptView() {
     useState<TranscriptDetails | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const keycloakId = "demo-user";
   const [transcripts, setTranscripts] = useState<TranscriptListItem[]>([]);
 
-  // Fetch transcript list for selector
   useEffect(() => {
     fetch(`http://localhost:8081/transcriptions/user/${keycloakId}`)
       .then((res) => res.json())
@@ -61,8 +61,11 @@ function TranscriptView() {
             }))
           );
         }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch transcripts list:", err);
       });
-  }, []);
+  }, [user]);
 
   // Fetch transcript details
   useEffect(() => {
@@ -172,11 +175,10 @@ function TranscriptView() {
                     router.push(`/transcripts/${transcript.id}`);
                     setIsTranscriptSelectorOpen(false);
                   }}
-                  className={`w-full text-left py-2 px-3 rounded-lg transition-colors flex items-center gap-2 ${
-                    currentTranscript.id === transcript.id
+                  className={`w-full text-left py-2 px-3 rounded-lg transition-colors flex items-center gap-2 ${currentTranscript.id === transcript.id
                       ? "bg-primary/10 text-primary"
                       : "text-text hover:bg-primary/5"
-                  }`}
+                    }`}
                 >
                   <Description className="text-sm" />
                   {transcript.name}
@@ -263,4 +265,10 @@ function TranscriptView() {
   );
 }
 
-export default TranscriptView;
+export default function TranscriptView() {
+  return (
+    <ProtectedRoute>
+      <TranscriptViewContent />
+    </ProtectedRoute>
+  );
+}

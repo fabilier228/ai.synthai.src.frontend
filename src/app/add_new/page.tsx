@@ -4,8 +4,11 @@ import { Form, Formik, ErrorMessage } from "formik";
 import { HeadlessSelect } from "./components/HeadlessSelect";
 import * as Yup from "yup";
 import { useRef, useState } from "react";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { useAuth } from "@/contexts/AuthContext";
 
-export default function AddNewPage() {
+function AddNewPageContent() {
+  const { user } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -24,7 +27,6 @@ export default function AddNewPage() {
           type: "SONG",
           file: null as File | null,
           language: "EN",
-          keycloakId: "demo-user",
           title: "",
         }}
         validationSchema={Yup.object({
@@ -33,6 +35,12 @@ export default function AddNewPage() {
           title: Yup.string().required("Enter a title"),
         })}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
+          if (!user?.sub) {
+            setResult("Error: User not authenticated");
+            setSubmitting(false);
+            return;
+          }
+
           setLoading(true);
           setResult(null);
           try {
@@ -43,7 +51,7 @@ export default function AddNewPage() {
                 "language",
                 values.language === "PL" ? "POLISH" : "ENGLISH"
               );
-              formData.append("keycloakId", values.keycloakId);
+              formData.append("keycloakId", user.sub);
               formData.append("title", values.title);
             }
             const endpoint = endpointMap[values.type];
@@ -51,14 +59,18 @@ export default function AddNewPage() {
               method: "POST",
               body: formData,
             });
-            if (!res.ok) throw new Error("Server error");
+            if (!res.ok) {
+              const errorText = await res.text();
+              throw new Error(`Server error: ${errorText}`);
+            }
             const data = await res.json();
             const transcript = data?.transcriptionAnalysis?.transcription;
             setResult(transcript ? transcript : "No transcript found.");
             resetForm();
             if (fileInputRef.current) fileInputRef.current.value = "";
-          } catch {
-            setResult("An error occurred during transcription.");
+          } catch (error) {
+            console.error("Transcription error:", error);
+            setResult(`An error occurred during transcription: ${error instanceof Error ? error.message : 'Unknown error'}`);
           } finally {
             setLoading(false);
             setSubmitting(false);
@@ -188,5 +200,13 @@ export default function AddNewPage() {
         )}
       </Formik>
     </div>
+  );
+}
+
+export default function AddNewPage() {
+  return (
+    <ProtectedRoute>
+      <AddNewPageContent />
+    </ProtectedRoute>
   );
 }
