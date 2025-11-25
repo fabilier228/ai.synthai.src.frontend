@@ -10,8 +10,13 @@ function AuthCallbackContent() {
   const { refreshUser } = useAuth();
   const [status, setStatus] = useState<'processing' | 'success' | 'error'>('processing');
   const [message, setMessage] = useState('Completing authentication...');
+  const [hasRun, setHasRun] = useState(false);
 
   useEffect(() => {
+    // Prevent double execution (React StrictMode, development mode)
+    if (hasRun) return;
+    setHasRun(true);
+
     const handleCallback = async () => {
       try {
         const code = searchParams.get('code');
@@ -62,7 +67,7 @@ function AuthCallbackContent() {
     };
 
     handleCallback();
-  }, [searchParams, router, refreshUser]);
+  }, [hasRun, searchParams, router, refreshUser]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
