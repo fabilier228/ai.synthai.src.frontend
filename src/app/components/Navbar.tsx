@@ -9,24 +9,29 @@ import {
   Description,
   ExpandLess,
   ExpandMore,
+  Login,
+  Logout,
 } from "@mui/icons-material";
 import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
+  const { isAuthenticated, logout, user } = useAuth();
   const [isTranscriptsExpanded, setIsTranscriptsExpanded] = useState(false);
   const [activePath, setActivePath] = React.useState(pathname);
 
   const [transcripts, setTranscripts] = React.useState<
     { id: string; name: string }[]
   >([]);
-  const keycloakId = "demo-user";
 
   React.useEffect(() => {
     const fetchTranscripts = () => {
-      fetch(`http://localhost:8081/transcriptions/user/${keycloakId}`)
+      if (!user?.sub) return;
+      
+      fetch(`http://localhost:8081/transcriptions/user/${user.sub}`)
         .then((res) => res.json())
         .then((data) => {
           if (data?.transcriptions) {
@@ -39,12 +44,13 @@ export default function Navbar() {
               )
             );
           }
-        });
+        })
+        .catch((error) => console.error('Failed to fetch transcripts:', error));
     };
     fetchTranscripts();
     const interval = setInterval(fetchTranscripts, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [user?.sub]);
 
   React.useEffect(() => {
     setActivePath(pathname);
@@ -123,18 +129,29 @@ export default function Navbar() {
           </li>
           <li
             className={`flex-1 flex justify-center items-center ${
-              activePath === "/profile" ? "text-primary" : "text-primary_muted"
+              activePath === "/profile" || activePath === "/login" ? "text-primary" : "text-primary_muted"
             }`}
           >
-            <button onClick={() => router.push("/profile")}>
-              <Person
-                fontSize="large"
-                className={`transition-colors duration-200 ${
-                  activePath === "/profile"
-                    ? "text-primary"
-                    : "text-primary_muted"
-                }`}
-              />
+            <button onClick={() => router.push(isAuthenticated ? "/profile" : "/login")}>
+              {isAuthenticated ? (
+                <Person
+                  fontSize="large"
+                  className={`transition-colors duration-200 ${
+                    activePath === "/profile"
+                      ? "text-primary"
+                      : "text-primary_muted"
+                  }`}
+                />
+              ) : (
+                <Login
+                  fontSize="large"
+                  className={`transition-colors duration-200 ${
+                    activePath === "/login"
+                      ? "text-primary"
+                      : "text-primary_muted"
+                  }`}
+                />
+              )}
             </button>
           </li>
         </ul>
@@ -224,6 +241,26 @@ export default function Navbar() {
                 );
               })}
             </div>
+          )}
+        </div>
+
+        <div className="mt-4 pt-4 border-t border-outline">
+          {isAuthenticated ? (
+            <button
+              onClick={() => logout()}
+              className="w-full text-left transition-colors text-btn_sm py-2 px-2 hover:text-error text-primary_muted flex items-center gap-2"
+            >
+              <Logout className="text-sm" />
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={() => router.push("/login")}
+              className="w-full text-left transition-colors text-btn_sm py-2 px-2 hover:text-primary text-primary_muted flex items-center gap-2"
+            >
+              <Login className="text-sm" />
+              Login
+            </button>
           )}
         </div>
       </nav>

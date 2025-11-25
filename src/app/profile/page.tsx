@@ -1,6 +1,9 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
+import authService from "@/services/authService";
 import {
   Email,
   Person,
@@ -16,19 +19,60 @@ import AccountManagement from "./AccountManagement";
 import Security from "./Security";
 
 const Profile = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+  const router = useRouter();
+  
   const [userData, setUserData] = useState<UserData>({
     avatar: "/default-avatar.png",
-    nickname: "alex_smith",
-    fullName: "Alexander Smith",
-    email: "alex.smith@synthai.com",
+    nickname: "Loading...",
+    fullName: "Loading...",
+    email: "Loading...",
     status: "Active",
-    registrationDate: "March 15, 2023",
-    lastLogin: "Today at 2:30 PM",
+    registrationDate: "N/A",
+    lastLogin: "N/A",
   });
 
   const [activeTab, setActiveTab] = useState("account");
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isAuthenticated, isLoading, router]);
+
+  // Fetch user profile data
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!isAuthenticated) return;
+
+      try {
+        setProfileLoading(true);
+        const profile = await authService.getUserProfile();
+        
+        if (profile) {
+          setUserData({
+            avatar: "/default-avatar.png",
+            nickname: profile.preferred_username || profile.sub,
+            fullName: profile.name || `${profile.given_name || ''} ${profile.family_name || ''}`.trim() || 'N/A',
+            email: profile.email || 'N/A',
+            status: profile.email_verified ? "Active" : "Email Unverified",
+            registrationDate: "N/A", // Keycloak doesn't provide this by default
+            lastLogin: "N/A", // Keycloak doesn't provide this by default
+          });
+        }
+      } catch (error) {
+        console.error('Failed to fetch profile:', error);
+      } finally {
+        setProfileLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [isAuthenticated]);
 
   // Load avatar from localStorage on component mount
   useEffect(() => {
@@ -118,6 +162,23 @@ const Profile = () => {
         return "text-text";
     }
   };
+
+  // Show loading state
+  if (isLoading || profileLoading) {
+    return (
+      <div className="w-4/5 mx-auto flex flex-col items-center justify-center py-8 mt-20 min-h-screen">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+          <p className="text-text">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render profile if not authenticated (will redirect)
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="w-4/5  mx-auto flex flex-col items-center py-8 mt-20   ">

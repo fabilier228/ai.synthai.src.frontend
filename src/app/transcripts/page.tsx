@@ -1,9 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { useAuth } from "@/contexts/AuthContext";
 
-export default function AllTranscriptsPage() {
+function AllTranscriptsPageContent() {
   const router = useRouter();
+  const { user } = useAuth();
   const [transcripts, setTranscripts] = useState<
     { id: string; name: string; date?: string }[]
   >([]);
@@ -14,11 +17,14 @@ export default function AllTranscriptsPage() {
   }
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const keycloakId = "demo-user";
 
   useEffect(() => {
+    if (!user?.sub) {
+      return;
+    }
+
     setLoading(true);
-    fetch(`http://localhost:8081/transcriptions/user/${keycloakId}`)
+    fetch(`http://localhost:8081/transcriptions/user/${user.sub}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.transcriptions) {
@@ -32,11 +38,12 @@ export default function AllTranscriptsPage() {
         }
         setLoading(false);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("Failed to fetch transcripts:", err);
         setError("Failed to fetch transcripts.");
         setLoading(false);
       });
-  }, []);
+  }, [user]);
 
   return (
     <div className="w-full md:w-4/5 pt-4 mx-auto mt-20 lg:mt-8">
@@ -59,5 +66,13 @@ export default function AllTranscriptsPage() {
         </button>
       ))}
     </div>
+  );
+}
+
+export default function AllTranscriptsPage() {
+  return (
+    <ProtectedRoute>
+      <AllTranscriptsPageContent />
+    </ProtectedRoute>
   );
 }
