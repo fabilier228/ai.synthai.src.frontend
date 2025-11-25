@@ -37,7 +37,8 @@ function TranscriptViewContent() {
     title?: string;
     date?: string;
     time?: string;
-    summary?: string | { interpretation?: string };
+    category?: string;
+    summary?: Record<string, unknown> | null;
     wordCount?: number;
     transcription?: string;
     createdAt?: string;
@@ -91,6 +92,7 @@ function TranscriptViewContent() {
           }
           setCurrentTranscript({
             ...data.transcription,
+            category: data.transcription.category,
             transcription: data.transcription.transcript,
             summary: summaryObj,
           });
@@ -123,6 +125,72 @@ function TranscriptViewContent() {
       });
   };
 
+  // Render different summary layouts depending on category
+  const renderSummary = (t: TranscriptDetails | null) => {
+    if (!t || !t.summary) return <div>No summary available.</div>;
+
+  const s = t.summary as Record<string, unknown>;
+  const cat = (t.category || '').toUpperCase();
+  const maybe = (k: string) => Array.isArray(s[k]) ? (s[k] as string[]).join(', ') : undefined;
+  const val = (k: string) => (s[k] as string) || undefined;
+
+    switch (cat) {
+      case 'SONG':
+        return (
+          <div>
+            <p><strong>Title:</strong> {val('title') || t.title}</p>
+            <p><strong>Artist:</strong> {val('artist') || 'Unknown'}</p>
+            <p><strong>Genre:</strong> {val('genre') || '—'}</p>
+            {maybe('themes') && <p><strong>Themes:</strong> {maybe('themes')}</p>}
+            {val('interpretation') && <p><strong>Interpretation:</strong> {val('interpretation')}</p>}
+            {maybe('emotions') && <p><strong>Emotions:</strong> {maybe('emotions')}</p>}
+          </div>
+        );
+
+      case 'LECTURE':
+        return (
+          <div>
+            <p><strong>Title:</strong> {val('title') || t.title}</p>
+            <p><strong>Speaker:</strong> {val('speaker') || 'Unknown'}</p>
+            {val('fieldOfStudy') && <p><strong>Field:</strong> {val('fieldOfStudy')}</p>}
+            {maybe('topics') && <p><strong>Topics:</strong> {maybe('topics')}</p>}
+            {val('summary') && <p><strong>Summary:</strong> {val('summary')}</p>}
+            {maybe('keyQuotes') && <p><strong>Key quotes:</strong> {maybe('keyQuotes')?.replace(/, /g, ' • ')}</p>}
+            {val('conclusion') && <p><strong>Conclusion:</strong> {val('conclusion')}</p>}
+          </div>
+        );
+
+      case 'AUDIOBOOK':
+        return (
+          <div>
+            <p><strong>Title:</strong> {val('title') || t.title}</p>
+            <p><strong>Author:</strong> {val('author') || 'Unknown'}</p>
+            <p><strong>Narrator:</strong> {val('narrator') || 'Unknown'}</p>
+            {val('plotSummary') && <p><strong>Plot summary:</strong> {val('plotSummary')}</p>}
+            {maybe('mainCharacters') && <p><strong>Main characters:</strong> {maybe('mainCharacters')}</p>}
+            {maybe('themes') && <p><strong>Themes:</strong> {maybe('themes')}</p>}
+          </div>
+        );
+
+      case 'CONVERSATION':
+        return (
+          <div>
+            {maybe('participants') && <p><strong>Participants:</strong> {maybe('participants')}</p>}
+            {maybe('topics') && <p><strong>Topics:</strong> {maybe('topics')}</p>}
+            {val('summary') && <p><strong>Summary:</strong> {val('summary')}</p>}
+            {val('agreementOutcome') && <p><strong>Outcome:</strong> {val('agreementOutcome')}</p>}
+            {maybe('keyQuotes') && <p><strong>Key quotes:</strong> {maybe('keyQuotes')?.replace(/, /g, ' • ')}</p>}
+          </div>
+        );
+
+      default:
+        return (
+          <pre className="whitespace-pre-wrap text-sm">
+            {JSON.stringify(s, null, 2)}
+          </pre>
+        );
+    }
+  };
   if (loading) {
     return <div className="text-center py-8">Loading...</div>;
   }
@@ -197,6 +265,7 @@ function TranscriptViewContent() {
               <Description className="text-primary text-4xl" />
               <h1 className="text-2xl md:text-3xl font-bold text-primary">
                 {currentTranscript.title}
+                {}
               </h1>
             </div>
             <div className="flex items-center gap-2 text-muted">
@@ -218,7 +287,7 @@ function TranscriptViewContent() {
               className="flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
             >
               <AutoAwesome className="text-lg" />
-              {showSummary ? "Hide Summary" : "Generate Summary"}
+              {showSummary ? "Hide Summary" : "Show Summary"}
             </button>
             <button
               onClick={handleDownloadSummary}
@@ -236,11 +305,9 @@ function TranscriptViewContent() {
               <h2 className="text-xl font-semibold text-primary">AI Summary</h2>
             </div>
             <div className="bg-surface rounded-lg p-6">
-              <p className="text-text leading-relaxed whitespace-pre-line">
-                {typeof currentTranscript.summary === "object"
-                  ? currentTranscript.summary?.interpretation || ""
-                  : ""}
-              </p>
+                  <div className="text-text leading-relaxed whitespace-pre-line">
+                    {renderSummary(currentTranscript)}
+                  </div>
             </div>
           </div>
         )}
