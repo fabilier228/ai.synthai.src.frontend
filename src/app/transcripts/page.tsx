@@ -62,7 +62,7 @@ function AllTranscriptsPageContent() {
             <h2 className="text-lg font-semibold">{transcript.name}</h2>
             <p className="text-sm text-muted">ID: {transcript.id}</p>
           </div>
-          <p className="text-sm text-muted ml-auto">Date: {transcript.date}</p>
+      
         </button>
       ))}
     </div>

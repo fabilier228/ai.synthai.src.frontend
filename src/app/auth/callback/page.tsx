@@ -56,13 +56,13 @@ function AuthCallbackContent() {
           const errorData = await response.json();
           setStatus('error');
           setMessage(errorData.error || 'Authentication failed');
-          setTimeout(() => router.push('/login'), 3000);
+          setTimeout(() => router.push('/login'), 1500);
         }
       } catch (error) {
         console.error('Callback error:', error);
         setStatus('error');
         setMessage('An error occurred during authentication');
-        setTimeout(() => router.push('/login'), 3000);
+        setTimeout(() => router.push('/login'), 1500);
       }
     };
 

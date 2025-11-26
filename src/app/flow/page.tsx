@@ -92,7 +92,7 @@ export default function AudioAnalyzerFlow() {
   ];
 
   return (
-    <div className="mx-auto p-4 rounded-lg shadow-md flex flex-col mt-20 md:mt-8">
+    <div className="mx-auto p-4 rounded-lg  flex flex-col mt-20 md:mt-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center my-8">
