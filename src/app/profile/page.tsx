@@ -32,7 +32,7 @@ const Profile = () => {
     lastLogin: "N/A",
   });
 
-  const [activeTab, setActiveTab] = useState("account");
+  const [activeTab, setActiveTab] = useState("settings");
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [profileLoading, setProfileLoading] = useState(true);

@@ -15,6 +15,7 @@ import {
 import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import Image from "next/image";
 
 export default function Navbar() {
   const router = useRouter();
@@ -63,7 +64,7 @@ export default function Navbar() {
   return (
     <>
       {/* Mobile Navbar  */}
-      <nav className="fixed left-0 bottom-0 w-screen bg-surface border-t border-outline py-2 z-[100] flex lg:hidden">
+      <nav className="fixed left-0 bottom-0 w-full bg-surface border-t border-outline py-2 z-[100] flex lg:hidden">
         <ul className="flex flex-row justify-between items-center w-full m-0 p-0 list-none">
           <li
             className={`flex-1 flex justify-center items-center ${
@@ -158,10 +159,20 @@ export default function Navbar() {
       </nav>
 
       {/* Desktop Navbar  */}
-      <nav className="hidden lg:flex flex-col gap-2 w-64 fixed left-0 z-[102] top-1/3 transform -translate-y-1/3 py-4 px-6 bg-surface">
-        <span className="block text-primary text-styled_md  tracking-wide text-left leading-tight font-styled mb-4 ">
-          Synthai
-        </span>
+      <nav className="hidden lg:flex flex-col gap-2 w-64 fixed left-0 z-[102] top-1/3 transform -translate-y-1/3 py-4 px-8 bg-surface">
+        <div className="flex items-center gap-3 mb-6">
+          <Image
+            src="/logo.jpg"
+            alt="Synthai logo"
+            width={56}
+            height={56}
+            className="rounded-full shadow-md object-cover w-14 h-14 ring-2 ring-primary/20"
+            priority
+          />
+          <span className="text-primary text-styled_md tracking-wide font-styled leading-tight">
+            Synthai
+          </span>
+        </div>
         <button
           onClick={() => router.push("/")}
           className={`text-left transition-colors text-btn_sm mb-1 py-2 px-2 hover:text-primary ${
