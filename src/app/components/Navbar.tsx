@@ -16,6 +16,8 @@ import { useRouter, usePathname } from "next/navigation";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 
+const LOGIC_API_URL = process.env.NEXT_PUBLIC_LOGIC_API_URL || 'https://synthai.pl/api/v1';
+
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
@@ -31,7 +33,7 @@ export default function Navbar() {
     const fetchTranscripts = () => {
       if (!user?.sub) return;
       
-      fetch(`http://localhost:8081/transcriptions/user/${user.sub}`)
+      fetch(`${LOGIC_API_URL}/transcriptions/user/${user.sub}`)
         .then((res) => res.json())
         .then((data) => {
           if (data?.transcriptions) {

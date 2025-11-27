@@ -1,6 +1,8 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+const AUTH_BASE_URL = process.env.NEXT_PUBLIC_AUTH_API_URL || 'https://synthai.pl/api';
+
 export interface User {
   sub: string;
   email?: string;
@@ -55,7 +57,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
       
-      const response = await fetch('http://localhost:3001/api/auth/me', {
+      const response = await fetch(`${AUTH_BASE_URL}/auth/me`, {
         method: 'GET',
         credentials: 'include', // Important: include cookies
         headers: {
@@ -82,17 +84,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = () => {
     // Redirect to backend login endpoint (which will redirect to Keycloak)
-    window.location.href = 'http://localhost:3001/api/auth/login';
+    window.location.href = `${AUTH_BASE_URL}/auth/login`;
   };
 
   const register = () => {
     // Redirect to backend register endpoint (which will redirect to Keycloak)
-    window.location.href = 'http://localhost:3001/api/auth/register';
+    window.location.href = `${AUTH_BASE_URL}/auth/register`;
   };
 
   const logout = async () => {
     try {
-      await fetch('http://localhost:3001/api/auth/logout', {
+      await fetch(`${AUTH_BASE_URL}/auth/logout`, {
         method: 'POST',
         credentials: 'include',
         headers: {
