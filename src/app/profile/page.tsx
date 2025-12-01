@@ -24,15 +24,15 @@ const formatDate = (value: unknown): string => {
   let date: Date;
 
   if (typeof value === "number") {
-    // timestamp w ms
+    // timestamp in ms
     date = new Date(value);
   } else if (typeof value === "string") {
-    // spróbuj czy to liczba jako string
+    // check if this is a number as a string
     const asNumber = Number(value);
     if (!Number.isNaN(asNumber) && value.trim() !== "") {
       date = new Date(asNumber);
     } else {
-      // ISO string / inny format akceptowalny przez Date
+      // ISO string / other format accepted by Date
       date = new Date(value);
     }
   } else {
@@ -41,7 +41,7 @@ const formatDate = (value: unknown): string => {
 
   if (Number.isNaN(date.getTime())) return "N/A";
 
-  // Format PL, np. 01.12.2025, 19:17
+  // Polish date format, e.g. 01.12.2025, 19:17
   return date.toLocaleString("pl-PL", {
     year: "numeric",
     month: "2-digit",
