@@ -11,6 +11,8 @@ import { useParams, useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
 
+const LOGIC_API_URL = process.env.NEXT_PUBLIC_LOGIC_API_URL || 'https://synthai.pl/api/v1';
+
 function TranscriptViewContent() {
   const router = useRouter();
   const { user } = useAuth();
@@ -53,7 +55,7 @@ function TranscriptViewContent() {
   useEffect(() => {
     if (!user?.sub) return;
     
-    fetch(`http://localhost:8081/transcriptions/user/${user.sub}`)
+    fetch(`${LOGIC_API_URL}/transcriptions/user/${user.sub}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.transcriptions) {
@@ -74,7 +76,7 @@ function TranscriptViewContent() {
   useEffect(() => {
     if (!transcriptId) return;
     setLoading(true);
-    fetch(`http://localhost:8081/transcriptions/${transcriptId}`)
+    fetch(`${LOGIC_API_URL}/transcriptions/${transcriptId}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.transcription) {
@@ -110,7 +112,7 @@ function TranscriptViewContent() {
   const handleDownloadSummary = () => {
     if (!currentTranscript?.id) return;
     fetch(
-      `http://localhost:8081/transcriptions/${currentTranscript.id}/download`
+      `${LOGIC_API_URL}/transcriptions/${currentTranscript.id}/download`
     )
       .then((res) => res.blob())
       .then((blob) => {

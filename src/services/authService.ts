@@ -1,4 +1,4 @@
-const AUTH_API_BASE_URL = process.env.NEXT_PUBLIC_AUTH_API_URL || 'http://localhost:3001/api';
+const AUTH_API_BASE_URL = process.env.NEXT_PUBLIC_AUTH_API_URL || 'https://synthai.pl/api';
 
 export interface UserProfile {
   sub: string;

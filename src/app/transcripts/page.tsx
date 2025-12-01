@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
 
+const LOGIC_API_URL = process.env.NEXT_PUBLIC_LOGIC_API_URL || 'https://synthai.pl/api/v1';
+
 function AllTranscriptsPageContent() {
   const router = useRouter();
   const { user } = useAuth();
@@ -24,7 +26,7 @@ function AllTranscriptsPageContent() {
     }
 
     setLoading(true);
-    fetch(`http://localhost:8081/transcriptions/user/${user.sub}`)
+    fetch(`${LOGIC_API_URL}/transcriptions/user/${user.sub}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.transcriptions) {

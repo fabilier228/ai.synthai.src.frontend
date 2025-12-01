@@ -4,6 +4,8 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckCircle, Error } from '@mui/icons-material';
 import { useAuth } from '@/contexts/AuthContext';
 
+const AUTH_BASE_URL = process.env.NEXT_PUBLIC_AUTH_API_URL || 'https://synthai.pl/api';
+
 function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -32,7 +34,7 @@ function AuthCallbackContent() {
         // The backend will handle the token exchange
         // We just need to call the callback endpoint with the code
         const response = await fetch(
-          `http://localhost:3001/api/auth/callback?code=${code}&state=${state || ''}`,
+          `${AUTH_BASE_URL}/auth/callback?code=${code}&state=${state || ''}`,
           {
             method: 'GET',
             credentials: 'include', // Important: include cookies for session
@@ -50,8 +52,8 @@ function AuthCallbackContent() {
           // Refresh auth context to update user state
           await refreshUser();
           
-          // Redirect to profile page after successful authentication
-          setTimeout(() => router.push('/profile'), 1500);
+          // Redirect to home page after successful authentication
+          setTimeout(() => router.push('/'), 1500);
         } else {
           const errorData = await response.json();
           setStatus('error');
@@ -93,7 +95,7 @@ function AuthCallbackContent() {
               </h2>
               <p className="text-text">{message}</p>
               <p className="text-sm text-primary_muted mt-4">
-                Redirecting to your profile...
+                Redirecting to home page...
               </p>
             </>
           )}
