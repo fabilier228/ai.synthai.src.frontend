@@ -8,6 +8,8 @@ export interface UserProfile {
   preferred_username?: string;
   given_name?: string;
   family_name?: string;
+  registration_date?: string;
+  last_login?: string;
   [key: string]: unknown;
 }
 
