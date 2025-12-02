@@ -24,29 +24,13 @@ const exo2 = Exo_2({
 export const metadata = {
   title: {
     default: "Synthai - AI-Powered Transcription & Analysis",
-    template: "%s | Synthai",
   },
   description: "Transform your audio into intelligent insights with Synthai. AI-powered transcription and analysis for songs, lectures, audiobooks, and conversations.",
-  keywords: ["AI transcription", "audio analysis", "speech to text", "audio intelligence", "transcription service", "AI insights"],
   icons: {
     icon: "/logo.jpg",
     apple: "/logo.jpg",
   },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    siteName: "Synthai",
-    title: "Synthai - AI-Powered Transcription & Analysis",
-    description: "Transform your audio into intelligent insights with Synthai",
-    images: [
-      {
-        url: "/logo.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Synthai Logo",
-      },
-    ],
-  },
+ 
  
  
 };

@@ -66,7 +66,7 @@ const Profile = () => {
     lastLogin: "N/A",
   });
 
-  const [activeTab, setActiveTab] = useState("settings");
+  const [activeTab, setActiveTab] = useState("account");
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [profileLoading, setProfileLoading] = useState(true);
@@ -296,14 +296,7 @@ const Profile = () => {
                 <span className="text-text">{userData.email}</span>
               </div>
 
-              <div className="flex items-center justify-center md:justify-start gap-2">
-                <VerifiedUser className="text-primary_muted text-lg" />
-                <span
-                  className={`font-semibold ${getStatusColor(userData.status)}`}
-                >
-                  {userData.status}
-                </span>
-              </div>
+              
             </div>
           </div>
         </div>

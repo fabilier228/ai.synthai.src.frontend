@@ -4,8 +4,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckCircle, Error } from '@mui/icons-material';
 import { useAuth } from '@/contexts/AuthContext';
 
-const AUTH_BASE_URL = process.env.NEXT_PUBLIC_AUTH_API_URL || 'https://synthai.pl/api';
-
 function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -21,50 +19,23 @@ function AuthCallbackContent() {
 
     const handleCallback = async () => {
       try {
-        const code = searchParams.get('code');
-        const state = searchParams.get('state');
-
-        if (!code) {
-          setStatus('error');
-          setMessage('Authentication failed: Missing authorization code');
-          setTimeout(() => router.push('/login'), 3000);
-          return;
-        }
-
-        // The backend will handle the token exchange
-        // We just need to call the callback endpoint with the code
-        const response = await fetch(
-          `${AUTH_BASE_URL}/auth/callback?code=${code}&state=${state || ''}`,
-          {
-            method: 'GET',
-            credentials: 'include', // Important: include cookies for session
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setStatus('success');
-          setMessage(`Welcome, ${data.user?.preferred_username || 'User'}!`);
-          
-          // Refresh auth context to update user state
-          await refreshUser();
-          
-          // Redirect to home page after successful authentication
-          setTimeout(() => router.push('/'), 1500);
-        } else {
-          const errorData = await response.json();
-          setStatus('error');
-          setMessage(errorData.error || 'Authentication failed');
-          setTimeout(() => router.push('/login'), 1500);
-        }
+        // After Keycloak redirects back, the backend /api/auth/callback
+        // has already been called and set the session cookie.
+        // We just need to verify the user is authenticated and redirect.
+        
+        setStatus('success');
+        setMessage('Authentication successful!');
+        
+        // Refresh auth context to update user state
+        await refreshUser();
+        
+        // Redirect to home page after successful authentication
+        setTimeout(() => router.push('/'), 1500);
       } catch (error) {
         console.error('Callback error:', error);
         setStatus('error');
         setMessage('An error occurred during authentication');
-        setTimeout(() => router.push('/login'), 1500);
+        setTimeout(() => router.push('/login'), 3000);
       }
     };
 
