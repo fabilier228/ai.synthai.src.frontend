@@ -14,7 +14,6 @@ function AddNewPageContent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  // Stan do ukrywania/pokazywania opcji zaawansowanych
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const endpointMap: Record<string, string> = {
@@ -32,7 +31,6 @@ function AddNewPageContent() {
           file: null as File | null,
           language: "EN",
           title: "",
-          // Nowe pola (domyślne wartości)
           temperature: 0.0,
           diarization: false,
           phraseList: [] as string[],
@@ -41,7 +39,6 @@ function AddNewPageContent() {
           type: Yup.string().required("Select analysis type"),
           file: Yup.mixed().required("Upload a file"),
           title: Yup.string().required("Enter a title"),
-          // Walidacja dla nowych pól (opcjonalna, ale dobra praktyka)
           temperature: Yup.number().min(0).max(2),
           diarization: Yup.boolean(),
         })}
@@ -64,40 +61,37 @@ function AddNewPageContent() {
               );
               formData.append("keycloakId", user.sub);
               formData.append("title", values.title);
-              
-              // --- Dodajemy Advanced Options do requestu ---
+
               formData.append("temperature", values.temperature.toString());
               formData.append("diarization", values.diarization.toString());
-              
-              // Filtrujemy puste frazy i dodajemy je
+
               const filteredPhrases = values.phraseList.filter(p => p.trim() !== "");
               filteredPhrases.forEach((phrase) => {
                 formData.append("phraseList", phrase.trim());
               });
             }
-            
+
             const endpoint = endpointMap[values.type];
             const res = await fetch(`${LOGIC_API_URL}${endpoint}`, {
               method: "POST",
               body: formData,
             });
-            
+
             if (!res.ok) {
               const errorText = await res.text();
               throw new Error(`Server error: ${errorText}`);
             }
-            
-            const data = await res.json();
-            console.log("Response data:", data); // Debug w konsoli
 
-            // Twoja oryginalna logika wyciągania transkrypcji
+            const data = await res.json();
+            console.log("Response data:", data); 
+
             const transcript = data?.transcriptionAnalysis?.transcription;
             setResult(transcript ? transcript : "No transcript found.");
-            
+
             resetForm();
             if (fileInputRef.current) fileInputRef.current.value = "";
-            setShowAdvanced(false); // Zwiń opcje po sukcesie
-            
+            setShowAdvanced(false); 
+
           } catch (error) {
             console.error("Transcription error:", error);
             setResult(`An error occurred during transcription: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -107,7 +101,71 @@ function AddNewPageContent() {
           }
         }}
       >
-        {({ handleChange, values, setFieldValue }) => (
+        {({ handleChange, values, setFieldValue }) => {
+          const handleLanguageDetect = async () => {
+            if (!values.file) {
+              alert("Please select an audio file first.");
+              return;
+            }
+
+            // Check file size (50MB limit)
+            if (values.file.size > 50 * 1024 * 1024) {
+                alert("File is too large for auto-detection (max 50MB). Please select language manually.");
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append("audioFile", values.file);
+            setLoading(true);
+        
+            try {
+              console.log(`Detecting language using: ${LOGIC_API_URL}/detect-language`);
+              const res = await fetch(`${LOGIC_API_URL}/detect-language`, {
+                method: "POST",
+                body: formData,
+              });
+        
+              if (!res.ok) {
+                const errText = await res.text().catch(() => "Unknown error");
+                throw new Error(`Failed to detect language: ${res.status} ${res.statusText} - ${errText}`);
+              }
+        
+              const text = await res.text();
+              console.log("Raw detection response:", text);
+              
+              let detectedLanguage = text.replace(/"/g, '').trim().toUpperCase();
+
+              if (text.trim().startsWith('{')) {
+                  try {
+                      const json = JSON.parse(text);
+                      if (json.language) detectedLanguage = String(json.language).toUpperCase();
+                      else if (json.detected_language) detectedLanguage = String(json.detected_language).toUpperCase();
+                  } catch (e) {
+                      console.warn("JSON parse error", e);
+                  }
+              }
+
+              if (detectedLanguage === "POLISH" || detectedLanguage === "PL") {
+                setFieldValue("language", "PL");
+              } else if (detectedLanguage === "ENGLISH" || detectedLanguage === "EN") {
+                setFieldValue("language", "EN");
+              } else {
+                 if (detectedLanguage && detectedLanguage.length > 0) {
+                    alert(`Detected language: ${detectedLanguage}`);
+                 } else {
+                    alert("Could not detect language. The audio might be unclear or the format unsupported.");
+                 }
+              }
+        
+            } catch (error) {
+              console.error("Language detection error:", error);
+              alert(`An error occurred during language detection: ${error instanceof Error ? error.message : "Unknown error"}`);
+            } finally {
+              setLoading(false);
+            }
+          };
+
+          return (
           <Form className="mx-auto p-4 bg-surface rounded-lg shadow-md flex flex-col md:mt-8">
             <h2 className="text-h3 font-heading mb-6 text-center text-text">
               Add New Transcription
@@ -153,18 +211,28 @@ function AddNewPageContent() {
                 className="text-red-500 text-sm mt-1"
               />
             </div>
-            <HeadlessSelect
-              options={[
-                { value: "EN", label: "English" },
-                { value: "PL", label: "Polish" },
-              ]}
-              value={values.language}
-              onChange={(val) =>
-                handleChange({ target: { name: "language", value: val } })
-              }
-              label="Language"
-              name="language"
-            />
+              <HeadlessSelect
+                options={[
+                  { value: "EN", label: "English" },
+                  { value: "PL", label: "Polish" },
+                ]}
+                value={values.language}
+                onChange={(val) =>
+                  handleChange({ target: { name: "language", value: val } })
+                }
+                label="Language"
+                name="language"
+                addon={
+                  <button 
+                    type="button" 
+                    className="border border-primary bg-primary text-white rounded-lg px-4 py-3 text-sm shadow-sm hover:bg-primary_muted transition-colors whitespace-nowrap" 
+                    onClick={handleLanguageDetect}
+                  >
+                    Set Language
+                  </button>
+                }
+              />
+
             <div className="mb-4">
               <label
                 htmlFor="file"
@@ -253,43 +321,43 @@ function AddNewPageContent() {
                       Enable Speaker Diarization
                     </label>
                   </div>
-                  
+
                   {/* Phrase List */}
                   <div>
                     <label className="block text-sm text-secondary font-heading mb-2">Phrase List (Vocabulary)</label>
                     <div className="space-y-2">
-                        {values.phraseList.map((phrase, index) => (
+                      {values.phraseList.map((phrase, index) => (
                         <div key={index} className="flex gap-2">
-                            <input
+                          <input
                             type="text"
                             value={phrase}
                             onChange={(e) => {
-                                const newList = [...values.phraseList];
-                                newList[index] = e.target.value;
-                                setFieldValue("phraseList", newList);
+                              const newList = [...values.phraseList];
+                              newList[index] = e.target.value;
+                              setFieldValue("phraseList", newList);
                             }}
                             className="flex-1 border border-outline rounded-lg p-2 bg-background text-text"
                             placeholder="Word or phrase"
-                            />
-                            <button
+                          />
+                          <button
                             type="button"
                             onClick={() => {
-                                const newList = values.phraseList.filter((_, i) => i !== index);
-                                setFieldValue("phraseList", newList);
+                              const newList = values.phraseList.filter((_, i) => i !== index);
+                              setFieldValue("phraseList", newList);
                             }}
                             className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-                            >
+                          >
                             Remove
-                            </button>
+                          </button>
                         </div>
-                        ))}
-                        <button
+                      ))}
+                      <button
                         type="button"
                         onClick={() => setFieldValue("phraseList", [...values.phraseList, ""])}
                         className="w-full px-4 py-2 border-2 border-dashed border-outline text-secondary rounded-lg hover:border-primary hover:text-primary"
-                        >
+                      >
                         + Add Phrase
-                        </button>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -311,7 +379,7 @@ function AddNewPageContent() {
                 )}
                 {loading ? "Processing..." : "Submit"}
               </button>
-              
+
               {loading && (
                 <div className="w-full">
                   <div className="h-1.5 w-full bg-outline/30 rounded-full overflow-hidden">
@@ -335,7 +403,8 @@ function AddNewPageContent() {
               </div>
             )}
           </Form>
-        )}
+        );
+        }}
       </Formik>
     </div>
   );
