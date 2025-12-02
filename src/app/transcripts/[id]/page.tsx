@@ -54,7 +54,7 @@ function TranscriptViewContent() {
 
   useEffect(() => {
     if (!user?.sub) return;
-    
+
     fetch(`${LOGIC_API_URL}/transcriptions/user/${user.sub}`)
       .then((res) => res.json())
       .then((data) => {
@@ -127,14 +127,38 @@ function TranscriptViewContent() {
       });
   };
 
+  const handleDelete = () => {
+    if (!currentTranscript?.id) return;
+    if (!confirm("Are you sure you want to delete this transcript?")) return;
+
+    fetch(
+      `${LOGIC_API_URL}/transcriptions/${currentTranscript.id}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          router.push("/transcripts");
+        } else {
+          alert("Failed to delete transcript.");
+        }
+      })
+      .catch(() => {
+        alert("Failed to delete transcript.");
+      });
+  }
+
+
+
   // Render different summary layouts depending on category
   const renderSummary = (t: TranscriptDetails | null) => {
     if (!t || !t.summary) return <div>No summary available.</div>;
 
-  const s = t.summary as Record<string, unknown>;
-  const cat = (t.category || '').toUpperCase();
-  const maybe = (k: string) => Array.isArray(s[k]) ? (s[k] as string[]).join(', ') : undefined;
-  const val = (k: string) => (s[k] as string) || undefined;
+    const s = t.summary as Record<string, unknown>;
+    const cat = (t.category || '').toUpperCase();
+    const maybe = (k: string) => Array.isArray(s[k]) ? (s[k] as string[]).join(', ') : undefined;
+    const val = (k: string) => (s[k] as string) || undefined;
 
     switch (cat) {
       case 'SONG':
@@ -228,7 +252,7 @@ function TranscriptViewContent() {
             <div className="flex items-center gap-2">
               <Description className="text-lg" />
               <span className="font-semibold">
-                {currentTranscript.title || "Select Transcript"}
+                {currentTranscript.title || "Select Transcript"}   
               </span>
             </div>
             {isTranscriptSelectorOpen ? (
@@ -248,8 +272,8 @@ function TranscriptViewContent() {
                     setIsTranscriptSelectorOpen(false);
                   }}
                   className={`w-full text-left py-2 px-3 rounded-lg transition-colors flex items-center gap-2 ${currentTranscript.id === transcript.id
-                      ? "bg-primary/10 text-primary"
-                      : "text-text hover:bg-primary/5"
+                    ? "bg-primary/10 text-primary"
+                    : "text-text hover:bg-primary/5"
                     }`}
                 >
                   <Description className="text-sm" />
@@ -267,7 +291,7 @@ function TranscriptViewContent() {
               <Description className="text-primary text-4xl" />
               <h1 className="text-2xl md:text-3xl font-bold text-primary">
                 {currentTranscript.title}
-                {}
+                { }
               </h1>
             </div>
             <div className="flex items-center gap-2 text-muted">
@@ -297,6 +321,12 @@ function TranscriptViewContent() {
             >
               Download PDF
             </button>
+             <button
+                  onClick={handleDelete}
+                  className="px-6 py-3 border border-outline text-text rounded-lg hover:border-error hover:text-error transition-colors"
+                >
+                  Delete
+                </button>
           </div>
         </div>
 
@@ -307,9 +337,9 @@ function TranscriptViewContent() {
               <h2 className="text-xl font-semibold text-primary">AI Summary</h2>
             </div>
             <div className="bg-surface rounded-lg p-6">
-                  <div className="text-text leading-relaxed whitespace-pre-line">
-                    {renderSummary(currentTranscript)}
-                  </div>
+              <div className="text-text leading-relaxed whitespace-pre-line">
+                {renderSummary(currentTranscript)}
+              </div>
             </div>
           </div>
         )}

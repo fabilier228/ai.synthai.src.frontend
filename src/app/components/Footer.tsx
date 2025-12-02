@@ -9,8 +9,8 @@ const Footer: React.FC = () => {
     <>
       {/* Mobile footer */}
       <footer className="block lg:hidden w-full bg-surface pb-6 pt-4 border-t-0 z-[90] my-8 md:pb-8 ">
-        <div className="flex flex-col justify-between text-btn_b_sm font-sans mb-0.5 md:w-4/5 mx-auto mb-2">
-          <div className="flex justify-center gap-[10%] text-btn_b_sm font-sans ">
+        <div className="flex flex-col justify-between text-btn_b_sm font-sans mb-0.5 md:w-4/5 mx-auto mb-2 gap-2">
+          <div className="flex justify-center gap-[8%] text-btn_b_sm font-sans ">
             <button type="button" onClick={() => router.push("/")} className="bg-transparent">
               Home
             </button>
@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
               Add new
             </button>
           </div>
-          <div className="flex justify-center gap-[10%] text-btn_b_sm font-sans mb-0.5">
+          <div className="flex justify-center gap-[8%] text-btn_b_sm font-sans mb-0.5">
             <button type="button" onClick={() => router.push("/transcripts")} className="bg-transparent">
               Transcripts
             </button>
@@ -42,8 +42,8 @@ const Footer: React.FC = () => {
 
       {/* Desktop footer */}
       <footer className="hidden lg:flex flex-col w-full bg-surface pt-4 pb-3 border-t-0">
-        <div className="mx-auto w-[50%]">
-          <div className="flex justify-between text-text text-btn_sm font-sans mb-0.5">
+        <div className="mx-auto w-[60%]">
+          <div className="grid grid-cols-5 justify-items-center text-text text-btn_sm font-sans mb-0.5">
             <button type="button" onClick={() => router.push("/")} className="bg-transparent">
               Home
             </button>
@@ -62,7 +62,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="mx-auto w-[50%]">
+        <div className="mx-auto w-[60%]">
           <div className="border-t border-2 border-primary_muted my-3" />
         </div>
 
