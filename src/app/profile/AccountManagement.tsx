@@ -1,8 +1,10 @@
 import React from "react";
 import { Email, Lock, Palette, ExitToApp } from "@mui/icons-material";
 import {ThemeToggle} from "../components/ThemeToogle";
+import { useAuth } from "@/contexts/AuthContext";
 
 const AccountManagement = () => {
+  const { openEmailSettings, openPasswordSettings, logout } = useAuth();
   return (
     <div className="space-y-6">
       <div className="bg-surface rounded-2xl shadow-lg p-8">
@@ -11,7 +13,7 @@ const AccountManagement = () => {
         </h2>
 
         <div className="space-y-4">
-          <button className="w-full flex items-center gap-4 p-4 rounded-xl border border-outline hover:bg-primary/5 transition-colors text-left">
+          <button className="w-full flex items-center gap-4 p-4 rounded-xl border border-outline hover:bg-primary/5 transition-colors text-left" onClick={openEmailSettings}>
             <Email className="text-primary text-xl" />
             <div>
               <div className="font-semibold text-text">Change Email</div>
@@ -21,7 +23,7 @@ const AccountManagement = () => {
             </div>
           </button>
 
-          <button className="w-full flex items-center gap-4 p-4 rounded-xl border border-outline hover:bg-primary/5 transition-colors text-left">
+          <button className="w-full flex items-center gap-4 p-4 rounded-xl border border-outline hover:bg-primary/5 transition-colors text-left" onClick={openPasswordSettings}>
             <Lock className="text-primary text-xl" />
             <div>
               <div className="font-semibold text-text">Change Password</div>
@@ -42,7 +44,7 @@ const AccountManagement = () => {
       </div>
 
       <div className="bg-surface rounded-2xl shadow-lg p-8">
-        <button className="w-full flex items-center gap-4 p-4 rounded-xl border border-error text-error hover:bg-error/5 transition-colors text-left">
+        <button className="w-full flex items-center gap-4 p-4 rounded-xl border border-error text-error hover:bg-error/5 transition-colors text-left" onClick={logout}>
           <ExitToApp className="text-xl" />
           <div>
             <div className="font-semibold">Log Out</div>

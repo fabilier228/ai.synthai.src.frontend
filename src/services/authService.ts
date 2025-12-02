@@ -111,6 +111,21 @@ class AuthService {
   redirectToRegister(): void {
     window.location.href = `${this.baseUrl}/auth/register`;
   }
+
+  /**
+   * Redirect to Keycloak Account Console - change email
+   */
+  redirectToChangeEmail(): void {
+    window.location.href = `${this.baseUrl}/auth/account/email`;
+  }
+
+  /**
+   * Redirect to Keycloak Account Console - change password
+   */
+  redirectToChangePassword(): void {
+    window.location.href = `${this.baseUrl}/auth/account/password`;
+  }
+  
 }
 
 const authService = new AuthService(AUTH_API_BASE_URL);
