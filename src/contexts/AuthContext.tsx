@@ -24,6 +24,8 @@ interface AuthContextType {
   register: () => void;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  openEmailSettings: () => void;
+  openPasswordSettings: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -94,6 +96,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     window.location.href = `${AUTH_BASE_URL}/auth/register`;
   };
 
+  const openEmailSettings = () => {
+    window.location.href = `${AUTH_BASE_URL}/auth/account/email`;
+  };
+  
+  const openPasswordSettings = () => {
+    window.location.href = `${AUTH_BASE_URL}/auth/account/password`;
+  };
+
   const logout = async () => {
     try {
       await fetch(`${AUTH_BASE_URL}/auth/logout`, {
@@ -127,6 +137,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         register,
         logout,
         refreshUser,
+        openEmailSettings,
+        openPasswordSettings
       }}
     >
       {children}
