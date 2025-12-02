@@ -254,7 +254,7 @@ export default function AudioAnalyzerFlow() {
           <div className="bg-gradient-to-r from-primary via-tertiary to-secondary rounded-3xl p-6 md:p-12 text-white max-w-4xl mx-auto shadow-2xl">
             <h2 className="text-h3  md:text-h2 font-heading mb-4">Ready to try?</h2>
             <p className="text-body_md  md:text-body_lg mb-6 md:mb-8 opacity-90">
-              Start analyzing your audio now — first 3 analyses free!
+              Start analyzing your audio now!
             </p>
               <button className="w-full sm:w-auto px-8 md:px-10 py-3 md:py-4 bg-white text-primary rounded-xl font-bold text-btn_b_sm lg:text-btn_b_md md:text-lg hover:shadow-2xl hover:scale-105 transition-all">
                 Start now

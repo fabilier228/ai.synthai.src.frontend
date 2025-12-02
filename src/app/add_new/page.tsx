@@ -14,6 +14,8 @@ function AddNewPageContent() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  // Stan do ukrywania/pokazywania opcji zaawansowanych
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const endpointMap: Record<string, string> = {
     SONG: "/analysis/song",
@@ -30,11 +32,18 @@ function AddNewPageContent() {
           file: null as File | null,
           language: "EN",
           title: "",
+          // Nowe pola (domyślne wartości)
+          temperature: 0.0,
+          diarization: false,
+          phraseList: [] as string[],
         }}
         validationSchema={Yup.object({
           type: Yup.string().required("Select analysis type"),
           file: Yup.mixed().required("Upload a file"),
           title: Yup.string().required("Enter a title"),
+          // Walidacja dla nowych pól (opcjonalna, ale dobra praktyka)
+          temperature: Yup.number().min(0).max(2),
+          diarization: Yup.boolean(),
         })}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           if (!user?.sub) {
@@ -55,21 +64,40 @@ function AddNewPageContent() {
               );
               formData.append("keycloakId", user.sub);
               formData.append("title", values.title);
+              
+              // --- Dodajemy Advanced Options do requestu ---
+              formData.append("temperature", values.temperature.toString());
+              formData.append("diarization", values.diarization.toString());
+              
+              // Filtrujemy puste frazy i dodajemy je
+              const filteredPhrases = values.phraseList.filter(p => p.trim() !== "");
+              filteredPhrases.forEach((phrase) => {
+                formData.append("phraseList", phrase.trim());
+              });
             }
+            
             const endpoint = endpointMap[values.type];
             const res = await fetch(`${LOGIC_API_URL}${endpoint}`, {
               method: "POST",
               body: formData,
             });
+            
             if (!res.ok) {
               const errorText = await res.text();
               throw new Error(`Server error: ${errorText}`);
             }
+            
             const data = await res.json();
+            console.log("Response data:", data); // Debug w konsoli
+
+            // Twoja oryginalna logika wyciągania transkrypcji
             const transcript = data?.transcriptionAnalysis?.transcription;
             setResult(transcript ? transcript : "No transcript found.");
+            
             resetForm();
             if (fileInputRef.current) fileInputRef.current.value = "";
+            setShowAdvanced(false); // Zwiń opcje po sukcesie
+            
           } catch (error) {
             console.error("Transcription error:", error);
             setResult(`An error occurred during transcription: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -181,6 +209,94 @@ function AddNewPageContent() {
                 className="text-red-500 text-sm mt-1"
               />
             </div>
+
+            {/* --- SEKCJA ADVANCED OPTIONS START --- */}
+            <div className="mb-6 border-t border-outline pt-4">
+              <button
+                type="button"
+                onClick={() => setShowAdvanced(!showAdvanced)}
+                className="flex items-center gap-2 text-h4 font-heading text-secondary hover:text-primary transition-colors mb-4"
+              >
+                <span className={`transform transition-transform ${showAdvanced ? 'rotate-90' : ''}`}>▶</span>
+                Advanced Options
+              </button>
+
+              {showAdvanced && (
+                <div className="space-y-4 pl-6">
+                  {/* Temperature Slider */}
+                  <div>
+                    <label className="block text-sm text-secondary font-heading mb-2">
+                      Temperature: {values.temperature.toFixed(2)}
+                    </label>
+                    <input
+                      type="range"
+                      name="temperature"
+                      min="0"
+                      max="2"
+                      step="0.01"
+                      value={values.temperature}
+                      onChange={handleChange}
+                      className="w-full h-2 bg-outline rounded-lg appearance-none cursor-pointer accent-primary"
+                    />
+                  </div>
+
+                  {/* Diarization Checkbox */}
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      name="diarization"
+                      checked={values.diarization}
+                      onChange={handleChange}
+                      className="w-4 h-4 text-primary bg-background border-outline rounded focus:ring-2 focus:ring-primary"
+                    />
+                    <label className="text-sm text-secondary font-heading">
+                      Enable Speaker Diarization
+                    </label>
+                  </div>
+                  
+                  {/* Phrase List */}
+                  <div>
+                    <label className="block text-sm text-secondary font-heading mb-2">Phrase List (Vocabulary)</label>
+                    <div className="space-y-2">
+                        {values.phraseList.map((phrase, index) => (
+                        <div key={index} className="flex gap-2">
+                            <input
+                            type="text"
+                            value={phrase}
+                            onChange={(e) => {
+                                const newList = [...values.phraseList];
+                                newList[index] = e.target.value;
+                                setFieldValue("phraseList", newList);
+                            }}
+                            className="flex-1 border border-outline rounded-lg p-2 bg-background text-text"
+                            placeholder="Word or phrase"
+                            />
+                            <button
+                            type="button"
+                            onClick={() => {
+                                const newList = values.phraseList.filter((_, i) => i !== index);
+                                setFieldValue("phraseList", newList);
+                            }}
+                            className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                            >
+                            Remove
+                            </button>
+                        </div>
+                        ))}
+                        <button
+                        type="button"
+                        onClick={() => setFieldValue("phraseList", [...values.phraseList, ""])}
+                        className="w-full px-4 py-2 border-2 border-dashed border-outline text-secondary rounded-lg hover:border-primary hover:text-primary"
+                        >
+                        + Add Phrase
+                        </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            {/* --- SEKCJA ADVANCED OPTIONS END --- */}
+
             <button
               type="submit"
               className="bg-primary text-white text-btn_md px-4 py-2 rounded-md hover:bg-primary_muted transition-colors self-end"
