@@ -23,6 +23,7 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { isAuthenticated, logout, user } = useAuth();
+  const isAdmin = user?.roles?.includes('admin');
   const [isTranscriptsExpanded, setIsTranscriptsExpanded] = useState(false);
   const [activePath, setActivePath] = React.useState(pathname);
 
@@ -276,6 +277,17 @@ export default function Navbar() {
             </button>
           )}
         </div>
+        {isAdmin && (
+          <div className="mt-4 pt-4 border-t border-outline">
+            <button
+              onClick={() => router.push("/admin")}
+              className="w-full text-left transition-colors text-btn_sm py-2 px-2 hover:text-primary text-primary_muted flex items-center gap-2"
+            >
+              <Person className="text-sm" />
+              Admin Panel
+            </button>
+          </div>
+        )}
       </nav>
     </>
   );

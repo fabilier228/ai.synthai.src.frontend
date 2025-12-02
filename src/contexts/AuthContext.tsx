@@ -13,6 +13,7 @@ export interface User {
   family_name?: string;
   registration_date?: string;
   last_login?: string;
+  roles?: string[];
   [key: string]: unknown;
 }
 

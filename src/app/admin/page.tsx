@@ -37,7 +37,7 @@ function AdminPageContent() {
       });
       if (!res.ok) throw new Error('Failed to fetch users');
       const data = await res.json();
-      setUsers(data.users);
+      setUsers(Array.isArray(data) ? data : data.users || []);
     } catch (err) {
       setError('Failed to load users');
       console.error(err);
