@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-const AUTH_BASE_URL = process.env.NEXT_PUBLIC_AUTH_API_URL || 'https://synthai.pl/api';
+const AUTH_BASE_URL = process.env.NEXT_PUBLIC_AUTH_API_URL || 'http://localhost:3001/api';
 
 export interface User {
   sub: string;

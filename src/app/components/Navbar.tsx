@@ -17,7 +17,7 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
 
-const LOGIC_API_URL = process.env.NEXT_PUBLIC_LOGIC_API_URL || 'https://synthai.pl/api/v1';
+const LOGIC_API_URL = process.env.NEXT_PUBLIC_LOGIC_API_URL || 'http://localhost:8081/api/v1';
 
 export default function Navbar() {
   const router = useRouter();

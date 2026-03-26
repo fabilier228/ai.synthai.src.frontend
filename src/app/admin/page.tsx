@@ -4,7 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
-const AUTH_BASE_URL = process.env.NEXT_PUBLIC_AUTH_API_URL || 'https://synthai.pl/api';
+const AUTH_BASE_URL = process.env.NEXT_PUBLIC_AUTH_API_URL || 'http://localhost:3001/api';
 
 interface KeycloakUser {
   id: string;

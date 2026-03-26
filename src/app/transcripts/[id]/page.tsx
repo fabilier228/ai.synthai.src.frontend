@@ -11,7 +11,7 @@ import { useParams, useRouter } from "next/navigation";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import { useAuth } from "@/contexts/AuthContext";
 
-const LOGIC_API_URL = process.env.NEXT_PUBLIC_LOGIC_API_URL || 'https://synthai.pl/api/v1';
+const LOGIC_API_URL = process.env.NEXT_PUBLIC_LOGIC_API_URL || 'http://localhost:8081/api/v1';
 
 function TranscriptViewContent() {
   const router = useRouter();
