@@ -34,6 +34,45 @@ describe('authService integration-like tests', () => {
     );
   });
 
+  test('should return null when getCurrentUser API responds with non-OK', async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: false });
+
+    const user = await authService.getCurrentUser();
+
+    expect(user).toBeNull();
+  });
+
+  test('should return null when getCurrentUser throws network error', async () => {
+    (global.fetch as jest.Mock).mockRejectedValue(new Error('network error'));
+
+    const user = await authService.getCurrentUser();
+
+    expect(user).toBeNull();
+  });
+
+  test('should return user profile when API returns success', async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ profile: { sub: 'u-2', email: 'john@example.com' } }),
+    });
+
+    const profile = await authService.getUserProfile();
+
+    expect(profile).toEqual({ sub: 'u-2', email: 'john@example.com' });
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/users/profile'),
+      expect.objectContaining({ method: 'GET', credentials: 'include' })
+    );
+  });
+
+  test('should return null when profile API fails', async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: false });
+
+    const profile = await authService.getUserProfile();
+
+    expect(profile).toBeNull();
+  });
+
   test('should return false when logout API fails', async () => {
     (global.fetch as jest.Mock).mockResolvedValue({ ok: false });
 
@@ -50,5 +89,23 @@ describe('authService integration-like tests', () => {
     authService.redirectToLogin();
 
     expect(window.location.href).toContain('/auth/login');
+  });
+
+  test('should redirect browser to register endpoint', () => {
+    authService.redirectToRegister();
+
+    expect(window.location.href).toContain('/auth/register');
+  });
+
+  test('should redirect browser to change email endpoint', () => {
+    authService.redirectToChangeEmail();
+
+    expect(window.location.href).toContain('/auth/account/email');
+  });
+
+  test('should redirect browser to change password endpoint', () => {
+    authService.redirectToChangePassword();
+
+    expect(window.location.href).toContain('/auth/account/password');
   });
 });
