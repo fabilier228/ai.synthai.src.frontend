@@ -7,9 +7,7 @@ const TopSection = () => {
   const router = useRouter();
   return (
     <div className="w-full flex flex-col items-center pt-6 ">
-      <h1
-        className="hidden md:block w-full text-styled_lg font-styled leading-[110%] tracking-tight text-center text-primary mt-4 max-w-none"
-      >
+      <h1 className="hidden md:block w-full text-styled_lg font-styled leading-[110%] tracking-tight text-center text-primary mt-4 max-w-none">
         Turn Any Audio Into Clear, Concise Insights
       </h1>
       <div className="hidden md:flex flex-row items-stretch justify-between py-4 gap-12 mt-4 w-full max-w-none">
@@ -17,12 +15,17 @@ const TopSection = () => {
           <div className="flex flex-col gap-6 order-1 lg:order-1">
             <div className="bg-surface flex items-center justify-center rounded-[16px] p-6 flex-1">
               <p className="text-h4 font-heading lg:text-h3 text-left w-full m-0">
-                Synthai automatically transcribes and summarizes your recordings — lectures, meetings, songs, or conversations — so you can focus on what really matters.
+                Synthai automatically transcribes and summarizes your recordings
+                — lectures, meetings, songs, or conversations — so you can focus
+                on what really matters.
               </p>
             </div>
 
-             <div className="hidden md:flex items-center justify-start rounded-[16px] flex-1">
-              <button className="bg-primary text-white text-h4 font-heading md:text-h3 py-4 px-6 rounded-[16px] hover:bg-primary/90 transition-colors w-full max-w-[350px]" onClick={() => router.push('/flow')}>
+            <div className="hidden md:flex items-center justify-start rounded-[16px] flex-1">
+              <button
+                className="bg-primary text-white text-h4 font-heading md:text-h3 py-4 px-6 rounded-[16px] hover:bg-primary/90 transition-colors w-full max-w-[350px]"
+                onClick={() => router.push("/flow")}
+              >
                 See our Process Flow
               </button>
             </div>
@@ -32,8 +35,6 @@ const TopSection = () => {
                 Over 10,000 hours of audio transformed into clear insights.
               </span>
             </div>
-
-           
           </div>
 
           <div className="order-2 lg:order-2 flex items-center justify-center">
@@ -43,7 +44,6 @@ const TopSection = () => {
                 alt="intro"
                 fill
                 className="object-cover"
-                priority
               />
             </div>
           </div>
@@ -56,21 +56,20 @@ const TopSection = () => {
           </div>
 
           <div className="md:hidden flex items-center justify-start rounded-[16px]">
-            <button className="bg-primary text-white text-h4 font-heading py-4 px-6 rounded-[16px] hover:bg-primary/90 transition-colors w-full max-w-[350px]" onClick={() => router.push('/flow')} >
+            <button
+              className="bg-primary text-white text-h4 font-heading py-4 px-6 rounded-[16px] hover:bg-primary/90 transition-colors w-full max-w-[350px]"
+              onClick={() => router.push("/flow")}
+            >
               See our Process Flow
             </button>
           </div>
         </div>
-
-        
       </div>
 
       {/* MOBILE */}
       <div className="md:hidden flex flex-col items-center w-full gap-4 ">
         <div className="bg-surface rounded-[16px] w-full max-w-[370px] p-4 flex flex-col items-center">
-          <h4
-            className="font-bold text-h4 leading-[150%] font-heading text-center w-full"
-          >
+          <h4 className="font-bold text-h4 leading-[150%] font-heading text-center w-full">
             Synthai automatically transcribes and summarizes your recordings —
             lectures, meetings, songs, or conversations — so you can focus on
             what really matters.
@@ -79,7 +78,7 @@ const TopSection = () => {
         <div className="w-full max-w-[370px] flex flex-col items-center">
           <button
             className="w-full h-[88px] bg-primary text-white font-bold text-h4 font-heading rounded-[16px] flex items-center justify-center mt-2"
-            onClick={() => router.push('/flow')}
+            onClick={() => router.push("/flow")}
           >
             See our Process Flow
           </button>
