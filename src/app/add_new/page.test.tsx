@@ -175,9 +175,29 @@ describe("AddNewPage Component", () => {
 
   test("onSubmit sets error when user has no sub", async () => {
     jest.spyOn(AuthContext, "useAuth").mockReturnValue({
-      user: {},
+      user: {
+        sub: ""
+      },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     render(<AddNewPage />);

@@ -113,7 +113,7 @@ describe("Admin page", () => {
   });
 
   test("shows loading while fetching users", async () => {
-    let resolveFetch;
+    let resolveFetch: ((value: unknown) => void) | undefined;
     const deferred = new Promise((res) => {
       resolveFetch = res;
     });
@@ -153,7 +153,7 @@ describe("Admin page", () => {
 
     expect(screen.getByText(/Loading users.../i)).toBeInTheDocument();
 
-    resolveFetch({ ok: true, json: async () => [] });
+    resolveFetch!({ ok: true, json: async () => [] });
 
     await waitFor(() =>
       expect(screen.queryByText(/Loading users.../i)).not.toBeInTheDocument(),
@@ -391,9 +391,27 @@ describe("Admin page", () => {
 
   test("access denied when user is undefined", async () => {
     jest.spyOn(AuthContext, "useAuth").mockReturnValue({
-      user: undefined,
-      isAuthenticated: true,
-      isLoading: false,
+        user: null,
+        isAuthenticated: true,
+        isLoading: false,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
     const { default: Page } = await import("./page");

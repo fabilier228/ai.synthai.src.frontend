@@ -6,7 +6,8 @@ import {
   fireEvent,
   act,
 } from "@testing-library/react";
-import Profile, { formatDate, getStatusColor } from "./page";
+import Profile from "./page";
+import { formatDate, getStatusColor } from "./utils";
 
 type ProgressEvent = {
   target: { result: string };

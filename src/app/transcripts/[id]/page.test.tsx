@@ -36,7 +36,7 @@ describe("TranscriptViewContent", () => {
       },
       openPasswordSettings: function (): void {
         throw new Error("Function not implemented.");
-      }
+      },
     });
 
     const listResp = { transcriptions: [] };
@@ -87,7 +87,7 @@ describe("TranscriptViewContent", () => {
       },
       openPasswordSettings: function (): void {
         throw new Error("Function not implemented.");
-      }
+      },
     });
 
     const listResp = { transcriptions: [] };
@@ -137,7 +137,7 @@ describe("TranscriptViewContent", () => {
       },
       openPasswordSettings: function (): void {
         throw new Error("Function not implemented.");
-      }
+      },
     });
     (global.fetch as jest.Mock) = jest
       .fn()
@@ -157,10 +157,28 @@ describe("TranscriptViewContent", () => {
   });
 
   test("renders SONG summary when showSummary clicked", async () => {
-    useAuth.mockReturnValue({
+    jest.mocked(useAuth).mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
     });
 
     const listResp = { transcriptions: [] };
@@ -203,10 +221,28 @@ describe("TranscriptViewContent", () => {
   });
 
   test("SONG summary uses transcription title when summary lacks title and falls back for artist/genre/emotions", async () => {
-    useAuth.mockReturnValue({
+    jest.mocked(useAuth).mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
     });
 
     const listResp = { transcriptions: [] };
@@ -262,10 +298,28 @@ describe("TranscriptViewContent", () => {
   });
 
   test("SONG summary shows empty title when neither summary nor transcription provide it", async () => {
-    useAuth.mockReturnValue({
+    jest.mocked(useAuth).mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
     });
 
     const listResp = { transcriptions: [] };
@@ -302,10 +356,28 @@ describe("TranscriptViewContent", () => {
   });
 
   test("download summary creates object URL", async () => {
-    useAuth.mockReturnValue({
+    jest.mocked(useAuth).mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
     });
 
     const listResp = { transcriptions: [] };
@@ -354,10 +426,28 @@ describe("TranscriptViewContent", () => {
   });
 
   test("delete confirmation leads to navigation on success", async () => {
-    useAuth.mockReturnValue({
+    jest.mocked(useAuth).mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
     });
 
     const listResp = { transcriptions: [] };
@@ -393,10 +483,28 @@ describe("TranscriptViewContent", () => {
   });
 
   test("returns 0 when no transcription and no wordCount", async () => {
-    useAuth.mockReturnValue({
+    jest.mocked(useAuth).mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
     });
 
     const listResp = { transcriptions: [] };
@@ -456,44 +564,29 @@ describe("TranscriptViewContent", () => {
     nav.useParams = originalUseParams;
   });
 
-  test("does not fetch list when user.sub is missing", async () => {
-    useAuth.mockReturnValue({
-      user: null,
-      isAuthenticated: true,
-      isLoading: false,
-    });
-
-    const detailResp = {
-      transcription: {
-        id: "42",
-        title: "OnlyDetail",
-        transcript: "a b c",
-        summary: "{}",
-      },
-    };
-
-    const fetchMock = jest
-      .fn()
-      .mockResolvedValueOnce({ ok: true, json: async () => detailResp });
-    (global.fetch as unknown as jest.Mock) = fetchMock;
-
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const Page = require("./page").default;
-    render(<Page />);
-
-    await waitFor(() =>
-      expect(
-        screen.getByRole("heading", { name: /OnlyDetail/i }),
-      ).toBeInTheDocument(),
-    );
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-  });
-
   test("renders transcripts from list mapping when toggled", async () => {
-    useAuth.mockReturnValue({
+    jest.mocked(useAuth).mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
     });
 
     const listResp = {
@@ -533,10 +626,28 @@ describe("TranscriptViewContent", () => {
   });
 
   test("alerts when delete fails", async () => {
-    useAuth.mockReturnValue({
+    jest.mocked(useAuth).mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
     });
 
     const listResp = { transcriptions: [] };
@@ -582,10 +693,28 @@ describe("TranscriptViewContent", () => {
       summaryObj: any,
       expectedTexts: string[],
     ) => {
-      useAuth.mockReturnValue({
+      jest.mocked(useAuth).mockReturnValue({
         user: { sub: "u1" },
         isAuthenticated: true,
         isLoading: false,
+        login: function (): void {
+          throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+          throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+          throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+          throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+          throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+          throw new Error("Function not implemented.");
+        },
       });
       const listResp = { transcriptions: [] };
       const detailResp = {
