@@ -7,7 +7,6 @@ import authService from "@/services/authService";
 import {
   Email,
   Person,
-  VerifiedUser,
   Settings,
   Lock,
   PhotoCamera,
@@ -18,7 +17,7 @@ import MyAccount from "./MyAccount";
 import AccountManagement from "./AccountManagement";
 import Security from "./Security";
 
-const formatDate = (value: unknown): string => {
+export const formatDate = (value: unknown): string => {
   if (value === null || value === undefined) return "N/A";
 
   let date: Date;
@@ -51,11 +50,23 @@ const formatDate = (value: unknown): string => {
   });
 };
 
+export const getStatusColor = (status: string) => {
+  switch (status) {
+    case "Active":
+      return "text-success";
+    case "Premium":
+      return "text-warning";
+    case "Email Unverified":
+      return "text-error";
+    default:
+      return "text-text";
+  }
+};
 
 const Profile = () => {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
-  
+
   const [userData, setUserData] = useState<UserData>({
     avatar: "/default-avatar.png",
     nickname: "Loading...",
@@ -74,7 +85,7 @@ const Profile = () => {
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push('/login');
+      router.push("/login");
     }
   }, [isAuthenticated, isLoading, router]);
 
@@ -86,21 +97,24 @@ const Profile = () => {
       try {
         setProfileLoading(true);
         const profile = await authService.getUserProfile();
-        
+
         if (profile) {
           setUserData({
             avatar: "/default-avatar.png",
             nickname: profile.preferred_username || profile.sub,
-            fullName: profile.name || `${profile.given_name || ''} ${profile.family_name || ''}`.trim() || 'N/A',
-            email: profile.email || 'N/A',
+            fullName:
+              profile.name ||
+              `${profile.given_name || ""} ${profile.family_name || ""}`.trim() ||
+              "N/A",
+            email: profile.email || "N/A",
             status: profile.email_verified ? "Active" : "Email Unverified",
             // registrationDate: "N/A", // Keycloak doesn't provide this by default
-            registrationDate: formatDate(profile.registration_date) || 'N/A',
-            lastLogin: formatDate(profile.last_login) || 'N/A', // Keycloak doesn't provide this by default
+            registrationDate: formatDate(profile.registration_date) || "N/A",
+            lastLogin: formatDate(profile.last_login) || "N/A", // Keycloak doesn't provide this by default
           });
         }
       } catch (error) {
-        console.error('Failed to fetch profile:', error);
+        console.error("Failed to fetch profile:", error);
       } finally {
         setProfileLoading(false);
       }
@@ -184,19 +198,6 @@ const Profile = () => {
   };
 
   const currentAvatar = avatarPreview || userData.avatar;
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Active":
-        return "text-success";
-      case "Premium":
-        return "text-warning";
-      case "Email Unverified":
-        return "text-error";
-      default:
-        return "text-text";
-    }
-  };
 
   // Show loading state
   if (isLoading || profileLoading) {
@@ -295,8 +296,6 @@ const Profile = () => {
                 <Email className="text-primary_muted text-lg" />
                 <span className="text-text">{userData.email}</span>
               </div>
-
-              
             </div>
           </div>
         </div>
