@@ -67,12 +67,12 @@ global.ResizeObserver = class ResizeObserver {
   disconnect() {}
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 global.fetch = jest.fn(() =>
   Promise.resolve({
     ok: true,
     json: () => Promise.resolve({}),
     text: () => Promise.resolve(""),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any),
 );
 
