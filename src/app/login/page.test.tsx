@@ -1,8 +1,9 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-
-const { useAuth } = require("@/contexts/AuthContext");
+import * as AuthContext from "@/contexts/AuthContext";
+import * as navigationModule from "next/navigation";
+import LoginPage from "./page";
 
 describe("Login page", () => {
   beforeEach(() => {
@@ -10,20 +11,35 @@ describe("Login page", () => {
   });
 
   test("shows loading state when isLoading is true", () => {
-    useAuth.mockReturnValueOnce({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValueOnce({
       isAuthenticated: false,
       isLoading: true,
       login: jest.fn(),
+      user: null,
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
-    const LoginPage = require("./page").default;
+
     render(<LoginPage />);
     expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
   });
 
   test("redirects to /profile when already authenticated", async () => {
     const mockPush = jest.fn();
-    const nav = require("next/navigation");
-    nav.useRouter = () => ({
+    jest.spyOn(navigationModule, "useRouter").mockReturnValue({
       push: mockPush,
       replace: jest.fn(),
       prefetch: jest.fn(),
@@ -34,12 +50,28 @@ describe("Login page", () => {
       query: {},
     });
 
-    useAuth.mockReturnValueOnce({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValueOnce({
       isAuthenticated: true,
       isLoading: false,
       login: jest.fn(),
+      user: null,
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
-    const LoginPage = require("./page").default;
+
     render(<LoginPage />);
 
     await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/profile"));
@@ -47,12 +79,27 @@ describe("Login page", () => {
 
   test("clicking Sign in with Keycloak calls login", async () => {
     const loginMock = jest.fn();
-    useAuth.mockReturnValueOnce({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValueOnce({
       isAuthenticated: false,
       isLoading: false,
       login: loginMock,
+      user: null,
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
-    const LoginPage = require("./page").default;
 
     render(<LoginPage />);
     const user = userEvent.setup();
@@ -64,8 +111,7 @@ describe("Login page", () => {
 
   test("clicking Create an account navigates to /register", async () => {
     const mockPush = jest.fn();
-    const nav = require("next/navigation");
-    nav.useRouter = () => ({
+    jest.spyOn(navigationModule, "useRouter").mockReturnValue({
       push: mockPush,
       replace: jest.fn(),
       prefetch: jest.fn(),
@@ -76,12 +122,28 @@ describe("Login page", () => {
       query: {},
     });
 
-    useAuth.mockReturnValueOnce({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValueOnce({
       isAuthenticated: false,
       isLoading: false,
       login: jest.fn(),
+      user: null,
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
-    const LoginPage = require("./page").default;
+
     render(<LoginPage />);
 
     const createBtn = screen.getByRole("button", {

@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 
 // Use global useAuth mock from jest.setup
-const { useAuth } = require("@/contexts/AuthContext");
+import * as AuthContext from "@/contexts/AuthContext";
 
 const pushMock = jest.fn();
 jest.mock("next/navigation", () => ({
@@ -15,10 +15,28 @@ describe("AllTranscriptsPage", () => {
   });
 
   test("shows empty state when no transcripts", async () => {
-    useAuth.mockReturnValue({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
       user: { sub: "user1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     (global.fetch as jest.Mock) = jest.fn().mockResolvedValueOnce({
@@ -26,7 +44,7 @@ describe("AllTranscriptsPage", () => {
       json: async () => ({ transcriptions: [] }),
     });
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     await waitFor(() =>
@@ -35,10 +53,28 @@ describe("AllTranscriptsPage", () => {
   });
 
   test("renders transcripts and deletes one on delete click", async () => {
-    useAuth.mockReturnValue({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
       user: { sub: "user1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     const listResponse = {
@@ -52,7 +88,7 @@ describe("AllTranscriptsPage", () => {
 
     (global.fetch as jest.Mock) = mockFetch;
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     await waitFor(() =>
@@ -73,10 +109,28 @@ describe("AllTranscriptsPage", () => {
   });
 
   test("shows alert when delete fails", async () => {
-    useAuth.mockReturnValue({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
       user: { sub: "user1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     const listResponse = { transcriptions: [{ id: 2, title: "Meeting Beta" }] };
@@ -90,7 +144,7 @@ describe("AllTranscriptsPage", () => {
 
     const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     await waitFor(() =>
@@ -108,17 +162,35 @@ describe("AllTranscriptsPage", () => {
   });
 
   test("shows error when fetching transcripts fails", async () => {
-    useAuth.mockReturnValue({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
       user: { sub: "user1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     (global.fetch as jest.Mock) = jest
       .fn()
       .mockRejectedValueOnce(new Error("network"));
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     await waitFor(() =>
@@ -129,16 +201,36 @@ describe("AllTranscriptsPage", () => {
   });
 
   test("does not fetch when user.sub is missing", async () => {
-    useAuth.mockReturnValue({
-      user: {},
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+      user: {
+        sub: ""
+      },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     const fetchSpy = jest.fn();
     (global.fetch as jest.Mock) = fetchSpy;
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
     
     await new Promise((r) => setTimeout(r, 20));
@@ -146,10 +238,28 @@ describe("AllTranscriptsPage", () => {
   });
 
   test("navigates to transcript detail on click", async () => {
-    useAuth.mockReturnValue({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
       user: { sub: "user1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     const listResponse = {
@@ -159,7 +269,7 @@ describe("AllTranscriptsPage", () => {
       .fn()
       .mockResolvedValueOnce({ ok: true, json: async () => listResponse });
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     await waitFor(() =>

@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Profile from "./page";
+import * as AuthContext from "@/contexts/AuthContext";
 
 jest.mock("@/services/authService", () => ({
   __esModule: true,
@@ -19,8 +20,28 @@ jest.mock("@/services/authService", () => ({
 
 describe("Profile page", () => {
   test("shows loading state when profile is loading", () => {
-    const { useAuth } = require("@/contexts/AuthContext");
-    useAuth.mockReturnValueOnce({ isAuthenticated: false, isLoading: true });
+    jest.spyOn(AuthContext, "useAuth").mockReturnValueOnce({
+      isAuthenticated: false, isLoading: true,
+      user: null,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
+    });
 
     render(<Profile />);
     expect(screen.getByText(/Loading profile.../i)).toBeInTheDocument();

@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-
-const useAuth = require("@/contexts/AuthContext").useAuth;
+import { useAuth } from "@/contexts/AuthContext";
+import TranscriptDetailPage from "./page";
 
 const pushMock = jest.fn();
 jest.mock("next/navigation", () => ({
@@ -15,10 +15,28 @@ describe("TranscriptViewContent", () => {
   });
 
   test("displays word count from wordCount property", async () => {
-    useAuth.mockReturnValue({
+    jest.mocked(useAuth).mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     const listResp = { transcriptions: [] };
@@ -37,6 +55,7 @@ describe("TranscriptViewContent", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => listResp })
       .mockResolvedValueOnce({ ok: true, json: async () => detailResp });
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Page = require("./page").default;
     render(<Page />);
 
@@ -47,10 +66,28 @@ describe("TranscriptViewContent", () => {
   });
 
   test("calculates word count from transcription text", async () => {
-    useAuth.mockReturnValue({
+    jest.mocked(useAuth).mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     const listResp = { transcriptions: [] };
@@ -68,6 +105,7 @@ describe("TranscriptViewContent", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => listResp })
       .mockResolvedValueOnce({ ok: true, json: async () => detailResp });
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Page = require("./page").default;
     render(<Page />);
 
@@ -78,10 +116,28 @@ describe("TranscriptViewContent", () => {
   });
 
   test("shows error when detail fetch fails", async () => {
-    useAuth.mockReturnValue({
+    jest.mocked(useAuth).mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
     (global.fetch as jest.Mock) = jest
       .fn()
@@ -91,8 +147,7 @@ describe("TranscriptViewContent", () => {
       })
       .mockRejectedValueOnce(new Error("boom"));
 
-    const Page = require("./page").default;
-    render(<Page />);
+    render(<TranscriptDetailPage />);
 
     await waitFor(() =>
       expect(
@@ -131,6 +186,7 @@ describe("TranscriptViewContent", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => listResp })
       .mockResolvedValueOnce({ ok: true, json: async () => detailResp });
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Page = require("./page").default;
     render(<Page />);
 
@@ -174,6 +230,7 @@ describe("TranscriptViewContent", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => listResp })
       .mockResolvedValueOnce({ ok: true, json: async () => detailResp });
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Page = require("./page").default;
     render(<Page />);
 
@@ -227,6 +284,7 @@ describe("TranscriptViewContent", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => listResp })
       .mockResolvedValueOnce({ ok: true, json: async () => detailResp });
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Page = require("./page").default;
     render(<Page />);
 
@@ -266,15 +324,21 @@ describe("TranscriptViewContent", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => detailResp })
       .mockResolvedValueOnce({ ok: true, blob: async () => new Blob(["x"]) });
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!(window.URL as any).createObjectURL) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window.URL as any).createObjectURL = jest
         .fn()
         .mockReturnValue("blob:fake");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window.URL as any).revokeObjectURL = jest.fn();
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const createSpy = jest.spyOn(window.URL as any, "createObjectURL");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const revokeSpy = jest.spyOn(window.URL as any, "revokeObjectURL");
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Page = require("./page").default;
     render(<Page />);
 
@@ -314,6 +378,7 @@ describe("TranscriptViewContent", () => {
 
     const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Page = require("./page").default;
     render(<Page />);
 
@@ -349,6 +414,7 @@ describe("TranscriptViewContent", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => listResp })
       .mockResolvedValueOnce({ ok: true, json: async () => detailResp });
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Page = require("./page").default;
     render(<Page />);
 
@@ -359,10 +425,12 @@ describe("TranscriptViewContent", () => {
   });
 
   test("handles missing transcriptId gracefully", async () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const nav = require("next/navigation");
     const originalUseParams = nav.useParams;
     nav.useParams = () => ({});
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const auth = require("@/contexts/AuthContext");
     auth.useAuth.mockReturnValue({
       user: { sub: "u1" },
@@ -375,6 +443,7 @@ describe("TranscriptViewContent", () => {
       .fn()
       .mockResolvedValueOnce({ ok: true, json: async () => listResp });
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Page = require("./page").default;
     render(<Page />);
 
@@ -408,6 +477,7 @@ describe("TranscriptViewContent", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => detailResp });
     (global.fetch as unknown as jest.Mock) = fetchMock;
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Page = require("./page").default;
     render(<Page />);
 
@@ -446,6 +516,7 @@ describe("TranscriptViewContent", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => listResp })
       .mockResolvedValueOnce({ ok: true, json: async () => detailResp });
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Page = require("./page").default;
     render(<Page />);
 
@@ -487,6 +558,7 @@ describe("TranscriptViewContent", () => {
     const alertSpy = jest.spyOn(window, "alert").mockImplementation(() => {});
     const confirmSpy = jest.spyOn(window, "confirm").mockReturnValue(true);
 
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const Page = require("./page").default;
     render(<Page />);
 
@@ -506,6 +578,7 @@ describe("TranscriptViewContent", () => {
   describe("renderSummary variants", () => {
     const renderWithSummary = async (
       category: string,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       summaryObj: any,
       expectedTexts: string[],
     ) => {
@@ -530,6 +603,7 @@ describe("TranscriptViewContent", () => {
         .mockResolvedValueOnce({ ok: true, json: async () => listResp })
         .mockResolvedValueOnce({ ok: true, json: async () => detailResp });
 
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const Page = require("./page").default;
       render(<Page />);
 

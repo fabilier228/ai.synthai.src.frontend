@@ -7,6 +7,7 @@ import {
 import userEvent from "@testing-library/user-event";
 import AddNewPage from "./page";
 import React from "react";
+import * as AuthContext from "@/contexts/AuthContext";
 
 global.fetch = jest.fn();
 
@@ -173,8 +174,7 @@ describe("AddNewPage Component", () => {
   });
 
   test("onSubmit sets error when user has no sub", async () => {
-    const auth = require("@/contexts/AuthContext");
-    auth.useAuth.mockReturnValue({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
       user: {},
       isAuthenticated: true,
       isLoading: false,
@@ -199,11 +199,28 @@ describe("AddNewPage Component", () => {
   });
 
   test("submits only non-empty trimmed phraseList entries", async () => {
-    const auth = require("@/contexts/AuthContext");
-    auth.useAuth.mockReturnValue({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     const listResponse = { transcriptionAnalysis: { transcription: "OK" } };
@@ -241,11 +258,28 @@ describe("AddNewPage Component", () => {
   });
 
   test("language detection: JSON language -> sets PL", async () => {
-    const auth = require("@/contexts/AuthContext");
-    auth.useAuth.mockReturnValue({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     (global.fetch as jest.Mock) = jest.fn().mockResolvedValueOnce({
@@ -272,11 +306,28 @@ describe("AddNewPage Component", () => {
   });
 
   test("language detection: non-ok response alerts failure", async () => {
-    const auth = require("@/contexts/AuthContext");
-    auth.useAuth.mockReturnValue({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     (global.fetch as jest.Mock) = jest.fn().mockResolvedValueOnce({
@@ -305,11 +356,28 @@ describe("AddNewPage Component", () => {
   });
 
   test("language detection: unknown/empty detection alerts could not detect", async () => {
-    const auth = require("@/contexts/AuthContext");
-    auth.useAuth.mockReturnValue({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
       user: { sub: "u1" },
       isAuthenticated: true,
       isLoading: false,
+      login: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      register: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      logout: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      refreshUser: function (): Promise<void> {
+        throw new Error("Function not implemented.");
+      },
+      openEmailSettings: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      openPasswordSettings: function (): void {
+        throw new Error("Function not implemented.");
+      }
     });
 
     (global.fetch as jest.Mock) = jest

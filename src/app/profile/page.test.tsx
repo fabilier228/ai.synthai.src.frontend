@@ -8,9 +8,13 @@ import {
 } from "@testing-library/react";
 import Profile, { formatDate, getStatusColor } from "./page";
 
+type ProgressEvent = {
+  target: { result: string };
+};
+
 jest.mock("next/image", () => ({
   __esModule: true,
-  default: (props: any) => {
+  default: (props: { src: string; alt: string }) => {
     return React.createElement("img", { src: props.src, alt: props.alt });
   },
 }));
@@ -31,18 +35,22 @@ jest.mock("@/services/authService", () => ({
   default: { getUserProfile: () => getUserProfileMock() },
 }));
 
-jest.mock(
-  "./MyAccount",
-  () => () => React.createElement("div", null, "MyAccountMock"),
-);
-jest.mock(
-  "./AccountManagement",
-  () => () => React.createElement("div", null, "AccountManagementMock"),
-);
-jest.mock(
-  "./Security",
-  () => () => React.createElement("div", null, "SecurityMock"),
-);
+jest.mock("./MyAccount", () => {
+  const MockComponent = () => React.createElement("div", null, "MyAccountMock");
+  MockComponent.displayName = "MyAccountMock";
+  return MockComponent;
+});
+jest.mock("./AccountManagement", () => {
+  const MockComponent = () =>
+    React.createElement("div", null, "AccountManagementMock");
+  MockComponent.displayName = "AccountManagementMock";
+  return MockComponent;
+});
+jest.mock("./Security", () => {
+  const MockComponent = () => React.createElement("div", null, "SecurityMock");
+  MockComponent.displayName = "SecurityMock";
+  return MockComponent;
+});
 
 describe("Profile page", () => {
   beforeEach(() => {
@@ -136,13 +144,17 @@ describe("Profile page", () => {
     getUserProfileMock.mockResolvedValueOnce(null);
 
     const mockDataUrl = "data:image/png;base64,MOCK";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const OriginalFileReader = (global as any).FileReader;
     class MockFileReader {
-      onload: any = null;
-      readAsDataURL(_: any) {
+      onload: ((event: ProgressEvent) => void) | null = null;
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      readAsDataURL(_: string) {
         if (this.onload) this.onload({ target: { result: mockDataUrl } });
       }
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).FileReader = MockFileReader;
 
     const { container } = render(React.createElement(Profile));
@@ -174,6 +186,7 @@ describe("Profile page", () => {
     );
     expect(window.localStorage.getItem("userAvatar")).toBe(mockDataUrl);
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).FileReader = OriginalFileReader;
   });
 
@@ -182,13 +195,17 @@ describe("Profile page", () => {
     getUserProfileMock.mockResolvedValueOnce(null);
 
     const mockDataUrl = "data:image/png;base64,MOCK2";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const OriginalFileReader = (global as any).FileReader;
     class MockFileReader {
-      onload: any = null;
-      readAsDataURL(_: any) {
+      onload: ((event: ProgressEvent) => void) | null = null;
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      readAsDataURL(_: string) {
         if (this.onload) this.onload({ target: { result: mockDataUrl } });
       }
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).FileReader = MockFileReader;
 
     const { container } = render(React.createElement(Profile));
@@ -221,6 +238,7 @@ describe("Profile page", () => {
       (container.querySelector('input[type="file"]') as HTMLInputElement).value,
     ).toBe("");
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).FileReader = OriginalFileReader;
   });
 
@@ -229,13 +247,17 @@ describe("Profile page", () => {
     getUserProfileMock.mockResolvedValueOnce(null);
 
     const mockDataUrl = "data:image/png;base64,TO_REMOVE";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const OriginalFileReader = (global as any).FileReader;
     class MockFileReader {
-      onload: any = null;
-      readAsDataURL(_: any) {
+      onload: ((event: ProgressEvent) => void) | null = null;
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      readAsDataURL(_: string) {
         if (this.onload) this.onload({ target: { result: mockDataUrl } });
       }
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).FileReader = MockFileReader;
 
     const { container } = render(React.createElement(Profile));
@@ -270,6 +292,7 @@ describe("Profile page", () => {
       expect(window.localStorage.getItem("userAvatar")).toBeNull(),
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).FileReader = OriginalFileReader;
   });
 

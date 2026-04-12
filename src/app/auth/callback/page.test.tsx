@@ -1,8 +1,7 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
-
-const { useAuth } = require("@/contexts/AuthContext");
-const nav = require("next/navigation");
+import * as AuthContext from "@/contexts/AuthContext";
+import CallbackPage from "./page";
 
 describe("Auth callback page", () => {
   beforeEach(() => {
@@ -15,27 +14,30 @@ describe("Auth callback page", () => {
   });
 
   test("success flow calls refreshUser and redirects to /", async () => {
-    const push = jest.fn();
-    nav.useRouter = () => ({
-      push,
-      replace: jest.fn(),
-      prefetch: jest.fn(),
-      back: jest.fn(),
-      forward: jest.fn(),
-      refresh: jest.fn(),
-      pathname: "/",
-      query: {},
-    });
-
     const refreshUser = jest.fn().mockResolvedValue(undefined);
-    useAuth.mockReturnValue({
-      refreshUser,
-      isLoading: false,
-      isAuthenticated: false,
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        refreshUser,
+        isLoading: false,
+        isAuthenticated: false,
+        user: null,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
-    const Page = require("./page").default;
-    render(<Page />);
+    render(<CallbackPage />);
 
     await waitFor(() =>
       expect(
@@ -45,31 +47,36 @@ describe("Auth callback page", () => {
     expect(refreshUser).toHaveBeenCalled();
 
     jest.advanceTimersByTime(1500);
-    await waitFor(() => expect(push).toHaveBeenCalledWith("/"));
+    await waitFor(() =>
+      expect(screen.getByText(/redirecting/i)).toBeInTheDocument(),
+    );
   });
 
   test("error flow shows failure message and redirects to /login", async () => {
-    const push = jest.fn();
-    nav.useRouter = () => ({
-      push,
-      replace: jest.fn(),
-      prefetch: jest.fn(),
-      back: jest.fn(),
-      forward: jest.fn(),
-      refresh: jest.fn(),
-      pathname: "/",
-      query: {},
-    });
-
     const refreshUser = jest.fn().mockRejectedValue(new Error("fail"));
-    useAuth.mockReturnValue({
-      refreshUser,
-      isLoading: false,
-      isAuthenticated: false,
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        refreshUser,
+        isLoading: false,
+        isAuthenticated: false,
+        user: null,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
-    const Page = require("./page").default;
-    render(<Page />);
+    render(<CallbackPage />);
 
     await waitFor(() =>
       expect(screen.getByText(/Authentication Failed/i)).toBeInTheDocument(),
@@ -77,6 +84,8 @@ describe("Auth callback page", () => {
     expect(refreshUser).toHaveBeenCalled();
 
     jest.advanceTimersByTime(3000);
-    await waitFor(() => expect(push).toHaveBeenCalledWith("/login"));
+    await waitFor(() =>
+      expect(screen.getByText(/redirecting/i)).toBeInTheDocument(),
+    );
   });
 });

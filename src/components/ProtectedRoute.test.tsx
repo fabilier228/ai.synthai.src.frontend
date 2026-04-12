@@ -1,7 +1,6 @@
 import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
-
-const useAuth = require("@/contexts/AuthContext").useAuth;
+import * as AuthContext from "@/contexts/AuthContext";
 
 const pushMock = jest.fn();
 jest.mock("next/navigation", () => ({
@@ -16,7 +15,30 @@ describe("ProtectedRoute", () => {
   });
 
   test("shows loading UI when auth is loading", () => {
-    useAuth.mockReturnValue({ isAuthenticated: false, isLoading: true });
+    jest
+      .spyOn(AuthContext, "useAuth")
+      .mockReturnValue({
+          isAuthenticated: false, isLoading: true,
+          user: null,
+          login: function (): void {
+              throw new Error("Function not implemented.");
+          },
+          register: function (): void {
+              throw new Error("Function not implemented.");
+          },
+          logout: function (): Promise<void> {
+              throw new Error("Function not implemented.");
+          },
+          refreshUser: function (): Promise<void> {
+              throw new Error("Function not implemented.");
+          },
+          openEmailSettings: function (): void {
+              throw new Error("Function not implemented.");
+          },
+          openPasswordSettings: function (): void {
+              throw new Error("Function not implemented.");
+          }
+      });
 
     render(
       <ProtectedRoute>
@@ -28,7 +50,30 @@ describe("ProtectedRoute", () => {
   });
 
   test("redirects to /login when not authenticated and not loading", async () => {
-    useAuth.mockReturnValue({ isAuthenticated: false, isLoading: false });
+    jest
+      .spyOn(AuthContext, "useAuth")
+      .mockReturnValue({
+          isAuthenticated: false, isLoading: false,
+          user: null,
+          login: function (): void {
+              throw new Error("Function not implemented.");
+          },
+          register: function (): void {
+              throw new Error("Function not implemented.");
+          },
+          logout: function (): Promise<void> {
+              throw new Error("Function not implemented.");
+          },
+          refreshUser: function (): Promise<void> {
+              throw new Error("Function not implemented.");
+          },
+          openEmailSettings: function (): void {
+              throw new Error("Function not implemented.");
+          },
+          openPasswordSettings: function (): void {
+              throw new Error("Function not implemented.");
+          }
+      });
 
     render(
       <ProtectedRoute>
@@ -41,7 +86,30 @@ describe("ProtectedRoute", () => {
   });
 
   test("renders children when authenticated", () => {
-    useAuth.mockReturnValue({ isAuthenticated: true, isLoading: false });
+    jest
+      .spyOn(AuthContext, "useAuth")
+      .mockReturnValue({
+          isAuthenticated: true, isLoading: false,
+          user: null,
+          login: function (): void {
+              throw new Error("Function not implemented.");
+          },
+          register: function (): void {
+              throw new Error("Function not implemented.");
+          },
+          logout: function (): Promise<void> {
+              throw new Error("Function not implemented.");
+          },
+          refreshUser: function (): Promise<void> {
+              throw new Error("Function not implemented.");
+          },
+          openEmailSettings: function (): void {
+              throw new Error("Function not implemented.");
+          },
+          openPasswordSettings: function (): void {
+              throw new Error("Function not implemented.");
+          }
+      });
 
     render(
       <ProtectedRoute>

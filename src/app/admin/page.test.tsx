@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-
-const { useAuth } = require("@/contexts/AuthContext");
+import * as AuthContext from "@/contexts/AuthContext";
+import AdminPage from "./page";
 
 describe("Admin page", () => {
   beforeEach(() => {
@@ -9,14 +9,34 @@ describe("Admin page", () => {
   });
 
   test("shows access denied when user is not admin", async () => {
-    useAuth.mockReturnValue({
-      user: { roles: [] },
-      isAuthenticated: true,
-      isLoading: false,
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        user: {
+            roles: [],
+            sub: ""
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
-    const Page = require("./page").default;
-    render(<Page />);
+    render(<AdminPage />);
 
     expect(
       screen.getByText(/Access Denied. Admin role required./i),
@@ -24,25 +44,34 @@ describe("Admin page", () => {
   });
 
   test("renders users list and deletes a user", async () => {
-    const nav = require("next/navigation");
-    const push = jest.fn();
-    nav.useRouter = () => ({
-      push,
-      replace: jest.fn(),
-      prefetch: jest.fn(),
-      back: jest.fn(),
-      forward: jest.fn(),
-      refresh: jest.fn(),
-      pathname: "/",
-      query: {},
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        user: {
+            roles: ["admin"],
+            sub: ""
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
-    useAuth.mockReturnValue({
-      user: { roles: ["admin"] },
-      isAuthenticated: true,
-      isLoading: false,
-    });
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).confirm = jest.fn(() => true);
 
     const usersList = [
@@ -64,8 +93,7 @@ describe("Admin page", () => {
 
     (global.fetch as jest.Mock) = mockFetch;
 
-    const Page = require("./page").default;
-    render(<Page />);
+    render(<AdminPage />);
 
     await waitFor(() =>
       expect(screen.getByText(/^john$/i)).toBeInTheDocument(),
@@ -93,13 +121,34 @@ describe("Admin page", () => {
     const mockFetch = jest.fn().mockReturnValue(deferred);
     (global.fetch as jest.Mock) = mockFetch;
 
-    useAuth.mockReturnValue({
-      user: { roles: ["admin"] },
-      isAuthenticated: true,
-      isLoading: false,
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        user: {
+            roles: ["admin"],
+            sub: ""
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     expect(screen.getByText(/Loading users.../i)).toBeInTheDocument();
@@ -119,13 +168,34 @@ describe("Admin page", () => {
     });
     (global.fetch as jest.Mock) = mockFetch;
 
-    useAuth.mockReturnValue({
-      user: { roles: ["admin"] },
-      isAuthenticated: true,
-      isLoading: false,
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        user: {
+            roles: ["admin"],
+            sub: ""
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     await waitFor(() =>
@@ -134,24 +204,34 @@ describe("Admin page", () => {
   });
 
   test("delete canceled by confirm leaves user intact", async () => {
-    const nav = require("next/navigation");
-    nav.useRouter = () => ({
-      push: jest.fn(),
-      replace: jest.fn(),
-      prefetch: jest.fn(),
-      back: jest.fn(),
-      forward: jest.fn(),
-      refresh: jest.fn(),
-      pathname: "/",
-      query: {},
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        user: {
+            roles: ["admin"],
+            sub: ""
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
-
-    useAuth.mockReturnValue({
-      user: { roles: ["admin"] },
-      isAuthenticated: true,
-      isLoading: false,
-    });
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).confirm = jest.fn(() => false);
 
     const usersList = [
@@ -170,7 +250,7 @@ describe("Admin page", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => usersList });
     (global.fetch as jest.Mock) = mockFetch;
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     await waitFor(() =>
@@ -184,24 +264,34 @@ describe("Admin page", () => {
   });
 
   test("delete non-ok shows alert and keeps user", async () => {
-    const nav = require("next/navigation");
-    nav.useRouter = () => ({
-      push: jest.fn(),
-      replace: jest.fn(),
-      prefetch: jest.fn(),
-      back: jest.fn(),
-      forward: jest.fn(),
-      refresh: jest.fn(),
-      pathname: "/",
-      query: {},
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        user: {
+            roles: ["admin"],
+            sub: ""
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
-    useAuth.mockReturnValue({
-      user: { roles: ["admin"] },
-      isAuthenticated: true,
-      isLoading: false,
-    });
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).confirm = jest.fn(() => true);
     window.alert = jest.fn();
 
@@ -222,7 +312,7 @@ describe("Admin page", () => {
       .mockResolvedValueOnce({ ok: false });
     (global.fetch as jest.Mock) = mockFetch;
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     await waitFor(() => expect(screen.getByText(/^bob$/i)).toBeInTheDocument());
@@ -236,24 +326,34 @@ describe("Admin page", () => {
   });
 
   test("delete fetch throws shows alert and keeps user", async () => {
-    const nav = require("next/navigation");
-    nav.useRouter = () => ({
-      push: jest.fn(),
-      replace: jest.fn(),
-      prefetch: jest.fn(),
-      back: jest.fn(),
-      forward: jest.fn(),
-      refresh: jest.fn(),
-      pathname: "/",
-      query: {},
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        user: {
+            roles: ["admin"],
+            sub: ""
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
-    useAuth.mockReturnValue({
-      user: { roles: ["admin"] },
-      isAuthenticated: true,
-      isLoading: false,
-    });
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (global as any).confirm = jest.fn(() => true);
     window.alert = jest.fn();
 
@@ -274,7 +374,7 @@ describe("Admin page", () => {
       .mockRejectedValueOnce(new Error("network"));
     (global.fetch as jest.Mock) = mockFetch;
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     await waitFor(() =>
@@ -290,13 +390,13 @@ describe("Admin page", () => {
   });
 
   test("access denied when user is undefined", async () => {
-    useAuth.mockReturnValue({
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
       user: undefined,
       isAuthenticated: true,
       isLoading: false,
     });
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     expect(
@@ -305,13 +405,34 @@ describe("Admin page", () => {
   });
 
   test("access denied when user.roles is undefined", async () => {
-    useAuth.mockReturnValue({
-      user: { roles: undefined },
-      isAuthenticated: true,
-      isLoading: false,
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        user: {
+            roles: undefined,
+            sub: ""
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     expect(
@@ -320,10 +441,31 @@ describe("Admin page", () => {
   });
 
   test("shows Disabled badge and red classes when user is disabled", async () => {
-    useAuth.mockReturnValue({
-      user: { roles: ["admin"] },
-      isAuthenticated: true,
-      isLoading: false,
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        user: {
+            roles: ["admin"],
+            sub: ""
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
     const usersList = [
@@ -342,7 +484,7 @@ describe("Admin page", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => usersList });
     (global.fetch as jest.Mock) = mockFetch;
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     await waitFor(() =>
@@ -356,10 +498,31 @@ describe("Admin page", () => {
   });
 
   test("handles response shaped as { users: [...] }", async () => {
-    useAuth.mockReturnValue({
-      user: { roles: ["admin"] },
-      isAuthenticated: true,
-      isLoading: false,
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        user: {
+            roles: ["admin"],
+            sub: ""
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
     const data = {
@@ -380,7 +543,7 @@ describe("Admin page", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => data });
     (global.fetch as jest.Mock) = mockFetch;
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     render(<Page />);
 
     await waitFor(() =>
@@ -389,10 +552,31 @@ describe("Admin page", () => {
   });
 
   test("handles response with no users property -> empty list", async () => {
-    useAuth.mockReturnValue({
-      user: { roles: ["admin"] },
-      isAuthenticated: true,
-      isLoading: false,
+    jest.spyOn(AuthContext, "useAuth").mockReturnValue({
+        user: {
+            roles: ["admin"],
+            sub: ""
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        login: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        register: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        logout: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        refreshUser: function (): Promise<void> {
+            throw new Error("Function not implemented.");
+        },
+        openEmailSettings: function (): void {
+            throw new Error("Function not implemented.");
+        },
+        openPasswordSettings: function (): void {
+            throw new Error("Function not implemented.");
+        }
     });
 
     const mockFetch = jest
@@ -400,7 +584,7 @@ describe("Admin page", () => {
       .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
     (global.fetch as jest.Mock) = mockFetch;
 
-    const Page = require("./page").default;
+    const { default: Page } = await import("./page");
     const { container } = render(<Page />);
 
     await waitFor(() =>

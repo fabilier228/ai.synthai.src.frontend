@@ -1,28 +1,35 @@
+const mockPush = jest.fn();
+const mockUseRouter = jest.fn(() => ({
+  push: mockPush,
+  replace: jest.fn(),
+  prefetch: jest.fn(),
+  back: jest.fn(),
+  forward: jest.fn(),
+  refresh: jest.fn(),
+  pathname: "/",
+  query: {},
+}));
+
 jest.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-    replace: jest.fn(),
-    prefetch: jest.fn(),
-    back: jest.fn(),
-    forward: jest.fn(),
-    refresh: jest.fn(),
-    pathname: "/",
-    query: {},
-  }),
+  useRouter: mockUseRouter,
   usePathname: () => "/",
   useSearchParams: () => new URLSearchParams(),
 }));
 
+export { mockUseRouter, mockPush };
+
 jest.mock("next/image", () => ({
   __esModule: true,
-  default: (props: any) => {
+  default: (props: Record<string, unknown>) => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const React = require("react");
-    const { priority, fill, jsx, ...rest } = props || {};
+    const { ...rest } = props || {};
     return React.createElement("img", rest);
   },
 }));
 
 jest.mock("@/contexts/AuthContext", () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const React = require("react");
   const openEmailSettings = jest.fn();
   const openPasswordSettings = jest.fn();
@@ -45,13 +52,14 @@ jest.mock("@/contexts/AuthContext", () => {
 
   return {
     __esModule: true,
-    AuthProvider: ({ children }: any) =>
+    AuthProvider: ({ children }: { children: React.ReactNode }) =>
       React.createElement(React.Fragment, null, children),
     useAuth,
   };
 });
 
 import "@testing-library/jest-dom";
+import { JSX } from "react";
 
 global.ResizeObserver = class ResizeObserver {
   observe() {}
@@ -68,15 +76,22 @@ global.fetch = jest.fn(() =>
 );
 
 jest.mock("@mui/icons-material", () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const React = require("react");
   const handler = new Proxy(
     {},
     {
-      get: (target, prop) => {
+      get: (
+        target: Record<string, unknown>,
+        prop: string | symbol,
+      ): ((props: Record<string, unknown>) => JSX.Element) => {
         const name = String(prop);
-        return (props: any) => {
-          const testId = props?.['data-testid'] || `${name}Icon`;
-          return React.createElement('svg', { 'data-testid': testId, ...props });
+        return (props: Record<string, unknown>) => {
+          const testId = (props?.["data-testid"] as string) || `${name}Icon`;
+          return React.createElement("svg", {
+            "data-testid": testId,
+            ...props,
+          });
         };
       },
     },
@@ -85,19 +100,26 @@ jest.mock("@mui/icons-material", () => {
 });
 
 jest.mock("lucide-react", () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const React = require("react");
   const handler = new Proxy(
     {},
     {
-      get: (target, prop) => {
-        return (props: any) => {
-          const safeProps: Record<string, any> = {};
+      get: (
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _target: Record<string, unknown>,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _prop: string | symbol,
+      ): ((props: Record<string, unknown>) => JSX.Element) => {
+        return (props: Record<string, unknown>) => {
+          const safeProps: Record<string, string | number | boolean> = {};
           for (const key in props || {}) {
             const val = props[key];
-            if (typeof val === 'boolean') safeProps[key] = String(val);
-            else safeProps[key] = val;
+            if (typeof val === "boolean") safeProps[key] = String(val);
+            else if (typeof val === "string" || typeof val === "number")
+              safeProps[key] = val;
           }
-          return React.createElement('svg', safeProps);
+          return React.createElement("svg", safeProps);
         };
       },
     },

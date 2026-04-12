@@ -7,7 +7,7 @@ describe("MyAccount component", () => {
     const userData = {
       registrationDate: "01.01.2025, 12:00",
       lastLogin: "02.02.2025, 13:30",
-    } as any;
+    };
 
     render(<MyAccount userData={userData} />);
 
