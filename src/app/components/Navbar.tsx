@@ -17,13 +17,14 @@ import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
 
-const LOGIC_API_URL = process.env.NEXT_PUBLIC_LOGIC_API_URL || 'http://localhost:8081/api/v1';
+const LOGIC_API_URL =
+  process.env.NEXT_PUBLIC_LOGIC_API_URL || "http://localhost:8081/api/v1";
 
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { isAuthenticated, logout, user } = useAuth();
-  const isAdmin = user?.roles?.includes('admin');
+  const isAdmin = user?.roles?.includes("admin");
   const [isTranscriptsExpanded, setIsTranscriptsExpanded] = useState(false);
   const [activePath, setActivePath] = React.useState(pathname);
 
@@ -34,7 +35,7 @@ export default function Navbar() {
   React.useEffect(() => {
     const fetchTranscripts = () => {
       if (!user?.sub) return;
-      
+
       fetch(`${LOGIC_API_URL}/transcriptions/user/${user.sub}`)
         .then((res) => res.json())
         .then((data) => {
@@ -44,12 +45,12 @@ export default function Navbar() {
                 (t: { id: string | number; title?: string }) => ({
                   id: t.id?.toString(),
                   name: t.title || `Transcript ${t.id}`,
-                })
-              )
+                }),
+              ),
             );
           }
         })
-        .catch((error) => console.error('Failed to fetch transcripts:', error));
+        .catch((error) => console.error("Failed to fetch transcripts:", error));
     };
     fetchTranscripts();
     const interval = setInterval(fetchTranscripts, 5000);
@@ -133,10 +134,16 @@ export default function Navbar() {
           </li>
           <li
             className={`flex-1 flex justify-center items-center ${
-              activePath === "/profile" || activePath === "/login" ? "text-primary" : "text-primary_muted"
+              activePath === "/profile" || activePath === "/login"
+                ? "text-primary"
+                : "text-primary_muted"
             }`}
           >
-            <button onClick={() => router.push(isAuthenticated ? "/profile" : "/login")}>
+            <button
+              onClick={() =>
+                router.push(isAuthenticated ? "/profile" : "/login")
+              }
+            >
               {isAuthenticated ? (
                 <Person
                   fontSize="large"
@@ -170,7 +177,6 @@ export default function Navbar() {
             width={56}
             height={56}
             className="rounded-full shadow-md object-cover w-14 h-14 ring-2 ring-primary/20"
-            priority
           />
           <span className="text-primary text-styled_md tracking-wide font-styled leading-tight">
             Synthai

@@ -7,7 +7,6 @@ import authService from "@/services/authService";
 import {
   Email,
   Person,
-  VerifiedUser,
   Settings,
   Lock,
   PhotoCamera,
@@ -17,45 +16,12 @@ import type { UserData } from "./interfaces";
 import MyAccount from "./MyAccount";
 import AccountManagement from "./AccountManagement";
 import Security from "./Security";
-
-const formatDate = (value: unknown): string => {
-  if (value === null || value === undefined) return "N/A";
-
-  let date: Date;
-
-  if (typeof value === "number") {
-    // timestamp in ms
-    date = new Date(value);
-  } else if (typeof value === "string") {
-    // check if this is a number as a string
-    const asNumber = Number(value);
-    if (!Number.isNaN(asNumber) && value.trim() !== "") {
-      date = new Date(asNumber);
-    } else {
-      // ISO string / other format accepted by Date
-      date = new Date(value);
-    }
-  } else {
-    return "N/A";
-  }
-
-  if (Number.isNaN(date.getTime())) return "N/A";
-
-  // Polish date format, e.g. 01.12.2025, 19:17
-  return date.toLocaleString("pl-PL", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-};
-
+import { formatDate, getStatusColor } from "./utils";
 
 const Profile = () => {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
-  
+
   const [userData, setUserData] = useState<UserData>({
     avatar: "/default-avatar.png",
     nickname: "Loading...",
@@ -74,7 +40,7 @@ const Profile = () => {
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push('/login');
+      router.push("/login");
     }
   }, [isAuthenticated, isLoading, router]);
 
@@ -86,21 +52,24 @@ const Profile = () => {
       try {
         setProfileLoading(true);
         const profile = await authService.getUserProfile();
-        
+
         if (profile) {
           setUserData({
             avatar: "/default-avatar.png",
             nickname: profile.preferred_username || profile.sub,
-            fullName: profile.name || `${profile.given_name || ''} ${profile.family_name || ''}`.trim() || 'N/A',
-            email: profile.email || 'N/A',
+            fullName:
+              profile.name ||
+              `${profile.given_name || ""} ${profile.family_name || ""}`.trim() ||
+              "N/A",
+            email: profile.email || "N/A",
             status: profile.email_verified ? "Active" : "Email Unverified",
             // registrationDate: "N/A", // Keycloak doesn't provide this by default
-            registrationDate: formatDate(profile.registration_date) || 'N/A',
-            lastLogin: formatDate(profile.last_login) || 'N/A', // Keycloak doesn't provide this by default
+            registrationDate: formatDate(profile.registration_date) || "N/A",
+            lastLogin: formatDate(profile.last_login) || "N/A", // Keycloak doesn't provide this by default
           });
         }
       } catch (error) {
-        console.error('Failed to fetch profile:', error);
+        console.error("Failed to fetch profile:", error);
       } finally {
         setProfileLoading(false);
       }
@@ -184,19 +153,6 @@ const Profile = () => {
   };
 
   const currentAvatar = avatarPreview || userData.avatar;
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Active":
-        return "text-success";
-      case "Premium":
-        return "text-warning";
-      case "Email Unverified":
-        return "text-error";
-      default:
-        return "text-text";
-    }
-  };
 
   // Show loading state
   if (isLoading || profileLoading) {
@@ -295,8 +251,6 @@ const Profile = () => {
                 <Email className="text-primary_muted text-lg" />
                 <span className="text-text">{userData.email}</span>
               </div>
-
-              
             </div>
           </div>
         </div>
